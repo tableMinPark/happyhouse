@@ -8,6 +8,8 @@ import DealPage from '@/components/view/DealPage.vue'
 import HouseInfoPage from '@/components/view/HouseInfoPage.vue'
 import NoticePage from '@/components/view/NoticePage.vue'
 import LoginPage from '@/components/view/LoginPage.vue'
+import RegisterPage from '@/components/view/RegisterPage.vue'
+import ForgetPasswordPage from '@/components/view/ForgetPasswordPage.vue'
 import MyPage from '@/components/view/MyPage.vue'
 
 import AskPage from '@/components/MyPage/AskPage.vue'
@@ -39,6 +41,14 @@ export default new VueRouter({
         {
             path: '/login',
             component: LoginPage
+        },
+        {
+            path: '/register',
+            component: RegisterPage
+        },
+        {
+            path: '/forgetPassword',
+            component: ForgetPasswordPage
         },
         {
             path: '/mypage',

@@ -25,18 +25,11 @@ export default {
         'assets/js/config.js',
         'assets/js/bootstrap/popper.min.js',
         'assets/js/bootstrap/bootstrap.min.js',
-        'assets/js/prism/prism.min.js',
-        'assets/js/clipboard/clipboard.min.js',
-        'assets/js/custom-card/custom-card.js',
         'assets/js/tooltip-init.js',
         'assets/js/script.js',
-        'assets/js/theme-customizer/customizer.js',
-        'assets/js/tooltip-init.js',
-        'assets/js/form-wizard/form-wizard.js'
       ]
       scriptNames.forEach(scriptName => {
       let script = document.createElement('script');
-      // script.setAttribute('type', 'text/javascript');
       script.setAttribute('src', scriptName);
       script.async = false;
       document.body.appendChild(script);

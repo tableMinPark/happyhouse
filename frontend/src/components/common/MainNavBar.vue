@@ -19,9 +19,9 @@
                       <h6>Menu</h6>
                     </div>
                   </li>
-                  <li class="dropdown"><router-link to="/deal" class="nav-link menu-title link-nav"><i data-feather="file-text"></i><span>실거래가</span></router-link></li>
-                  <li class="dropdown"><router-link to="/houseinfo" class="nav-link menu-title link-nav"><i data-feather="file-text"></i><span>매물조회</span></router-link></li>
-                  <li class="dropdown"><router-link to="/notice" class="nav-link menu-title link-nav"><i data-feather="file-text"></i><span>공지사항</span></router-link></li>
+                  <li class="dropdown"><router-link to="/deal" class="nav-link menu-title link-nav"><i data-feather="home"></i><span>실거래가</span></router-link></li>
+                  <li class="dropdown"><router-link to="/houseinfo" class="nav-link menu-title link-nav"><i data-feather="home"></i><span>매물조회</span></router-link></li>
+                  <li class="dropdown"><router-link to="/notice" class="nav-link menu-title link-nav"><i data-feather="home"></i><span>공지사항</span></router-link></li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
