@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container-fluid">
-        <basic-header name="실거래가"></basic-header>
+      <basic-header name="실거래가"></basic-header>
     </div>
     <div class="container-fluid">
       <div>Deal Page</div>
@@ -10,15 +10,13 @@
 </template>
 
 <script>
-import BasicHeader from '@/components/common/BasicHeader.vue';
+import BasicHeader from "@/components/common/BasicHeader.vue";
 
 export default {
   components: {
-    BasicHeader
-  }
-}
+    BasicHeader,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
