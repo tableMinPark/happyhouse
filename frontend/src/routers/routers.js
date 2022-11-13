@@ -23,6 +23,10 @@ import CharterPage from "@/components/HouseInfoPage/CharterPage.vue";
 import DealingPage from "@/components/HouseInfoPage/DealingPage.vue";
 import RentPage from "@/components/HouseInfoPage/RentPage.vue";
 
+import NoticeBody from "@/components/NoticePage/NoticeBody.vue";
+import NoticeDetail from "@/components/NoticePage/NoticeDetail.vue";
+import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue";
+
 export default new VueRouter({
   mode: "history",
   routes: [
@@ -62,6 +66,23 @@ export default new VueRouter({
     {
       path: "/notice",
       component: NoticePage,
+      children: [
+        {
+          path: "",
+          name: "noticeBody",
+          component: NoticeBody,
+        },
+        {
+          path: "detail/:num",
+          name: "noticeDetail",
+          component: NoticeDetail,
+        },
+        {
+          path: "write",
+          name: "noticeWrite",
+          component: NoticeWrite,
+        },
+      ],
     },
     {
       path: "/login",

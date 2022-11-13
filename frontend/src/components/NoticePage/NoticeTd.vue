@@ -1,15 +1,24 @@
 <template>
-  <tr style="cursor: pointer" :class="{ importance: important }">
-    <th scope="row">1</th>
-    <td><span v-if="important">[필독] </span>Mark</td>
-    <td>Otto</td>
-    <td>@mdo</td>
+  <tr
+    style="cursor: pointer"
+    :class="{ importance: important }"
+    @click="noticeDetail(notice.num)"
+  >
+    <th scope="row">{{ notice.num }}</th>
+    <td><span v-if="important">[필독] </span>{{ notice.title }}</td>
+    <td>{{ notice.writer }}</td>
+    <td>{{ notice.date }}</td>
   </tr>
 </template>
 
 <script>
 export default {
   props: ["important", "notice"],
+  methods: {
+    noticeDetail(noticeNum) {
+      this.$router.push({ name: "noticeDetail", params: { num: noticeNum } });
+    },
+  },
 };
 </script>
 
