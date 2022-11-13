@@ -1,19 +1,25 @@
 <template>
-  <div>
-    전세
-    <div>{{ searchWord }}</div>
+  <div class="row">
+    <search-result
+      v-for="index in 6"
+      :key="index"
+      :dealKind="dealKind"
+      :searchWord="searchWord"
+    ></search-result>
   </div>
 </template>
 
 <script>
+import SearchResult from "./SearchResult.vue";
 export default {
+  data() {
+    return {
+      dealKind: "전세",
+    };
+  },
   props: ["searchWord"],
-  watch: {
-    searchWord(newSearchWord) {
-      if (newSearchWord != "") {
-        console.log("전세 검색" + newSearchWord);
-      }
-    },
+  components: {
+    SearchResult,
   },
 };
 </script>

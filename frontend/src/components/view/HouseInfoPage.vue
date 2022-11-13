@@ -61,7 +61,7 @@
           </div>
         </div>
         <!--main-->
-        <div class="col-lg-6 col-xl-6 lg-mt">
+        <div class="col-lg-12 col-xl-12 lg-mt">
           <router-view :searchWord="searchWord"></router-view>
         </div>
       </div>
