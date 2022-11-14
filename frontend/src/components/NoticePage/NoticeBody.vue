@@ -13,10 +13,15 @@
               </select>
             </div>
             <div class="me-1 mb-1">
-              <input class="form-control " type="text" placeholder="Search" v-model="searchWord"/>
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Search"
+                v-model="searchWord"
+              />
             </div>
             <button class="btn btn-primary text-center" @click.prevent="search">
-              <feather type="search" size="15"/>
+              <feather type="search" size="15" />
             </button>
           </form>
         </div>
@@ -50,38 +55,73 @@
                   <tbody>
                     <!--중요공지-->
                     <notice-td
-                      v-for="(notice) in importantNotices"
+                      v-for="notice in importantNotices"
                       :key="notice.num"
                       :important="true"
                       :notice="notice"
                     ></notice-td>
                     <!--일반 공지, 페이징은 여기서만-->
                     <notice-td
-                      v-for="(notice) in normalNotices"
+                      v-for="notice in normalNotices"
                       :key="notice.num"
                       :important="false"
                       :notice="notice"
                     ></notice-td>
                   </tbody>
                 </table>
+
+                <div style="margin: 10px" :class="{ writeNotice: false }">
+                  <button
+                    style="display: block"
+                    class="btn btn-square btn-outline-primary btn-sm"
+                    type="button"
+                    data-bs-original-title=""
+                    title=""
+                    @click="showInsertModal"
+                  >
+                    글쓰기
+                  </button>
+                </div>
+                <div style="margin: 10px">
+                  <PaginationUI
+                    :listRowCount="listRowCount"
+                    :pageLinkCount="pageLinkCount"
+                    :currentPageIndex="currentPageIndex"
+                    :totalListItemCount="totalListItemCount"
+                    @call-parent-move-page="movePage"
+                  ></PaginationUI>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <notice-write @call-parent="closeAfterInsert"></notice-write>
   </div>
 </template>
 
 <script>
 import NoticeTd from "@/components/NoticePage/NoticeTd.vue";
+import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue";
+import PaginationUI from "@/components/UI/PaginationUI.vue";
+import { Modal } from "bootstrap";
 
 export default {
   name: "BoardInfo",
   data() {
-    return {      
-      searchType: 'T',
-      searchWord: '',
+    return {
+      limit: 10,
+      offset: 0,
+      searchType: "T",
+      searchWord: "",
+
+      //pagination
+      totalListItemCount: 100,
+      listRowCount: 10,
+      pageLinkCount: 10,
+      currentPageIndex: 1,
+
       importantNotices: [
         { num: 1, title: "중요 게시물 1", writer: "관리자", date: "22.11.14" },
         { num: 2, title: "중요 게시물 2", writer: "관리자", date: "22.11.14" },
@@ -93,16 +133,42 @@ export default {
         { num: 6, title: "중요 게시물 3", writer: "관리자", date: "22.11.14" },
         { num: 7, title: "일반 게시물 1", writer: "관리자", date: "22.11.14" },
       ],
+      //modal
+      noticeModal: null,
     };
   },
   components: {
     NoticeTd,
+    PaginationUI,
+    NoticeWrite,
   },
   methods: {
     search() {
       console.log("call search! " + this.searchType + " " + this.searchWord);
-    }
-  }
+    },
+    movePage(pageIndex) {
+      this.offset = (pageIndex - 1) * this.listRowCount;
+      this.currentPageIndex = pageIndex;
+      this.boardList();
+    },
+    showInsertModal() {
+      this.noticeModal.show();
+    },
+    closeAfterInsert() {
+      this.noticeModal.hide();
+    },
+  },
+  //template에서 사용하기 위해 한번 걸러줌
+  // filters: {
+  //   makeDateStr: function (date, type) {
+  //     return util.makeDateStr(date.year, date.month, date.day, type);
+  //   },
+  // },
+
+  mounted() {
+    //modal 객체를 생성해 data의 변수에 할당.
+    this.noticeModal = new Modal(document.querySelector("#insertModal"));
+  },
 };
 </script>
 
@@ -115,11 +181,14 @@ table {
   table-layout: fixed;
 }
 td {
-  white-space:nowrap; 
-  text-overflow:ellipsis; 
-  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 #searchBtn {
   cursor: pointer;
+}
+.writeNotice {
+  visibility: hidden;
 }
 </style>
