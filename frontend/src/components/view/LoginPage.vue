@@ -5,7 +5,7 @@
     <div class="form-group">
       <label>Email</label>
       <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-        <input class="form-control" type="email" placeholder="Test@gmail.com" v-model="userEmail">
+        <input class="form-control" type="email" placeholder="your-email@domain.com" v-model="userEmail">
       </div>
     </div>
     <div class="form-group">

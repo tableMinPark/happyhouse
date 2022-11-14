@@ -6,10 +6,6 @@ import NoticePage from '@/components/view/NoticePage.vue'
 import LoginPage from '@/components/view/LoginPage.vue'
 import RegisterPage from '@/components/view/RegisterPage.vue'
 import ForgetPasswordPage from '@/components/view/ForgetPasswordPage.vue'
-import MyPage from '@/components/view/MyPage.vue'
-
-import NormalMyPageBody from '@/components/MyPage/NormalMyPageBody.vue'
-import CompanyMyPageBody from '@/components/MyPage/CompanyMyPageBody.vue'
 
 import NoticeBody from "@/components/NoticePage/NoticeBody.vue";
 import NoticeDetail from "@/components/NoticePage/NoticeDetail.vue";
@@ -65,25 +61,5 @@ export default [
           component: NoticeWrite,
         },
       ],
-    },
-    {
-        path: '/mypage',
-        component: MyPage,
-        children: [
-            {
-                path: 'normal',
-                components :[
-                    MyPage,
-                    NormalMyPageBody,
-                ]
-            },
-            {
-                path: 'company',
-                components :[
-                    MyPage,
-                    CompanyMyPageBody,
-                ]
-            }
-        ]
     }
 ]
