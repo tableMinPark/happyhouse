@@ -1,6 +1,7 @@
-<template>
+<template> 
   <header class="main-nav">
-    <div class="sidebar-user text-center"><router-link to="/mypage" class="setting-primary"><feather type="settings" size="15"/></router-link><img class="img-90 rounded-circle" src="assets/images/dashboard/1.png" alt="">
+    
+    <div class="sidebar-user text-center"><router-link to="/mypage" class="setting-primary"><feather type="settings" size="15"/></router-link><img class="img-90 rounded-circle" :src="profileUrl" alt="">
       <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a href="#">
         <h6 class="mt-3 f-14 f-w-600">박상민</h6></a>
       <p class="mb-0 font-roboto">일반회원</p>
@@ -32,6 +33,11 @@
 
 <script>
 export default {
+  data() {    
+    return {
+      profileUrl: this.$hostname + "/assets/images/dashboard/1.png" 
+    }
+  }
 }
 </script>
 

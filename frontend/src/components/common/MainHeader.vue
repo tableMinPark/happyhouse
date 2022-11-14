@@ -2,7 +2,7 @@
     <div class="page-main-header">
         <div class="main-header-right row m-0">
           <div class="main-header-left">
-            <div class="logo-wrapper"><router-link to="/" ><img class="img-fluid" src="assets/images/logo/logo.png" alt=""></router-link></div>
+            <div class="logo-wrapper"><router-link to="/" ><img class="img-fluid" :src="logoUrl" alt=""></router-link></div>
             <div class="toggle-sidebar"><feather type="align-center" class="status_toggle middle" id="sidebar-toggle"/></div>
           </div>
           <div class="nav-right col pull-right right-menu p-0">
@@ -32,6 +32,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      logoUrl: this.$hostname + "/assets/images/logo/logo.png"
+    }
+  },
   methods: {
     logout() {
       console.log("logout");

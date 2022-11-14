@@ -98,6 +98,11 @@ export default {
   components: {
     NoticeTd,
   },
+  methods: {
+    search() {
+      console.log("call search! " + this.searchType + " " + this.searchWord);
+    }
+  }
 };
 </script>
 

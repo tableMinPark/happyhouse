@@ -6,6 +6,9 @@ import VueFeather from 'vue-feather';
 Vue.use(LoadScript);
 Vue.use(VueFeather);
 
+// 호스트네임 전역선언
+Vue.prototype.$hostname = `http://${location.host}`;
+
 Vue.config.productionTip = false;
 
 import router from '@/routers/routers.js';

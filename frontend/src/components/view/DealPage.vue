@@ -33,7 +33,7 @@
                     <!-- 동, 키워드 검색 START -->
                     <div v-show="searchType == 'A'" class="row">
                         <div class="col-10 pe-0 d-flex">
-                            <input type="text" class="form-control" placeholder="동, 키워드">
+                            <input type="text" class="form-control" placeholder="동, 키워드" v-model="keyword">
                         </div>
                         <div class="col-2">
                             <button type="button" @click="keywordSearch" class="btn btn-primary ps-2 pe-2"><feather type="search" size="15"/></button>
@@ -44,13 +44,13 @@
                     <!-- 주소 검색 START -->
                     <div v-show="searchType == 'K'" class="row">
                         <div class="col-10 pe-0 d-flex">
-                            <select id="si" class="form-select me-1">
+                            <select id="si" class="form-select me-1" v-model="si">
                                 <option selected>시</option>
                             </select>                                          
-                            <select id="gugun" class="form-select me-1">
+                            <select id="gugun" class="form-select me-1" v-model="gugun">
                                 <option selected>군</option>
                             </select>                                                      
-                            <select id="dong" class="form-select">
+                            <select id="dong" class="form-select" v-model="dong">
                                 <option selected>동</option>
                             </select>  
                         </div>
@@ -165,8 +165,6 @@
                     </div>
                   </div>
                 </div>
-
-                
                 <div class="card shadow shadow-showcase mb-2">
                   <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"> 
                     <div class="info-block">
@@ -208,7 +206,6 @@
                     </div>
                   </div>
                 </div>
-                
             </div>  
           </div>
         </div>
@@ -225,9 +222,9 @@ export default {
     return {
       map: null,
       searchType: 'A',    // A - K
-      si: '',
-      gugun: '',
-      dong: '',
+      si: '시',
+      gugun: '군',
+      dong: '동',
       keyword: '',
       houseInfo: null
     }
