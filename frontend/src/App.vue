@@ -6,37 +6,42 @@
 </template>
 
 <script>
+
 import HeaderPage from "@/components/common/MainHeader.vue";
 import BodyPage from "@/components/common/MainBody.vue";
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     HeaderPage,
-    BodyPage,
+    BodyPage
   },
-  mounted() {
-    const scriptNames = [
-      "assets/js/jquery-3.5.1.min.js",
-      "assets/js/icons/feather-icon/feather.min.js",
-      "assets/js/icons/feather-icon/feather-icon.js",
-      "assets/js/sidebar-menu.js",
-      "assets/js/config.js",
-      "assets/js/bootstrap/popper.min.js",
-      "assets/js/bootstrap/bootstrap.min.js",
-      "assets/js/tooltip-init.js",
-      "assets/js/script.js",
-      "assets/js/scrollable/perfect-scrollbar.min.js",
-      "assets/js/scrollable/scrollable-custom.js",
-    ];
-    scriptNames.forEach((scriptName) => {
-      let script = document.createElement("script");
-      script.setAttribute("src", scriptName);
-      script.async = false;
-      document.body.appendChild(script);
+  mounted () {
+    this.$loadScript("./assets/js/jquery-3.5.1.min.js").then(() => {
+      this.$loadScript("./assets/js/sidebar-menu.js").then(() => {
+        this.$loadScript("./assets/js/config.js").then(() => {
+          this.$loadScript("./assets/js/bootstrap/popper.min.js").then(() => {
+            this.$loadScript("./assets/js/bootstrap/bootstrap.min.js").then(() => {
+              this.$loadScript("./assets/js/prism/prism.min.js").then(() => {
+                this.$loadScript("./assets/js/tooltip-init.js").then(() => {
+                  this.$loadScript("./assets/js/script.js").then(() => {
+                    this.$loadScript("./assets/js/select2/select2.full.min.js").then(() => {
+                      this.$loadScript("./assets/js/select2/select2-custom.js");
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
     });
-  },
-};
+ }
+}
 </script>
 
-<style></style>
+<style>
+i {  
+  vertical-align: middle;
+}
+</style>

@@ -4,7 +4,7 @@
       <basic-header name="공지사항"></basic-header>
     </div>
     <div class="container-fluid">
-      <router-view></router-view>
+      <router-view></router-view>      
     </div>
   </div>
 </template>
@@ -13,14 +13,11 @@
 import BasicHeader from "@/components/common/BasicHeader.vue";
 
 export default {
-  name: "BoardInfo",
-  data() {
-    return {};
-  },
   components: {
     BasicHeader,
   },
 };
 </script>
 
-<style></style>
+<style>
+</style>

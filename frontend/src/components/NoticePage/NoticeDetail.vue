@@ -1,25 +1,21 @@
 <template>
   <div>
-    {{ bd }}번 공지 {{ i }}
-    <notice-body></notice-body>
+    {{ noticeId }}번 공지
   </div>
 </template>
 
 <script>
-import NoticeBody from "@/components/NoticePage/NoticeBody.vue";
 export default {
   data() {
     return {
-      bd: this.$route.params.num,
-      i: "",
+      noticeId: '',
     };
   },
   components: {
-    NoticeBody,
   },
-  mounted() {
-    this.i = this.$route.params.num;
-  },
+  mounted () {
+    this.noticeId = this.$route.params.noticeId;
+ }
 };
 </script>
 

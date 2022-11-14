@@ -1,9 +1,14 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue' ;
+import LoadScript from 'vue-plugin-load-script';
+import VueFeather from 'vue-feather';
 
-Vue.config.productionTip = false
+Vue.use(LoadScript);
+Vue.use(VueFeather);
 
-import router from '@/routers/routers.js'
+Vue.config.productionTip = false;
+
+import router from '@/routers/routers.js';
 
 new Vue({
   render: h => h(App),

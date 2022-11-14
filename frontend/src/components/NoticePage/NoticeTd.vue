@@ -15,8 +15,8 @@
 export default {
   props: ["important", "notice"],
   methods: {
-    noticeDetail(noticeNum) {
-      this.$router.push({ name: "noticeDetail", params: { num: noticeNum } });
+    noticeDetail(noticeId) {
+      this.$router.push({ name: "noticeDetail", params: { noticeId: noticeId } });
     },
   },
 };

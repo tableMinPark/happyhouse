@@ -38,18 +38,7 @@ export default {
       console.log("login " + this.userEmail + " " + this.userPassword);
       // this.$router.push('/');
     }
-  },  
-  mounted () {
-      const scriptNames = [
-        // '',
-      ]
-      scriptNames.forEach(scriptName => {
-      let script = document.createElement('script');
-      script.setAttribute('src', scriptName);
-      script.async = false;
-      document.body.appendChild(script);
-    });
- }
+  }
 }
 </script>
 
