@@ -3,17 +3,47 @@
     <div class="container-fluid">
       <basic-header name="매물"></basic-header>
     </div>
-    
+
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12">
+        <div class="col-8">
           <div class="card">
-            <div class="card-header pb-0">              
+            <div class="card-header pb-0">
               <h5 class="card-title">title</h5>
             </div>
-            <div class="card-body">
-              content
+            <div class="card-body">content</div>
+          </div>
+          <div class="card">
+            <div class="card-header pb-0">
+              <h5 class="card-title">title</h5>
             </div>
+            <div class="card-body">content</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card" style="height: 91%">
+            <div class="card-header pb-0">
+              <h5 class="card-title">title</h5>
+            </div>
+            <div class="card-body">content</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <div class="card">
+            <div class="card-header pb-0">
+              <h5 class="card-title">title</h5>
+            </div>
+            <div class="card-body">content</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <h5 class="card-title">title</h5>
+            </div>
+            <div class="card-body">content</div>
           </div>
         </div>
       </div>
@@ -22,16 +52,16 @@
 </template>
 
 <script>
-import BasicHeader from '@/components/common/BasicHeader.vue';
+import BasicHeader from "@/components/common/BasicHeader.vue";
 
 export default {
   data() {
     return {
       map: null,
-    }
+    };
   },
   components: {
-    BasicHeader
+    BasicHeader,
   },
   methods: {
     initMap() {
@@ -41,22 +71,25 @@ export default {
       //     level: 1,
       // };
       // this.map = new kakao.maps.Map(mapContainer, mapOption);
-    }  
-  },  
-  mounted () {
-    if (!window.kakao || !window.kakao.maps){
-      const script = document.createElement('script');
-      script.setAttribute('src', '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services');
+    },
+  },
+  mounted() {
+    if (!window.kakao || !window.kakao.maps) {
+      const script = document.createElement("script");
+      script.setAttribute(
+        "src",
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services"
+      );
       /* global kakao */
-      script.addEventListener('load', () => {
+      script.addEventListener("load", () => {
         kakao.maps.load(this.initMap);
       });
       document.head.appendChild(script);
     } else {
       this.initMap();
     }
- }
-}
+  },
+};
 </script>
 
 <style>
@@ -66,5 +99,4 @@ export default {
 #houseInfoImage {
   height: 500px;
 }
-
 </style>
