@@ -13,12 +13,7 @@
               </select>
             </div>
             <div class="me-1 mb-1">
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Search"
-                v-model="searchWord"
-              />
+              <input class="form-control" type="text" placeholder="Search" v-model="searchWord" />
             </div>
             <button class="btn btn-primary text-center" @click.prevent="search">
               <feather type="search" size="15" />
@@ -54,33 +49,14 @@
                   </thead>
                   <tbody>
                     <!--중요공지-->
-                    <notice-td
-                      v-for="notice in importantNotices"
-                      :key="notice.num"
-                      :important="true"
-                      :notice="notice"
-                    ></notice-td>
+                    <notice-td v-for="notice in importantNotices" :key="notice.num" :important="true" :notice="notice"></notice-td>
                     <!--일반 공지, 페이징은 여기서만-->
-                    <notice-td
-                      v-for="notice in normalNotices"
-                      :key="notice.num"
-                      :important="false"
-                      :notice="notice"
-                    ></notice-td>
+                    <notice-td v-for="notice in normalNotices" :key="notice.num" :important="false" :notice="notice"></notice-td>
                   </tbody>
                 </table>
 
-                <div style="margin: 10px" :class="{ writeNotice: false }">
-                  <button
-                    style="display: block"
-                    class="btn btn-square btn-outline-primary btn-sm"
-                    type="button"
-                    data-bs-original-title=""
-                    title=""
-                    @click="showInsertModal"
-                  >
-                    글쓰기
-                  </button>
+                <div style="margin: 10px; float: right" :class="{ writeNotice: false }">
+                  <button class="btn btn-square btn-outline-primary btn-sm" type="button" data-bs-original-title="" title="" @click="showInsertModal">글쓰기</button>
                 </div>
                 <div style="margin: 10px">
                   <PaginationUI
@@ -102,10 +78,10 @@
 </template>
 
 <script>
-import NoticeTd from "@/components/NoticePage/NoticeTd.vue";
-import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue";
-import PaginationUI from "@/components/UI/PaginationUI.vue";
-import { Modal } from "bootstrap";
+import NoticeTd from "@/components/NoticePage/NoticeTd.vue"
+import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue"
+import PaginationUI from "@/components/UI/PaginationUI.vue"
+import { Modal } from "bootstrap"
 
 export default {
   name: "BoardInfo",
@@ -135,7 +111,7 @@ export default {
       ],
       //modal
       noticeModal: null,
-    };
+    }
   },
   components: {
     NoticeTd,
@@ -144,18 +120,18 @@ export default {
   },
   methods: {
     search() {
-      console.log("call search! " + this.searchType + " " + this.searchWord);
+      console.log("call search! " + this.searchType + " " + this.searchWord)
     },
     movePage(pageIndex) {
-      this.offset = (pageIndex - 1) * this.listRowCount;
-      this.currentPageIndex = pageIndex;
-      this.boardList();
+      this.offset = (pageIndex - 1) * this.listRowCount
+      this.currentPageIndex = pageIndex
+      this.boardList()
     },
     showInsertModal() {
-      this.noticeModal.show();
+      this.noticeModal.show()
     },
     closeAfterInsert() {
-      this.noticeModal.hide();
+      this.noticeModal.hide()
     },
   },
   //template에서 사용하기 위해 한번 걸러줌
@@ -167,9 +143,9 @@ export default {
 
   mounted() {
     //modal 객체를 생성해 data의 변수에 할당.
-    this.noticeModal = new Modal(document.querySelector("#insertModal"));
+    this.noticeModal = new Modal(document.querySelector("#insertModal"))
   },
-};
+}
 </script>
 
 <style>
