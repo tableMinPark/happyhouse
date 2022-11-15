@@ -6,23 +6,21 @@
             <div class="toggle-sidebar"><feather type="align-center" class="status_toggle middle" id="sidebar-toggle"/></div>
           </div>
           <div class="nav-right col pull-right right-menu p-0">
-            <ul class="nav-menus">              
-              
+            <ul class="nav-menus">      
+              <!-- 로그아웃버튼 (로그인 상태에서 show) -->
+              <li v-if="this.$store.state.isLogin" class="onhover-dropdown p-0">    
+                <button class="btn btn-primary-light" @click="logout" type="button">             
+                  <feather type="log-out" size="18"/>Log out      
+                </button>
+              </li>
               <!-- 로그인버튼 (로그아웃 상태에서 show) -->
-              <li class="onhover-dropdown p-0">    
+              <li v-else class="onhover-dropdown p-0">    
                 <button class="btn btn-primary-light" type="button">             
                   <router-link to="/login">
                     <feather type="log-out" size="18"/>Log in      
                   </router-link>
                 </button>
               </li>
-              <!-- 로그아웃버튼 (로그인 상태에서 show) -->
-              <li class="onhover-dropdown p-0">    
-                <button class="btn btn-primary-light" @click="logout" type="button">             
-                  <feather type="log-out" size="18"/>Log out      
-                </button>
-              </li>
-
             </ul>
           </div>
           <div class="d-lg-none mobile-toggle pull-right w-auto"><feather type="more-horizontal" /></div>

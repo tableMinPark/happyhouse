@@ -8,7 +8,8 @@
 <script>
 import HeaderPage from "@/components/common/MainHeader.vue";
 import BodyPage from "@/components/common/MainBody.vue";
-
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 export default {
   name: "App",
   components: {
@@ -20,25 +21,15 @@ export default {
     await this.$loadScript(this.$hostname + "/assets/js/jquery-3.5.1.min.js");
     await this.$loadScript(this.$hostname + "/assets/js/sidebar-menu.js");
     await this.$loadScript(this.$hostname + "/assets/js/config.js");
-    await this.$loadScript(
-      this.$hostname + "/assets/js/bootstrap/popper.min.js"
-    );
-    await this.$loadScript(
-      this.$hostname + "/assets/js/bootstrap/bootstrap.min.js"
-    );
+    // await this.$loadScript(this.$hostname + "/assets/js/bootstrap/popper.min.js");
+    // await this.$loadScript(this.$hostname + "/assets/js/bootstrap/bootstrap.min.js");
     await this.$loadScript(this.$hostname + "/assets/js/prism/prism.min.js");
-    await this.$loadScript(this.$hostname + "/assets/js/tooltip-init.js");
+    // await this.$loadScript(this.$hostname + "/assets/js/tooltip-init.js");
     await this.$loadScript(this.$hostname + "/assets/js/script.js");
-    await this.$loadScript(
-      this.$hostname + "/assets/js/select2/select2.full.min.js"
-    );
-    await this.$loadScript(
-      this.$hostname + "/assets/js/select2/select2-custom.js"
-    );
+    await this.$loadScript(this.$hostname + "/assets/js/select2/select2.full.min.js");
+    await this.$loadScript(this.$hostname + "/assets/js/select2/select2-custom.js");
     await this.$loadScript(this.$hostname + "/assets/js/dropzone/dropzone.js");
-    await this.$loadScript(
-      this.$hostname + "/assets/js/dropzone/dropzone-script.js"
-    );
+    await this.$loadScript(this.$hostname + "/assets/js/dropzone/dropzone-script.js");
   },
 };
 </script>

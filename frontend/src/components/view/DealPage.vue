@@ -10,20 +10,28 @@
         <div class="wrapper container-fluid">
           <div id="search-wrapper" class="row">      
               <div class="container-fruid"> 
-                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0"> 
+                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"> 
                   <div class="info-block"><h6><feather type="search" size="15" class="pe-2"/>검색종류를 선택하세요</h6></div>
                 </div>    
                 <div class="card shadow shadow-showcase p-3 mb-1 text-center">
                   <div class="container-fluid">
                     <!-- 검색 종류 선택 START -->
-                    <div class="row pb-2">
-                        <div class="col-6">
-                            <input id="search-radio-keyword"  class="form-check-input" name="search-radio" checked type="radio" value="A" v-model="searchType" />
-                            <label for="search-radio-keyword" class="form-check-label ps-2" >키워드 검색</label>       
+                    <div class="row">
+                        <div class="col-6 pt-2">
+                          <div class="form-group custom-radio-ml">
+                            <div class="radio radio-primary">
+                              <input id="search-radio-keyword"  name="search-radio" checked type="radio" value="A" v-model="searchType" />
+                              <label for="search-radio-keyword" class="form-check-label ps-2" >키워드 검색</label>     
+                            </div>
+                          </div>  
                         </div>
-                        <div class="col-6">                
-                            <input id="search-radio-address" class="form-check-input" name="search-radio" type="radio" value="K" v-model="searchType" />
-                            <label for="search-radio-address" class="form-check-label ps-2" >주소 기준 검색</label>
+                        <div class="col-6 pt-2">
+                          <div class="form-group custom-radio-ml"> 
+                            <div class="radio radio-primary">             
+                              <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio" value="K" v-model="searchType" />
+                              <label for="search-radio-address" class="form-check-label ps-2" >주소 기준 검색</label>    
+                            </div>
+                          </div>  
                         </div>
                     </div>
                     <!-- 검색 종류 선택 END -->

@@ -1,28 +1,59 @@
-<template> 
+<template>
   <header class="main-nav">
-    
-    <div class="sidebar-user text-center"><router-link to="/mypage" class="setting-primary"><feather type="settings" size="15"/></router-link><img class="img-90 rounded-circle" :src="profileUrl" alt="">
-      <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a href="#">
-        <h6 class="mt-3 f-14 f-w-600">박상민</h6></a>
+
+    <div v-if="this.$store.state.isLogin" class="sidebar-user text-center">
+      <router-link :to="`/profile/${this.$store.state.userInfo.userId}`" class="setting-primary">
+        <feather type="settings" size="15" />
+      </router-link><img class="img-90 rounded-circle" :src="this.$store.state.userInfo.userProfileImageUrl" alt="">
+      <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
+        <h6 class="mt-3 f-14 f-w-600">박상민</h6>
+      </a>
       <p class="mb-0 font-roboto">일반회원</p>
-      
     </div>
+
+    <div v-else class="sidebar-user text-center">
+      <img class="img-90 rounded-circle" :src="this.$store.state.noProfileImageUrl" alt="">
+      <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
+        <h6 class="mt-3 f-14 f-w-600">로그인이 필요합니다.</h6>
+      </a>
+      <p class="mt-2 mb-0">
+        <button class="btn btn-primary-light" type="button">
+          <router-link to="/login">
+            <feather type="log-out" size="18" />Log in
+          </router-link>
+        </button>
+      </p>
+    </div>
+
     <nav>
       <div class="main-navbar">
         <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
-        <div id="mainnav">           
+        <div id="mainnav">
           <ul class="nav-menu custom-scrollbar">
             <li class="back-btn">
-              <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+              <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
+                  aria-hidden="true"></i></div>
             </li>
             <li class="sidebar-main-title">
               <div>
                 <h6>Menu</h6>
               </div>
             </li>
-            <li class="dropdown"><router-link to="/deal" class="nav-link menu-title link-nav"><feather type="home" size="15"/><span>실거래가</span></router-link></li>
-            <li class="dropdown"><router-link to="/houselist" class="nav-link menu-title link-nav"><feather type="home" size="15"/><span>매물조회</span></router-link></li>
-            <li class="dropdown"><router-link to="/notice" class="nav-link menu-title link-nav"><feather type="home" size="15"/><span>공지사항</span></router-link></li>
+            <li class="dropdown">
+              <router-link to="/deal" class="nav-link menu-title link-nav">
+                <feather type="home" size="15" /><span>실거래가</span>
+              </router-link>
+            </li>
+            <li class="dropdown">
+              <router-link to="/houselist" class="nav-link menu-title link-nav">
+                <feather type="home" size="15" /><span>매물조회</span>
+              </router-link>
+            </li>
+            <li class="dropdown">
+              <router-link to="/notice" class="nav-link menu-title link-nav">
+                <feather type="home" size="15" /><span>공지사항</span>
+              </router-link>
+            </li>
           </ul>
         </div>
         <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
@@ -33,9 +64,9 @@
 
 <script>
 export default {
-  data() {    
+  data() {
     return {
-      profileUrl: this.$hostname + "/assets/images/dashboard/1.png" 
+      userInfo: null
     }
   }
 }

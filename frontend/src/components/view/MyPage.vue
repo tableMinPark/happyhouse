@@ -1,32 +1,35 @@
 <template>
   <div>
-    <div class="container-fluid">
+    <div v-if="isMyPage" class="container-fluid">
       <basic-header name="마이페이지"></basic-header>
     </div>
     <div class="container-fluid">
-      <normal-my-page-body v-if="pageFlag == 'N'"></normal-my-page-body>
-      <company-my-page-body v-if="pageFlag == 'C'"></company-my-page-body>
+      <my-page-body :isMyPage="isMyPage" :myPageId="myPageId"></my-page-body>
     </div>
   </div>
 </template>
 
 <script>
 import BasicHeader from '@/components/common/BasicHeader.vue';
-import NormalMyPageBody from '@/components/MyPage/NormalMyPageBody.vue';
-import CompanyMyPageBody from '@/components/MyPage/CompanyMyPageBody.vue';
+import MyPageBody from '@/components/MyPage/MyPageBody.vue';
 
 export default {
-  components: {
-    BasicHeader,
-    NormalMyPageBody,
-    CompanyMyPageBody
-  },
   data() {
-    return {
-      pageFlag: 'N'     // N - C 
+    return {      
+      isMyPage: null,     // 현재 로그인되어있는 유저 ID
+      myPageId: null,     // 방문하는 페이지의 유저 ID
+      loginUserId: null
     }
   },
-  async mounted() {
+  components: {
+    BasicHeader,
+    MyPageBody
+  },
+  created() {
+    // 현재 방문하려는 페이지가 나의 페이지인지 확인하는 부분
+    this.myPageId = this.$route.params.userId;
+    this.loginUserId = this.$store.state.userInfo.userId;
+    this.isMyPage = this.myPageId == this.loginUserId;
   }
 }
 </script>

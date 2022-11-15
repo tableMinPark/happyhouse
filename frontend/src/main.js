@@ -1,5 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue' ;
+import store from '@/store/store.js'
+
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
+
 import LoadScript from 'vue-plugin-load-script';
 import VueFeather from 'vue-feather';
 
@@ -14,6 +19,7 @@ Vue.config.productionTip = false;
 import router from '@/routers/routers.js';
 
 new Vue({
-  render: h => h(App),
-  router
+  router,
+  store,
+  render: h => h(App)
 }).$mount('#app')

@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">공지 작성</h5>
+          <h5 class="modal-title" id="exampleModalLabel">공지사항 등록</h5>
           <button
             type="button"
             class="btn-close"
@@ -32,10 +32,9 @@
             v-model="important"
             class="form-check-input"
             type="checkbox"
-            value=""
-            id="checkFileUploadInsert"
+            id="important"
           />
-          <label class="form-check-label" for="flexCheckDefault">
+          <label class="form-check-label ms-2" for="important">
             중요공지
           </label>
           <button
