@@ -1,4 +1,4 @@
-package com.mycom.happyhouse;
+package com.happyhouse.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
