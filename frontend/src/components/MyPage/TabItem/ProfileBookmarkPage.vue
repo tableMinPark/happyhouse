@@ -4,7 +4,7 @@
       <tbody>
         <tr v-for="(bookmark, index) in bookmarkList" :key="index" >
           <td>
-            <a @click="dealDetail(bookmark.bookmarkId)"><div class="task_desc_0">{{ bookmark.house.houseName}}</div></a>
+            <router-link :to="`/houseinfo/${bookmark.deal.dealId}`"><div class="task_desc_0">{{ bookmark.house.houseName}}</div></router-link>
           </td>
           <td>
             <div class="task_desc_0">{{ bookmark.house.sidoName }} {{ bookmark.house.gugunName }} {{ bookmark.house.dongName }}</div>

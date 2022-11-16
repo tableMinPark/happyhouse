@@ -1,6 +1,5 @@
 <template>
-  <div class="table-responsive"> 
-                    
+  <div class="table-responsive">                     
     <table class="table">
       <thead class="table-primary">
         <tr>
@@ -15,7 +14,7 @@
       </thead>
       <tbody>
         <tr v-for="(review, index) in reviewList" :key="index" >
-          <td><a @click="reviewDetail(review.reviewId)"><div class="task_desc_0">{{ review.house.houseName}}</div></a></td>
+          <td><a @click="showReviewDetail(review)"><div class="task_desc_0">{{ review.house.houseName}}</div></a></td>
           <td><div class="task_desc_0">{{ review.house.sidoName }} {{ review.house.gugunName }} {{ review.house.dongName }}</div></td>
           <td>
             <div class="rating-container">
@@ -59,37 +58,48 @@
           <td><a @click="showReviewModify(review)"><feather  class="me-3" type="edit" size="20"/></a></td>
           <td><a @click="reviewDelete(review.reviewId)"><feather type="trash" size="20"/></a></td>
         </tr>
-      </tbody>
-      
+      </tbody>      
     </table>
 
     <!-- Modal -->
     <review-modify-modal :review="selectedReview" v-on:call-parent-modify-close="closeReviewModify"></review-modify-modal>
-
+    <review-detail-modal :review="selectedReview" v-on:call-parent-detail-close="closeReviewDetail"></review-detail-modal>
   </div>
 </template>
 
 <script>
-import ReviewModifyModal from "../../Modal/ReviewModifyModal.vue";
-// import ReviewDetailModal from "@/commponents/Modal/ReviewDetailModal.vue";
+import ReviewModifyModal from '@/components/Modal/ReviewModifyModal.vue';
+import ReviewDetailModal from "@/components/Modal/ReviewDetailModal.vue";
 
 import { Modal } from "bootstrap";
 
 export default {
   components: {
-    ReviewModifyModal
+    ReviewModifyModal,
+    ReviewDetailModal
   },  
   data(){
     return {
       selectedReview: null,
       reviewList: null,
-      reviewModifyModal: null
+      reviewModifyModal: null,
+      reviewDetailModal: null
     }
   },
   methods: {
-    reviewDetail(reviewId){
-      console.log("call reviewDetail " + reviewId);
+    // Delete Review
+    reviewDelete(reviewId) {
+      console.log("call reviewDelete " + reviewId);
     },
+    // Detail Modal show/hide
+    showReviewDetail(review){
+      this.selectedReview = review;
+      this.reviewDetailModal.show(); 
+    },
+    closeReviewDetail(){
+      this.reviewDetailModal.hide();
+    },
+    // Modify Modal show/hide
     showReviewModify(review) { 
       this.selectedReview = review;
       this.reviewModifyModal.show();      
@@ -97,15 +107,10 @@ export default {
     closeReviewModify(){
       this.reviewModifyModal.hide();
     },
-    reviewModify(reviewId) {
-      console.log("call reviewModify " + reviewId);
-    },
-    reviewDelete(reviewId) {
-      console.log("call reviewDelete " + reviewId);
-    }
   },
   mounted() {
     this.reviewModifyModal = new Modal(document.getElementById("reviewModifyModal"));
+    this.reviewDetailModal = new Modal(document.getElementById("reviewDetailModal"));
   },  
   created() {
     // 리뷰 리스트 get

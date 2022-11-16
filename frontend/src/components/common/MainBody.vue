@@ -3,7 +3,7 @@
         
         <nav-bar></nav-bar>
 
-        <div class="page-body">
+        <div class="page-body mt-5">
             <router-view :key="$route.fullPath"></router-view>
         </div>
 

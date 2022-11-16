@@ -1,5 +1,4 @@
 <template>  
-  <div>
     <div class="container-fluid">
     <div class="row">
         <div class="col-7" style="height: 100%">
@@ -24,10 +23,15 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header pb-0">
-            <h5 class="card-title">Reviews</h5>
+            <div class="card-header pb-0 d-flex justify-content-between">
+              <h5 class="card-title">Reviews</h5>
+                <button class="btn btn-primary" @click.prevent="showReviewRegister">
+                <feather type="file-text" size="18"/>
+              </button>
             </div>
-            <div class="card-body">content</div>
+            <div class="card-body">
+              <review-list></review-list>
+            </div>
         </div>
         </div>
         <div class="col-5" style="height: 100%">
@@ -60,15 +64,27 @@
         </div>
         </div>
     </div>
+    <!-- Modal -->
+    <review-register-modal v-on:call-parent-register-close="closeReviewRegister"></review-register-modal>
     </div>
-  </div>
   </template>
   
   <script>  
+
+import ReviewList from '@/components/House/Item/ReviewList.vue';
+import ReviewRegisterModal from "@/components/Modal/ReviewRegisterModal.vue";
+
+import { Modal } from "bootstrap";
+
   export default {
+    components: {
+      ReviewList,
+      ReviewRegisterModal
+    },
     data() {
       return {
         map: null,
+        reviewRegisterModal: null
       }
     },
     methods: {
@@ -80,6 +96,12 @@
         }
         this.map = new kakao.maps.Map(mapContainer, mapOption)
       },
+      showReviewRegister() {
+        this.reviewRegisterModal.show();          
+      },
+      closeReviewRegister() {
+        this.reviewRegisterModal.hide();
+      }
     },
   
     mounted() {
@@ -94,6 +116,8 @@
       } else {
         this.initMap()
       }
+      this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"));
+
     },
   }
   </script>

@@ -8,48 +8,85 @@
             </div>
             <div class="modal-body">
                <div class="mt-3 mb-3" id="divEditorModify"></div>
-               <div class="mb-3">
-                  <div class="rating-container">
-                     <div class="br-wrapper br-theme-fontawesome-stars">
-                        <div class="br-widget">
-                           <a :class="{'br-selected br-current': 1 <= reviewTraficRating}" @click="traficRatingChange(1)"></a>
-                           <a :class="{'br-selected br-current': 2 <= reviewTraficRating}" @click="traficRatingChange(2)"></a>
-                           <a :class="{'br-selected br-current': 3 <= reviewTraficRating}" @click="traficRatingChange(3)"></a>
-                           <a :class="{'br-selected br-current': 4 <= reviewTraficRating}" @click="traficRatingChange(4)"></a>
-                           <a :class="{'br-selected br-current': 5 <= reviewTraficRating}" @click="traficRatingChange(5)"></a>
+               <div class="row mt-3">
+                  <div class="col-4 ps-5">
+                     <h6>
+                        <feather type="truck" size="15" class="pe-2" />교통점수
+                     </h6>
+                  </div>
+                  <div class="col-4">
+                     <div class="rating-container">
+                        <div class="br-wrapper br-theme-fontawesome-stars">
+                           <div class="br-widget">
+                              <a :class="{ 'br-selected br-current': 1 <= reviewTraficRating }"
+                                 @click="traficRatingChange(1)"></a>
+                              <a :class="{ 'br-selected br-current': 2 <= reviewTraficRating }"
+                                 @click="traficRatingChange(2)"></a>
+                              <a :class="{ 'br-selected br-current': 3 <= reviewTraficRating }"
+                                 @click="traficRatingChange(3)"></a>
+                              <a :class="{ 'br-selected br-current': 4 <= reviewTraficRating }"
+                                 @click="traficRatingChange(4)"></a>
+                              <a :class="{ 'br-selected br-current': 5 <= reviewTraficRating }"
+                                 @click="traficRatingChange(5)"></a>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="mb-3">
-                  <div class="rating-container">
-                     <div class="br-wrapper br-theme-fontawesome-stars">
-                        <div class="br-widget">
-                           <a :class="{'br-selected br-current': 1 <= reviewSafetyRating}" @click="safetyRatingChange(1)"></a>
-                           <a :class="{'br-selected br-current': 2 <= reviewSafetyRating}" @click="safetyRatingChange(2)"></a>
-                           <a :class="{'br-selected br-current': 3 <= reviewSafetyRating}" @click="safetyRatingChange(3)"></a>
-                           <a :class="{'br-selected br-current': 4 <= reviewSafetyRating}" @click="safetyRatingChange(4)"></a>
-                           <a :class="{'br-selected br-current': 5 <= reviewSafetyRating}" @click="safetyRatingChange(5)"></a>
+               <div class="row">
+                  <div class="col-4 ps-5">
+                     <h6>
+                        <feather type="home" size="15" class="pe-2" />치안점수
+                     </h6>
+                  </div>
+                  <div class="col-4">
+                     <div class="rating-container">
+                        <div class="br-wrapper br-theme-fontawesome-stars">
+                           <div class="br-widget">
+                              <a :class="{ 'br-selected br-current': 1 <= reviewSafetyRating }"
+                                 @click="safetyRatingChange(1)"></a>
+                              <a :class="{ 'br-selected br-current': 2 <= reviewSafetyRating }"
+                                 @click="safetyRatingChange(2)"></a>
+                              <a :class="{ 'br-selected br-current': 3 <= reviewSafetyRating }"
+                                 @click="safetyRatingChange(3)"></a>
+                              <a :class="{ 'br-selected br-current': 4 <= reviewSafetyRating }"
+                                 @click="safetyRatingChange(4)"></a>
+                              <a :class="{ 'br-selected br-current': 5 <= reviewSafetyRating }"
+                                 @click="safetyRatingChange(5)"></a>
+                           </div>
                         </div>
                      </div>
-                  </div>                  
-               </div>    
-               <div class="mt-3 mb-3">
-                  <div class="rating-container">
-                     <div class="br-wrapper br-theme-fontawesome-stars">
-                        <div class="br-widget">
-                           <a :class="{'br-selected br-current': 1 <= reviewStoreRating}" @click="storeRatingChange(1)"></a>
-                           <a :class="{'br-selected br-current': 2 <= reviewStoreRating}" @click="storeRatingChange(2)"></a>
-                           <a :class="{'br-selected br-current': 3 <= reviewStoreRating}" @click="storeRatingChange(3)"></a>
-                           <a :class="{'br-selected br-current': 4 <= reviewStoreRating}" @click="storeRatingChange(4)"></a>
-                           <a :class="{'br-selected br-current': 5 <= reviewStoreRating}" @click="storeRatingChange(5)"></a>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-4 ps-5">
+                     <h6>
+                        <feather type="shopping-cart" size="15" class="pe-2" />상가점수
+                     </h6>
+                  </div>
+                  <div class="col-4">
+                     <div class="rating-container">
+                        <div class="br-wrapper br-theme-fontawesome-stars">
+                           <div class="br-widget">
+                              <a :class="{ 'br-selected br-current': 1 <= reviewStoreRating }"
+                                 @click="storeRatingChange(1)"></a>
+                              <a :class="{ 'br-selected br-current': 2 <= reviewStoreRating }"
+                                 @click="storeRatingChange(2)"></a>
+                              <a :class="{ 'br-selected br-current': 3 <= reviewStoreRating }"
+                                 @click="storeRatingChange(3)"></a>
+                              <a :class="{ 'br-selected br-current': 4 <= reviewStoreRating }"
+                                 @click="storeRatingChange(4)"></a>
+                              <a :class="{ 'br-selected br-current': 5 <= reviewStoreRating }"
+                                 @click="storeRatingChange(5)"></a>
+                           </div>
                         </div>
                      </div>
-                  </div>                 
-               </div> 
+                  </div>
+               </div>
             </div>
             <div class="modal-footer">
-               <button @click="reviewModify" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal" type="button">수정</button>
+               <button @click="reviewModify" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal"
+                  type="button">수정</button>
             </div>
          </div>
       </div>
@@ -68,8 +105,8 @@ export default {
    props: ['review'],
 
    data() {
-      return {      
-         reviewId: '',   
+      return {
+         reviewId: '',
          reviewContent: '',
          reviewTraficRating: 1,
          reviewSafetyRating: 1,
@@ -88,13 +125,13 @@ export default {
 
          this.$emit('call-parent-modify-close');
       },
-      traficRatingChange(rating){
+      traficRatingChange(rating) {
          this.reviewTraficRating = rating;
       },
-      safetyRatingChange(rating){
+      safetyRatingChange(rating) {
          this.reviewSafetyRating = rating;
       },
-      storeRatingChange(rating){
+      storeRatingChange(rating) {
          this.reviewStoreRating = rating;
       }
    },
@@ -105,24 +142,24 @@ export default {
          console.error(error);
       }
    },
-  watch: {
-   // 모달 초기화
-   review: function() {      
-      this.reviewId = this.review.reviewId,   
-      this.reviewContent = this.review.reviewContent;
-      this.reviewTraficRating = this.review.reviewTraficRating
-      this.reviewSafetyRating = this.review.reviewSafetyRating
-      this.reviewStoreRating = this.review.reviewStoreRating
+   watch: {
+      // 모달 초기화
+      review: function () {
+         this.reviewId = this.review.reviewId,
+            this.reviewContent = this.review.reviewContent;
+         this.reviewTraficRating = this.review.reviewTraficRating
+         this.reviewSafetyRating = this.review.reviewSafetyRating
+         this.reviewStoreRating = this.review.reviewStoreRating
 
-      this.CKEditor.setData( this.reviewContent);      
-    }
-  },  
+         this.CKEditor.setData(this.reviewContent);
+      }
+   },
 };
 </script>
 
 
 <style scoped>
-.modal >>> .ck-editor__editable {
+.modal>>>.ck-editor__editable {
    min-height: 300px !important;
 }
 
