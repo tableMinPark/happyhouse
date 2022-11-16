@@ -2,7 +2,7 @@
     <div class="row">
         <div v-for="(user, index) in userList" :key="index" class="col-sm-4 col-lg-4 col-xl-4">
             <router-link :to="'/profile/' + user.userId">
-            <div class="card custom-card pt-3">
+            <div class="card custom-card">
                 <div class="card-profile">
                     <img class="rounded-circle" :src="user.userProfileImageUrl" alt="">
                 </div>

@@ -2,7 +2,6 @@
   <div class="col-xl-3 col-sm-6 xl-4">
     <div class="card">
     <div class="product-box">
-        <div class="product-img"><img class="img-fluid" src="assets/images/ecommerce/01.jpg" alt=""></div>                        
         <div class="product-details">
         <router-link to="/houseinfo">
             <h4><span class="badge bg-primary me-2 text-light">월세</span>삼정그린코아</h4>
