@@ -12,44 +12,47 @@
         {{ content }}
       </div>
     </div>
-
-    <button
-      @click="$router.push('/notice')"
-      type="button"
-      class="btn btn-sm btn-primary float-end"
-    >
-      목록
-    </button>
-    <button
-      :class="{ deleteNotice: false }"
-      @click="$router.push('/notice')"
-      type="button"
-      class="btn btn-sm btn-primary float-end"
-    >
-      삭제
-    </button>
+    <div style="float: right">
+      <button @click="showUpdateModal" type="button" class="btn btn-square btn-outline-primary btn-sm">수정</button>
+      <button @click="$router.push('/notice')" type="button" class="btn btn-square btn-outline-primary btn-sm">목록</button>
+      <button :class="{ deleteNotice: false }" @click="$router.push('/notice')" type="button" class="btn btn-square btn-outline-primary btn-sm">삭제</button>
+    </div>
+    <notice-update :noticeId="noticeId" :title="title" :content="content" :important="important"></notice-update>
   </div>
 </template>
 
 <script>
+import NoticeUpdate from "@/components/NoticePage/NoticeUpdate.vue"
+import { Modal } from "bootstrap"
 export default {
   data() {
     return {
+      title: "123",
       noticeId: "",
       writer: "",
       content: "",
       date: "",
       important: "",
-    };
+
+      updateModal: null,
+    }
   },
-  components: {},
+  components: {
+    NoticeUpdate,
+  },
+  methods: {
+    showUpdateModal() {
+      this.updateModal.show()
+    },
+  },
   mounted() {
-    this.noticeId = this.$route.params.noticeId;
+    this.updateModal = new Modal(document.querySelector("#updateModal"))
+    this.noticeId = this.$route.params.noticeId
     //query
-    this.writer = this.noticeId + "번 관리자";
-    this.content = this.noticeId + "번 관리자가 작성한 글입니다.";
+    this.writer = this.noticeId + "번 관리자"
+    this.content = this.noticeId + "번 관리자가 작성한 글입니다."
   },
-};
+}
 </script>
 
 <style>
