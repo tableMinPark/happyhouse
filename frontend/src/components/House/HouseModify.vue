@@ -12,7 +12,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label class="form-label" for="validationCustom01">매물 명:</label>
-                    <input class="form-control" :value="dealId" id="validationCustom01" type="text" placeholder="Post Title" required="" />
+                    <input class="form-control" id="validationCustom01" type="text" placeholder="Post Title" required="" />
                   </div>
                   <div class="form-group">
                     <label>Type:</label>
@@ -27,22 +27,26 @@
                       <div class="col-md-8">
                         <label class="form-label" for="validationDefault01">전세금</label>
                         <input class="form-control" id="validationDefault01" type="text" placeholder="전세금" required="" v-model="charterPrice" />
+                        <p class="form-label">{{ parsePrice(charterPrice) }}</p>
                       </div>
                     </div>
                     <div class="row" v-else-if="deal == 'rent'">
                       <div class="col-md-4">
                         <label class="form-label" for="validationDefault01">보증금</label>
                         <input class="form-control" id="validationDefault01" type="text" placeholder="보증금" required="" v-model="rentDeposit" />
+                        <p class="form-label">{{ parsePrice(rentDeposit) }}</p>
                       </div>
                       <div class="col-md-4">
                         <label class="form-label" for="validationDefault02">월세</label>
                         <input class="form-control" id="validationDefault02" type="text" placeholder="월" required="" v-model="rentPrice" />
+                        <p class="form-label">{{ parsePrice(rentPrice) }}</p>
                       </div>
                     </div>
                     <div class="row" v-else>
                       <div class="col-md-8">
                         <label class="form-label" for="validationDefault01">매매가</label>
                         <input class="form-control" id="validationDefault01" type="text" placeholder="매매가" required="" v-model="dealingPrice" />
+                        <p class="form-label">{{ parsePrice(dealingPrice) }}</p>
                       </div>
                     </div>
                   </div>
@@ -125,13 +129,12 @@ export default {
   },
   data() {
     return {
-      dealId: "",
       map: null,
       deal: "charter",
-      charterPrice: 0,
-      rentDeposit: 0,
-      rentPrice: 0,
-      dealingPrice: 0,
+      charterPrice: "",
+      rentDeposit: "",
+      rentPrice: "",
+      dealingPrice: "",
 
       //시 군 동 선택
       selectedSido: "서울",
@@ -147,26 +150,46 @@ export default {
 
       //CKEditor
       CKEditor: null,
+
+      //files
+      attachedFiles: null,
     }
   },
   methods: {
-    initMap() {
-      // let mapContainer = document.querySelector("#kakao-map");
-      // let mapOption = {
-      //     center: new kakao.maps.LatLng(33.450701, 126.570667),
-      //     level: 1,
-      // };
-      // this.map = new kakao.maps.Map(mapContainer, mapOption);
-    },
     uploadImg(files) {
-      console.log(files)
+      this.attachedFiles = files
+      console.log(this.attachedFiles)
     },
+
     dealMethod(event) {
+      this.charterPrice = ""
+      this.rentDeposit = ""
+      this.rentPrice = ""
+      this.dealingPrice = ""
       this.deal = event.target.value
+    },
+    parsePrice(p) {
+      if (p == "") return ""
+      let price = p
+      let a = 0,
+        b = 0
+      if (price >= 100000000) {
+        a = parseInt(price / 100000000)
+        price %= 100000000
+      }
+      if (price >= 10000) {
+        b = parseInt(price / 10000)
+        price %= 10000
+      }
+      let ret = ""
+      if (a > 0) ret += a + "억"
+      if (b > 0) ret += b + "만"
+      if (price > 0) ret += price
+      ret += "원"
+      return ret
     },
   },
   async mounted() {
-    // this.dealId = this.$route.params.dealId
     console.log(this.$route.params.deal)
     try {
       this.CKEditor = await ClassicEditor.create(document.querySelector("#cke_text-box"))
