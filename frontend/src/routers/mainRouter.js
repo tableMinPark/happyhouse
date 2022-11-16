@@ -15,6 +15,7 @@ import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue"
 import HouseList from "@/components/House/HouseList.vue"
 import HouseInfo from "@/components/House/HouseInfo.vue"
 import HouseRegister from "@/components/House/HouseRegister.vue"
+import HouseModify from "@/components/House/HouseModify.vue"
 
 export default [
   {
@@ -31,22 +32,25 @@ export default [
     children: [
       {
         path: "",
-        component: HouseList
+        component: HouseList,
       },
       {
         path: "modify",
-        component: HouseRegister,
+        name: "houseinfomodify",
+        component: HouseModify,
       },
+
       {
         path: "register",
         component: HouseRegister,
       },
       {
         path: ":houseId",
-        component: HouseInfo
-      }
-    ],    
+        component: HouseInfo,
+      },
+    ],
   },
+
   {
     path: "/login",
     component: LoginPage,

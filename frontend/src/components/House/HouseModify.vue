@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container-fluid">
-      <basic-header name="매물등록"></basic-header>
+      <basic-header name="매물수정"></basic-header>
     </div>
     <div class="container-fluid">
       <div class="row">
@@ -12,7 +12,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label class="form-label" for="validationCustom01">매물 명:</label>
-                    <input class="form-control" id="validationCustom01" type="text" placeholder="Post Title" required="" />
+                    <input class="form-control" :value="dealId" id="validationCustom01" type="text" placeholder="Post Title" required="" />
                   </div>
                   <div class="form-group">
                     <label>Type:</label>
@@ -125,6 +125,7 @@ export default {
   },
   data() {
     return {
+      dealId: "",
       map: null,
       deal: "charter",
       charterPrice: 0,
@@ -157,16 +158,16 @@ export default {
       // };
       // this.map = new kakao.maps.Map(mapContainer, mapOption);
     },
-
     uploadImg(files) {
       console.log(files)
     },
-
     dealMethod(event) {
       this.deal = event.target.value
     },
   },
   async mounted() {
+    // this.dealId = this.$route.params.dealId
+    console.log(this.$route.params.deal)
     try {
       this.CKEditor = await ClassicEditor.create(document.querySelector("#cke_text-box"))
     } catch (error) {

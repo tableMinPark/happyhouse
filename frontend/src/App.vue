@@ -28,8 +28,7 @@ export default {
     await this.$loadScript(this.$hostname + "/assets/js/script.js")
     await this.$loadScript(this.$hostname + "/assets/js/select2/select2.full.min.js")
     await this.$loadScript(this.$hostname + "/assets/js/select2/select2-custom.js")
-    await this.$loadScript(this.$hostname + "/assets/js/dropzone/dropzone.js")
-    await this.$loadScript(this.$hostname + "/assets/js/dropzone/dropzone-script.js")
+
     await this.$loadScript(this.$hostname + "/assets/js/owlcarousel/owl.carousel.js")
     await this.$loadScript(this.$hostname + "/assets/js/owlcarousel/owl-custom.js")
     // await this.$loadScript("//dapi.kakao.com/v2/maps/sdk.js?b27eaa14790c25c57f7bfaf07f95d86e")
