@@ -40,7 +40,7 @@
     </div>
     <div class="product-wrapper-grid">
         <div class="row">
-        <house-list-item />
+          <house-list-item  v-for="(deal, index) in dealList" :key="index" :deal="deal"></house-list-item>
         </div>
     </div>
     </div>
@@ -58,7 +58,14 @@ export default {
     },
   data() {
     return {
-      houseList: [],
+      dealList: [
+        {
+          dealId: 1
+        },
+        {
+          dealId: 2
+        }
+      ],
       selected: 'All',      // All - Charter - Rend - Dealing
       selectedAll: true,
       selectedCharter: false,

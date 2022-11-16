@@ -3,7 +3,7 @@
       <div class="product-grid">
         
         <div class="feature-products mb-2 text-end">          
-          <router-link to="/houseinfoinput" class="btn btn-primary text-center">등록</router-link>
+          <router-link to="/houseinfo/register" class="btn btn-primary text-center">등록</router-link>
         </div>
         <div class="feature-products">
           <div class="row">
@@ -40,7 +40,7 @@
         </div>
         <div class="product-wrapper-grid">
           <div class="row">
-            <compnay-house-list-item></compnay-house-list-item>
+            <compnay-house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal"></compnay-house-list-item>
           </div>
         </div>
         
@@ -57,7 +57,14 @@
   },
   data() {
     return {
-      houseList: [],
+      dealList: [
+        {
+          dealId: 3
+        },
+        {
+          dealId: 4
+        }
+      ],
       selected: 'All',      // All - Charter - Rend - Dealing
       selectedAll: true,
       selectedCharter: false,

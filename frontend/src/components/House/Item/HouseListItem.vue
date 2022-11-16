@@ -4,7 +4,7 @@
     <div class="product-box">
         <div class="product-img"><img class="img-fluid" :src="this.$hostname + '/assets/images/ecommerce/01.jpg'" alt=""></div>                        
         <div class="product-details">
-        <router-link to="/houseinfo">
+        <router-link :to="`/houseinfo/${deal.dealId}`">
             <h4><span class="badge bg-primary me-2 text-light">월세</span>삼정그린코아</h4>
         </router-link>
         <p>부산시 강서구 녹산동 1627-5</p>
@@ -17,6 +17,9 @@
 
 <script>
 export default {
+  props: [
+    'deal'
+  ],
   data() {
     return {
       houseInfo: null

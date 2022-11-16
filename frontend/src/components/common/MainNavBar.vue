@@ -45,7 +45,7 @@
               </router-link>
             </li>
             <li class="dropdown">
-              <router-link to="/houselist" class="nav-link menu-title link-nav">
+              <router-link to="/houseinfo" class="nav-link menu-title link-nav">
                 <feather type="home" size="15" /><span>매물조회</span>
               </router-link>
             </li>
