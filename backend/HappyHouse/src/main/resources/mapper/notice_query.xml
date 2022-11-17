@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.happyhouse.api.notice.dao.NoticeDao">
+
+	<select id ="noticeSelect" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		  from board limit #{limit} offset #{offset}
+	</select>
+	
+	<select id ="noticeCount" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="int">
+		select count(*)
+		  from board
+	</select>
+	
+	<select id ="noticeSelectSearchWord" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		  from board 
+		 where board_title like CONCAT('%', #{searchWord} ,'%')
+		  limit #{limit} offset #{offset}
+	</select>
+	<select id ="noticeCountSearchWord" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="int">
+		select count(*)
+		  from board 
+		 where board_title like CONCAT('%', #{searchWord} ,'%')
+		  <if test = 'searchType.equals("TW")'>
+		  	or user_id = (select user_name from users where user_id = #{userId})
+		  </if>
+	</select>
+	
+	<select id ="noticeDetail" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		  from board
+		 where board_id = #{board_id}
+	</select>
+	
+	<insert id="noticeInsert" parameterType="com.happyhouse.api.notice.dto.NoticeDto">
+		insert into board ( board_id, user_id,board_title, board_content, board_reg_dt, board_read_count )
+		            VALUES ( #{boardId},#{userId}, #{title}, #{content}, now(), 0 )
+	</insert>
+	
+	<update id="noticeUpdate" parameterType="com.happyhouse.api.notice.dto.NoticeDto">
+		update board
+		   set board_title = #{title},
+		   board_content = #{content}
+		 where board_id = #{boardId}
+	</update>
+	
+	<delete id="noticeDelete" parameterType="int">
+		delete from board where board_id = #{noticeId}
+	</delete>
+</mapper>
