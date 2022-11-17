@@ -54,11 +54,15 @@
                     <notice-td v-for="notice in normalNotices" :key="notice.num" :important="false" :notice="notice"></notice-td>
                   </tbody>
                 </table>
+              </div>
+            </div>
+            
+            <div class="col-sm-12 col-lg-12 col-xl-12 text-end">
+              <button class="btn btn-square btn-outline-primary btn-sm mt-3 me-3" type="button" data-bs-original-title="" title="" @click="showInsertModal">글쓰기</button>
+            </div>
 
-                <div style="margin: 10px; float: right" :class="{ writeNotice: false }">
-                  <button class="btn btn-square btn-outline-primary btn-sm" type="button" data-bs-original-title="" title="" @click="showInsertModal">글쓰기</button>
-                </div>
-                <div style="margin: 10px">
+            <div class="col-sm-12 col-lg-12 col-xl-12">        
+              <div style="margin: 10px">
                   <PaginationUI
                     :listRowCount="listRowCount"
                     :pageLinkCount="pageLinkCount"
@@ -67,8 +71,8 @@
                     @call-parent-move-page="movePage"
                   ></PaginationUI>
                 </div>
-              </div>
             </div>
+
           </div>
         </div>
       </div>
