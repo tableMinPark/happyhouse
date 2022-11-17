@@ -1,10 +1,10 @@
 <template>
   <header class="main-nav">
 
-    <div v-if="this.$store.state.isLogin" class="sidebar-user text-center">
-      <router-link :to="`/profile/${this.$store.state.userInfo.userId}`" class="setting-primary">
+    <div v-if="isLogin" class="sidebar-user text-center">
+      <router-link :to="`/profile/${userInfo.userId}`" class="setting-primary">
         <feather type="settings" size="15" />
-      </router-link><img class="img-90 rounded-circle" :src="this.$store.state.userInfo.userProfileImageUrl" alt="">
+      </router-link><img class="img-90 rounded-circle" :src="userInfo.userProfileImageUrl" alt="">
       <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
         <h6 class="mt-3 f-14 f-w-600">박상민</h6>
       </a>
@@ -12,7 +12,7 @@
     </div>
 
     <div v-else class="sidebar-user text-center">
-      <img class="img-90 rounded-circle" :src="this.$store.state.noProfileImageUrl" alt="">
+      <img class="img-90 rounded-circle" :src="noProfileImageUrl" alt="">
       <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
         <h6 class="mt-3 f-14 f-w-600">로그인이 필요합니다.</h6>
       </a>
@@ -63,11 +63,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const userStore = "userStore";
+
 export default {
-  data() {
-    return {
-      userInfo: null
-    }
+  name: "MainNavBar",
+  computed: {
+    ...mapState(userStore, ["isLogin", "userInfo","noProfileImageUrl"]),
   }
 }
 </script>

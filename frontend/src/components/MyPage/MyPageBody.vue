@@ -16,43 +16,22 @@
 </template>
 
 <script>
-import MyPageHeader from '@/components/MyPage/MyPageHeader.vue';
+import { mapState } from "vuex";
 
+import MyPageHeader from '@/components/MyPage/MyPageHeader.vue';
 import NormalTab from '@/components/MyPage/Tab/NormalTab.vue';
 import CompanyTab from '@/components/MyPage/Tab/CompanyTab.vue';
 import FollowTab from '@/components/MyPage/Tab/FollowTab.vue';
 
 export default {
-    props: ['isMyPage', 'myPageId'],
-    data() {
-        return {
-            userInfo: null
-        }
-    },  
     components: {
         MyPageHeader,
         NormalTab,
         CompanyTab,
         FollowTab
-    },   
-    created() {
-        console.log("visit to " + this.myPageId);
-
-        if (this.isMyPage){
-            this.userInfo = this.$store.state.userInfo;
-        } else {            
-            // 현재 방문한 페이지의 유저 정보 받아오는 코드 (myPageId 를 이용해서 get 필요)
-            this.userInfo = {
-                userId: 2,
-                userName: "서우린",
-                userRegDt: '2022-12-25',
-                userCode: 200,
-                userCodeName: '기업회원',
-                userProfileImageUrl: `http://${location.host}/assets/images/user/8.jpg`,
-                userFollowing: 10,
-                userFollower: 20
-            }
-        }
+    },
+    computed: {
+        ...mapState("myPageStore", ["isMyPage", "userInfo"]),
     }
 }
 </script>

@@ -1,9 +1,8 @@
-// vue.config.js
 const path = require('path');
 
 module.exports = {
-  chainWebpack: (config) => {
-    config.resolve.alias.set('~', path.resolve(__dirname, 'public/'));
-  },
+  devServer: {
+    port: process.env.VUE_APP_PORT || 9000
+  }
 };
  

@@ -9,7 +9,7 @@
                 <h6>{{ userInfo.userCodeName }}</h6>
 
                 <!-- 친구페이지를 방문했을 때 -->
-                <button v-if="!isMyPage" class="btn btn-primary mb-4">
+                <button v-if="followingCheck(userInfo.userId)" class="btn btn-primary mb-4">
                     <span v-if="true">Follow</span>
                     <span v-else>Unfollow</span>
                 </button>
@@ -30,8 +30,13 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+
 export default {
-    props: ['isMyPage', 'userInfo']
+    computed: {
+        ...mapState("myPageStore", ["isMyPage", "userInfo"]),
+        ...mapGetters("myPageStore", ["followingCheck"]),
+    }
 }
 </script>
 
