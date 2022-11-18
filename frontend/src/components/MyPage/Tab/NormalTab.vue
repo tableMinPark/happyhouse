@@ -18,7 +18,7 @@
                 <div class="tab-content" id="pills-icontabContent">
                     <div class="tab-pane fade active show" id="bookmark" role="tabpanel"
                         aria-labelledby="pills-iconhome-tab">
-                        <profile-bookmark-page v-if="tabSelect == 1" :isMyPage="isMyPage" :userId="userId"></profile-bookmark-page>
+                        <profile-bookmark-page v-if="tabSelect == 1"></profile-bookmark-page>
                         <profile-modify-page v-if="tabSelect == 2"></profile-modify-page>
                         <profile-review-page v-if="tabSelect == 3"></profile-review-page>
                         <profile-follow-page v-if="tabSelect == 4"></profile-follow-page>
@@ -31,12 +31,11 @@
 </template>
 
 <script>
-import ProfileBookmarkPage from '@/components/MyPage/TabItem/ProfileBookmarkPage.vue';
-import ProfileModifyPage from '@/components/MyPage/TabItem/ProfileModifyPage.vue'
-import ProfileReviewPage from '@/components/MyPage/TabItem/ProfileReviewPage.vue';
-import ProfileFollowPage from '@/components/MyPage/TabItem/ProfileFollowPage.vue';
+import ProfileBookmarkPage from '@/components/MyPage/TabModule/ProfileBookmarkPage.vue';
+import ProfileModifyPage from '@/components/MyPage/TabModule/ProfileModifyPage.vue'
+import ProfileReviewPage from '@/components/MyPage/TabModule/ProfileReviewPage.vue';
+import ProfileFollowPage from '@/components/MyPage/TabModule/ProfileFollowPage.vue';
 export default {
-    props: ['isMyPage', 'userId'],
     components: {        
         ProfileBookmarkPage,
         ProfileModifyPage,

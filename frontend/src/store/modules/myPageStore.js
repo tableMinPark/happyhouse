@@ -3,18 +3,7 @@ const myPageStore = {
   state: {
     isMyPage: false,
     pageId: "",
-    userInfo: {
-      userId: 1,
-      userName: "박상민",
-      userRegDt: "2022-12-24",
-      userAddress: "부산시 강서구 송정동 1627-5",
-      userTel: "010-5793-2055",
-      userCode: 200,
-      userCodeName: "일반회원",
-      userProfileImageUrl: `http://${location.host}/assets/images/user/9.jpg`,
-      userFollowing: 1,
-      userFollower: 2,
-    },
+    myPageUserInfo: null
   },
   mutations: {
     SET_ISMYPAGE(state, isMyPage) {
@@ -23,8 +12,8 @@ const myPageStore = {
     SET_PAGEID(state, pageId) {
         state.pageId = pageId;
       },
-    SET_USERINFO(state, userInfo) {
-      state.userInfo = userInfo;
+    SET_USERINFO(state, myPageUserInfo) {
+      state.myPageUserInfo = myPageUserInfo;
     },
   },
   actions: {
@@ -34,8 +23,8 @@ const myPageStore = {
     setPageId(context, pageId) {
         context.commit("SET_PAGEID", pageId);
     },
-    setUserInfo(context, userInfo) {
-      context.commit("SET_USERINFO", userInfo);
+    setUserInfo(context, myPageUserInfo) {
+      context.commit("SET_USERINFO", myPageUserInfo);
     },
   },
   // 저장소인 state 의 값을 외부에 노출시키는 방법
@@ -48,11 +37,13 @@ const myPageStore = {
       return state.pageId;
     },
     getUserInfo: function (state) {
-      return state.userInfo;
+      return state.myPageUserInfo;
     },
-    followingCheck: function (state, userId) {
-      console.log(this.userInfo.userId + " " + userId);
-      return true;
+    followingCheck: function (state) {
+      return (userId) => {
+        console.log(state.myPageUserInfo.userId + " " + userId)
+        return false;
+      }
     },
   },
 };

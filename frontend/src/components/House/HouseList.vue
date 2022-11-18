@@ -50,7 +50,7 @@
 
 <script>
 import BasicHeader from '@/components/common/BasicHeader.vue';
-import HouseListItem from '@/components/House/Item/HouseListItem.vue';
+import HouseListItem from '@/components/House/Module/HouseListItem.vue';
 export default {
     components: {   
         HouseListItem,

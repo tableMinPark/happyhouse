@@ -75,8 +75,8 @@
   
 <script>
 
-import ReviewList from '@/components/House/Item/ReviewList.vue';
-import ReviewRegisterModal from "@/components/Modal/ReviewRegisterModal.vue";
+import ReviewList from '@/components/House/Module/ReviewList.vue';
+import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue";
 
 import { Modal } from "bootstrap";
 

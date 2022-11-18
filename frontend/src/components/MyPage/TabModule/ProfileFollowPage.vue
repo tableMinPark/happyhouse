@@ -18,14 +18,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     data() {
         return {
             userList: null
         }
     },
+    computed: {
+        ...mapState("myPageStore", ["isMyPage", "myPageUserInfo"])
+    },
     created() {
-        console.log("read following for user");
+        console.log("read following for " + this.myPageUserInfo.userId);
         // 팔로잉 정보를 받아오는 get
         this.userList = [         
             {

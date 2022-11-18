@@ -860,3 +860,64 @@ java.sql.SQLException: Access denied for user 'happyhouse'@'59.20.195.27' (using
  java.lang.Thread.run(Thread.java:748)
 2022-11-17 17:34:17.054  INFO 1776 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
 2022-11-17 17:34:17.058  INFO 1776 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+2022-11-17 23:09:16.268  INFO 18664 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Starting HappyHouseApplication using Java 1.8.0_192 on DESKTOP-DVMJD0M with PID 18664 (C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse\bin\main started by doran in C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse)
+2022-11-17 23:09:16.269  INFO 18664 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : No active profile set, falling back to 1 default profile: "default"
+2022-11-17 23:09:16.309  INFO 18664 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-11-17 23:09:16.309  INFO 18664 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-11-17 23:09:17.376  INFO 18664 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-17 23:09:17.384  INFO 18664 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-17 23:09:17.384  INFO 18664 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-17 23:09:17.440  INFO 18664 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-17 23:09:17.440  INFO 18664 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1131 ms
+2022-11-17 23:09:18.004  INFO 18664 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-17 23:09:18.024  WARN 18664 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2022-11-17 23:09:18.029  INFO 18664 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-17 23:09:18.037  INFO 18664 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-11-17 23:09:18.108 ERROR 18664 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2022-11-17 23:11:46.303  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Starting HappyHouseApplication using Java 1.8.0_192 on DESKTOP-DVMJD0M with PID 18256 (C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse\bin\main started by doran in C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse)
+2022-11-17 23:11:46.304  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : No active profile set, falling back to 1 default profile: "default"
+2022-11-17 23:11:46.348  INFO 18256 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-11-17 23:11:46.349  INFO 18256 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-11-17 23:11:47.450  INFO 18256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-17 23:11:47.457  INFO 18256 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-17 23:11:47.458  INFO 18256 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-17 23:11:47.550  INFO 18256 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-17 23:11:47.551  INFO 18256 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1202 ms
+2022-11-17 23:11:48.123  INFO 18256 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-17 23:11:48.194  INFO 18256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-17 23:11:48.203  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Started HappyHouseApplication in 2.294 seconds (JVM running for 3.177)
+2022-11-17 23:11:50.138  INFO 18256 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-17 23:11:50.139  INFO 18256 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-17 23:11:50.140  INFO 18256 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-17 23:12:19.470  INFO 18256 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-17 23:12:19.611  INFO 18256 --- [Thread-6] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-17 23:12:19.612  INFO 18256 --- [Thread-6] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2022-11-17 23:12:19.718  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Starting HappyHouseApplication using Java 1.8.0_192 on DESKTOP-DVMJD0M with PID 18256 (C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse\bin\main started by doran in C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse)
+2022-11-17 23:12:19.718  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : No active profile set, falling back to 1 default profile: "default"
+2022-11-17 23:12:19.942  INFO 18256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-17 23:12:19.942  INFO 18256 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-17 23:12:19.943  INFO 18256 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-17 23:12:19.953  INFO 18256 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-17 23:12:19.953  INFO 18256 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 233 ms
+2022-11-17 23:12:20.070  INFO 18256 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-17 23:12:20.078  INFO 18256 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-17 23:12:20.082  INFO 18256 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Started HappyHouseApplication in 0.392 seconds (JVM running for 35.056)
+2022-11-17 23:12:20.083  INFO 18256 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-17 23:12:30.364  INFO 18256 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-17 23:12:30.366  INFO 18256 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-17 23:12:30.368  INFO 18256 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

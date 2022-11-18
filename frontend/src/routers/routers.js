@@ -18,6 +18,7 @@ const onlyAuthUser = async (to, from, next) => {
 }
 
 const beforeMyPage = (to, from, next) => {
+  console.log(store.getters["userStore/getUserInfo"])
   // 아이디, 현재방문하는 페이지의 아이디 비교
   // 스토어에 값 초기화 중
 
@@ -33,15 +34,15 @@ const beforeMyPage = (to, from, next) => {
   // 어떤 페이지를 방문하는지 확인
   store.dispatch("myPageStore/setPageId", pageId);
 
-  let userInfo;
+  let myPageUserInfo;
   // 내 페이지면 
   if (isMyPage){
-    userInfo = store.getters["userStore/getUserInfo"];
+    myPageUserInfo = store.getters["userStore/getUserInfo"];
   }
   // 친구페이지면
   else {
     // axios get user
-    userInfo = {
+    myPageUserInfo = {
       userId: 2,
       userName: "서우린",
       userRegDt: '2022-12-25',
@@ -52,7 +53,8 @@ const beforeMyPage = (to, from, next) => {
       userFollower: 20
     }  
   }
-  store.dispatch("myPageStore/setUserInfo", userInfo);
+  // myPage Store 에 초기화
+  store.dispatch("myPageStore/setUserInfo", myPageUserInfo);
   next();
 }
 
@@ -90,10 +92,10 @@ import ForgetPasswordPage from "@/components/view/ForgetPasswordPage.vue"
 
 import MyPage from '@/components/view/MyPage.vue'
 
-import NoticeBody from "@/components/NoticePage/NoticeBody.vue"
+import NoticeBody from "@/components/Notice/NoticeBody.vue"
 import NoticePage from "@/components/view/NoticePage.vue"
-import NoticeDetail from "@/components/NoticePage/NoticeDetail.vue"
-import NoticeWrite from "@/components/NoticePage/NoticeWrite.vue"
+import NoticeDetail from "@/components/Notice/NoticeDetail.vue"
+import NoticeWrite from "@/components/Notice/NoticeWrite.vue"
 
 import HouseList from "@/components/House/HouseList.vue"
 import HouseInfo from "@/components/House/HouseInfo.vue"

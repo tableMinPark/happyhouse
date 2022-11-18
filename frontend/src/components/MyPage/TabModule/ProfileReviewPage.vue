@@ -68,8 +68,10 @@
 </template>
 
 <script>
-import ReviewModifyModal from '@/components/Modal/ReviewModifyModal.vue';
-import ReviewDetailModal from "@/components/Modal/ReviewDetailModal.vue";
+import { mapState } from "vuex";
+
+import ReviewModifyModal from '@/components/common/Modal/ReviewModifyModal.vue';
+import ReviewDetailModal from "@/components/common/Modal/ReviewDetailModal.vue";
 
 import { Modal } from "bootstrap";
 
@@ -108,11 +110,15 @@ export default {
       this.reviewModifyModal.hide();
     },
   },
+    computed: {
+        ...mapState("myPageStore", ["myPageUserInfo"])
+    },
   mounted() {
     this.reviewModifyModal = new Modal(document.getElementById("reviewModifyModal"));
     this.reviewDetailModal = new Modal(document.getElementById("reviewDetailModal"));
   },  
   created() {
+    console.log("review read for " + this.myPageUserInfo.userId);
     // 리뷰 리스트 get
     this.reviewList = [
         {

@@ -27,8 +27,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ['isMyPage', 'userId'],
   data(){
     return {
       bookmarkList: null
@@ -42,9 +43,12 @@ export default {
       console.log("call deleteBookmark " + bookmarkId);
     }
   },
+    computed: {
+      ...mapState("myPageStore", ["isMyPage", "myPageUserInfo"])
+  },
   created() {
     // userId 에 해당하는 값들을 get 하는 부분
-    console.log("read Bookmark data for " + this.userId);
+    console.log("read Bookmark data for " + this.myPageUserInfo.userId);
 
     this.bookmarkList = [
       {

@@ -49,7 +49,9 @@
   </template>
   
   <script>
-  import CompnayHouseListItem from '@/components/House/Item/CompnayHouseListItem.vue';
+import { mapState } from "vuex";
+
+  import CompnayHouseListItem from '@/components/House/Module/CompnayHouseListItem.vue';
   
   export default {
   components: {
@@ -114,7 +116,10 @@
       console.log("houseInfoRegister ");
       this.searchWord = "";
     }
-  }
+  },
+    computed: {
+        ...mapState("myPageStore", ["isMyPage", "myPageUserInfo"])
+    },
   
   }
   </script>

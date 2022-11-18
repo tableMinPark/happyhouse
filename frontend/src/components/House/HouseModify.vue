@@ -118,7 +118,7 @@ import VueAlertify from "vue-alertify"
 // import http from "@/common/axios.js";
 
 import BasicHeader from "@/components/common/BasicHeader.vue"
-import DropZone from "@/components/UI/DropZone"
+import DropZone from "@/components/common/UI/DropZone"
 
 Vue.use(CKEditor).use(VueAlertify)
 

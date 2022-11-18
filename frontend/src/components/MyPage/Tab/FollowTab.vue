@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import ProfileBookmarkPage from '@/components/MyPage/TabItem/ProfileBookmarkPage.vue';
-import ProfileFollowPage from '@/components/MyPage/TabItem/ProfileFollowPage.vue';
+import ProfileBookmarkPage from '@/components/MyPage/TabModule/ProfileBookmarkPage.vue';
+import ProfileFollowPage from '@/components/MyPage/TabModule/ProfileFollowPage.vue';
 
 export default {
     props: ['isMyPage', 'userId'],

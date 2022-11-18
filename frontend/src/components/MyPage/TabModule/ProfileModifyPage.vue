@@ -38,6 +38,8 @@
   </template>
   
   <script>
+  import { mapState } from "vuex";
+
   export default {
     data() {    
         return {
@@ -59,13 +61,18 @@
       }
     },
     created() {
-      const userInfo = this.$store.state.userInfo;
+      const userInfo = this.myPageUserInfo;
       this.userEmail = userInfo.userEmail;
       this.userName = userInfo.userName;
       this.userAddress = userInfo.userAddress;
       this.userTel = userInfo.userTel;
       this.userProfileImageUrl = userInfo.userProfileImageUrl;
+    },
+    computed: {
+        ...mapState("myPageStore", ["myPageUserInfo"])
     }
+
+
   }
   </script>
   

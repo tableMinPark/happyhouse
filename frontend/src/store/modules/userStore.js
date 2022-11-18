@@ -8,13 +8,12 @@ const userStore = {
       userRegDt: "2022-12-24",
       userAddress: "부산시 강서구 송정동 1627-5",
       userTel: "010-5793-2055",
-      userCode: 200,
+      userCode: 100,
       userCodeName: "일반회원",
       userProfileImageUrl: `http://${location.host}/assets/images/user/9.jpg`,
       userFollowing: 1,
       userFollower: 2,
     },
-
 
     // MyPage   
     isMyPage: false,

@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import ProfileModifyPage from '@/components/MyPage/TabItem/ProfileModifyPage.vue';
-import ProfileHouseListPage from '@/components/MyPage/TabItem/ProfileHouseListPage.vue';
+import ProfileModifyPage from '@/components/MyPage/TabModule/ProfileModifyPage.vue';
+import ProfileHouseListPage from '@/components/MyPage/TabModule/ProfileHouseListPage.vue';
 
 export default {
     components: {        
