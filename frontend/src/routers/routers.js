@@ -17,46 +17,6 @@ const onlyAuthUser = async (to, from, next) => {
   }
 }
 
-const beforeMyPage = (to, from, next) => {
-  console.log(store.getters["userStore/getUserInfo"])
-  // 아이디, 현재방문하는 페이지의 아이디 비교
-  // 스토어에 값 초기화 중
-
-  // 현재 방문하는 페이지의 ID
-  const pageId = to.params.userId;
-  // 현재 로그인한 회원의 ID
-  const userId = store.getters["userStore/getUserId"];
-  // 두개 비교해서 Store 에 값 갱신
-  const isMyPage =  pageId == userId;
-
-  // 내 페이지인지 확인
-  store.dispatch("myPageStore/setIsMyPage", isMyPage);
-  // 어떤 페이지를 방문하는지 확인
-  store.dispatch("myPageStore/setPageId", pageId);
-
-  let myPageUserInfo;
-  // 내 페이지면 
-  if (isMyPage){
-    myPageUserInfo = store.getters["userStore/getUserInfo"];
-  }
-  // 친구페이지면
-  else {
-    // axios get user
-    myPageUserInfo = {
-      userId: 2,
-      userName: "서우린",
-      userRegDt: '2022-12-25',
-      userCode: 200,
-      userCodeName: '기업회원',
-      userProfileImageUrl: `http://${location.host}/assets/images/user/8.jpg`,
-      userFollowing: 10,
-      userFollower: 20
-    }  
-  }
-  // myPage Store 에 초기화
-  store.dispatch("myPageStore/setUserInfo", myPageUserInfo);
-  next();
-}
 
 // const onlyAuthUser = async (to, from, next) => {
 //   const checkUserInfo = store.getters["memberStore/checkUserInfo"];
@@ -145,7 +105,6 @@ const routes = [
   {
       path: '/profile/:userId',
       name: "myPage",
-      beforeEnter: beforeMyPage,
       component: MyPage
   },
 
