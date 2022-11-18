@@ -18,9 +18,9 @@ public class NoticeDto {
 	private int boardId;
 	private int userId;
 	private String userName;
-	private String title;
-	private String content;
-	private LocalDateTime regDt;
+	private String boardTitle;
+	private String boardContent;
+	private LocalDateTime boardRegDt;
 	private int readCount;
 	private boolean important;
 	private boolean sameUser;

@@ -6,7 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +48,9 @@ public class NoticeController {
 	
 	/*상세*/
 	@GetMapping("/notice/{noticeId}")
-	public ResponseEntity<NoticeResultDto> noticeDetail(@RequestParam int noticeId){
+	public ResponseEntity<NoticeResultDto> noticeDetail(@PathVariable int noticeId){
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
+		System.out.println(noticeId);
 		try {
 			noticeResultDto = service.detail(noticeId);
 		}catch(Exception e) {
@@ -58,8 +62,9 @@ public class NoticeController {
 	
 	/*등록*/
 	@PostMapping("/notice")
-	public ResponseEntity<NoticeResultDto> noticeInsert(NoticeDto noticeDto){
+	public ResponseEntity<NoticeResultDto> noticeInsert(@RequestBody NoticeDto noticeDto){
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
+		System.out.println(noticeDto);
 		try {
 			noticeResultDto = service.insert(noticeDto);
 		}catch(Exception e) {
@@ -71,10 +76,11 @@ public class NoticeController {
 	
 	/*수정*/
 	@PostMapping("/notice/{noticeId}")
-	public ResponseEntity<NoticeResultDto> noticeUpdate(@RequestParam int noticeId,NoticeDto noticeDto){
+	public ResponseEntity<NoticeResultDto> noticeUpdate(@PathVariable int noticeId,@RequestBody NoticeDto noticeDto){
+		System.out.println("call notice update : " + noticeDto); 
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
 		try {
-			noticeResultDto = service.update(noticeId,noticeDto);
+			noticeResultDto = service.update(noticeDto);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -84,7 +90,7 @@ public class NoticeController {
 	
 	/*삭제*/
 	@DeleteMapping("/notice/{noticeId}")
-	public ResponseEntity<NoticeResultDto> noticeDelete(@RequestParam int noticeId){
+	public ResponseEntity<NoticeResultDto> noticeDelete(@PathVariable int noticeId){
 		NoticeResultDto noticeResultDto = new NoticeResultDto();
 		try {
 			noticeResultDto = service.delete(noticeId);

@@ -55,6 +55,9 @@ import Vue from "vue";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import VueAlertify from "vue-alertify";
+import { writeArticle } from "@/api/notice";
+import { mapState } from "vuex";
+// import userStore from "@/store/modules/userStore";
 // import http from "@/common/axios.js";
 Vue.use(CKEditor).use(VueAlertify);
 export default {
@@ -74,38 +77,23 @@ export default {
     },
 
     noticeInsert() {
-      // let formData = new FormData();
-      // formData.append("title", this.title);
-      // formData.append("content", this.CKEditor.getData());
-
-      // let attachFiles = document.querySelector("#inputFileUploadInsert").files;
-      // if (attachFiles.length > 0) {
-      //   const fileArray = Array.from(attachFiles);
-      //   fileArray.forEach((file) => formData.append("file", file));
-      // }
-
-      // let options = {
-      //   headers: { "Content-Type": "multiple/form-data" },
-      // };
-
-      // try {
-      //   let response = await http.post("/boards", formData, options);
-      //   let { data } = response;
-      //   console.log(data);
-      //   //interceptor session check fail
-      //   if (data.result == "login") {
-      //     this.$router.push("/login");
-      //   } else {
-      //     //등록 성공
-      //     this.$alertify.success("글이 등록되었습니다.");
-      //     this.closeModal();
-      //   }
-
-      // } catch (error) {
-      //   this.$alertify.error("문제가 발생했습니다.");
-      //   console.error(error);
-      // }
-      this.closeModal();
+      let params = {
+        userId: this.userInfo.userId,
+        boardTitle: this.title,
+        boardContent: this.CKEditor.getData(),
+        important: this.important,
+      };
+      // console.log(params);
+      writeArticle(
+        params,
+        ({ data }) => {
+          console.log(data);
+          this.closeModal();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     closeModal() {
       console.log(
@@ -116,6 +104,9 @@ export default {
         "important : ",
         this.important
       );
+      this.title = "";
+      this.CKEditor.setData("");
+      this.important = false;
       this.$emit("call-parent");
     },
   },
@@ -135,6 +126,9 @@ export default {
       // 현 시점의 this 는 event cjflwk , vue component가 아니다.
       $this.initUI();
     });
+  },
+  computed: {
+    ...mapState("userStore", ["userInfo"]),
   },
 };
 </script>

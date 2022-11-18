@@ -18,6 +18,6 @@ public interface NoticeDao {
 	
 	NoticeDto noticeDetail(int noticeId);
 	int noticeInsert(NoticeDto noticeDto);
-	int noticeUpdate(int noticeId,NoticeDto noticeDto);
+	int noticeUpdate(NoticeDto noticeDto);
 	int noticeDelete(int noticeId);
 }

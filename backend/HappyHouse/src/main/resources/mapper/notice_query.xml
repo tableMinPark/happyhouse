@@ -4,7 +4,7 @@
 
 	<select id ="noticeSelect" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
 		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
-		  from board limit #{limit} offset #{offset}
+		  from board ORDER BY board_id DESC limit #{limit} offset #{offset}
 	</select>
 	
 	<select id ="noticeCount" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="int">
@@ -16,6 +16,9 @@
 		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
 		  from board 
 		 where board_title like CONCAT('%', #{searchWord} ,'%')
+		 <if test = 'searchType.equals("TW")'>
+		  	or user_id = (select user_id from users where user_name = #{searchWord})
+		  </if>
 		  limit #{limit} offset #{offset}
 	</select>
 	<select id ="noticeCountSearchWord" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="int">
@@ -23,7 +26,7 @@
 		  from board 
 		 where board_title like CONCAT('%', #{searchWord} ,'%')
 		  <if test = 'searchType.equals("TW")'>
-		  	or user_id = (select user_name from users where user_id = #{userId})
+		  	or user_id = (select user_id from users where user_name = #{searchWord})
 		  </if>
 	</select>
 	
@@ -35,13 +38,13 @@
 	
 	<insert id="noticeInsert" parameterType="com.happyhouse.api.notice.dto.NoticeDto">
 		insert into board ( board_id, user_id,board_title, board_content, board_reg_dt, board_read_count )
-		            VALUES ( #{boardId},#{userId}, #{title}, #{content}, now(), 0 )
+		            VALUES ( #{boardId},#{userId}, #{boardTitle}, #{boardContent}, now(), 0 )
 	</insert>
 	
 	<update id="noticeUpdate" parameterType="com.happyhouse.api.notice.dto.NoticeDto">
 		update board
-		   set board_title = #{title},
-		   board_content = #{content}
+		   set board_title = #{boardTitle},
+		   board_content = #{boardContent}
 		 where board_id = #{boardId}
 	</update>
 	

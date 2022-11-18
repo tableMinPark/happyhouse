@@ -2,32 +2,62 @@
   <div>
     <div class="card">
       <div class="card-header pb-0">
-        <h5>{{ noticeId }}번 공지</h5>
+        <h5>{{ title }}</h5>
         <div style="float: right">
-          <small> 작성자 : {{ writer }} | 작성 일시 : 2022-11-15</small>
+          <small> 작성자 : {{ writer }} | 작성 일시 : {{ date }}</small>
         </div>
       </div>
 
       <div class="card-body">
-        {{ content }}
+        <div v-html="content"></div>
       </div>
     </div>
     <div style="float: right">
-      <button @click="showUpdateModal" type="button" class="btn btn-square btn-outline-primary btn-sm">수정</button>
-      <button @click="$router.push('/notice')" type="button" class="btn btn-square btn-outline-primary btn-sm">목록</button>
-      <button :class="{ deleteNotice: false }" @click="$router.push('/notice')" type="button" class="btn btn-square btn-outline-primary btn-sm">삭제</button>
+      <button
+        @click="showUpdateModal"
+        type="button"
+        class="btn btn-square btn-outline-primary btn-sm"
+      >
+        수정
+      </button>
+      <button
+        @click="$router.push('/notice')"
+        type="button"
+        class="btn btn-square btn-outline-primary btn-sm"
+      >
+        목록
+      </button>
+      <button
+        :class="{ deleteNotice: false }"
+        @click="deleteNotice"
+        type="button"
+        class="btn btn-square btn-outline-primary btn-sm"
+      >
+        삭제
+      </button>
     </div>
-    <notice-update :noticeId="noticeId" :title="title" :content="content" :important="important"></notice-update>
+    <notice-update
+      :noticeId="noticeId"
+      :title="title"
+      :content="content"
+      :important="important"
+      @call-parent-update="closeUpdate"
+    ></notice-update>
   </div>
 </template>
 
 <script>
-import NoticeUpdate from "@/components/Notice/NoticeUpdate.vue"
-import { Modal } from "bootstrap"
+import NoticeUpdate from "@/components/Notice/NoticeUpdate.vue";
+import { Modal } from "bootstrap";
+import { getArticle, deleteArticle } from "@/api/notice";
+import Vue from "vue";
+import alertify from "vue-alertify";
+
+Vue.use(alertify);
 export default {
   data() {
     return {
-      title: "123",
+      title: "",
       noticeId: "",
       writer: "",
       content: "",
@@ -35,24 +65,64 @@ export default {
       important: "",
 
       updateModal: null,
-    }
+    };
   },
   components: {
     NoticeUpdate,
   },
   methods: {
     showUpdateModal() {
-      this.updateModal.show()
+      this.updateModal.show();
+    },
+    getDetail() {
+      getArticle(
+        this.noticeId,
+        ({ data }) => {
+          console.log(data.dto);
+          this.title = data.dto.boardTitle;
+          this.writer = data.dto.userId;
+          this.content = data.dto.boardContent;
+          this.date = data.dto.boardRegDt;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    },
+    closeUpdate() {
+      this.updateModal.hide();
+      this.getDetail();
+    },
+
+    deleteNotice() {
+      this.$alertify.confirm(
+        "공지를 삭제하시겠습니까?",
+        () => {
+          deleteArticle(
+            this.noticeId,
+            () => {
+              console.log("삭제 완료");
+              this.$router.push("/notice");
+            },
+            (error) => {
+              console.error(error);
+            }
+          );
+          this.$alertify.success("삭제완료");
+        },
+        () => {
+          this.$alertify.error("취소되었습니다.");
+        }
+      );
     },
   },
   mounted() {
-    this.updateModal = new Modal(document.querySelector("#updateModal"))
-    this.noticeId = this.$route.params.noticeId
+    this.updateModal = new Modal(document.querySelector("#updateModal"));
+    this.noticeId = this.$route.params.noticeId;
     //query
-    this.writer = this.noticeId + "번 관리자"
-    this.content = this.noticeId + "번 관리자가 작성한 글입니다."
+    this.getDetail();
   },
-}
+};
 </script>
 
 <style>

@@ -8,6 +8,6 @@ public interface NoticeService {
 	NoticeResultDto list(NoticeParamDto noticeParamDto);
 	NoticeResultDto detail(int noticeId);
 	NoticeResultDto insert(NoticeDto noticeDto);
-	NoticeResultDto update(int noticeId,NoticeDto noticeDto);
+	NoticeResultDto update(NoticeDto noticeDto);
 	NoticeResultDto delete(int noticeId);
 }

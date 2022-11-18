@@ -19,10 +19,10 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public NoticeResultDto list(NoticeParamDto noticeParamDto) {
 		NoticeResultDto ret = new NoticeResultDto();
-		if(noticeParamDto.getSearchWord() == null) {
+		if(noticeParamDto.getSearchWord().equals("")) {
 			List<NoticeDto> res = dao.noticeSelect(noticeParamDto);
 			int count = dao.noticeCount();
-			System.out.println(res + " "+ count);
+			
 			ret.setList(res);
 			ret.setCount(count);
 		}else {
@@ -52,9 +52,9 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public NoticeResultDto update(int noticeId, NoticeDto noticeDto) {
+	public NoticeResultDto update(NoticeDto noticeDto) {
 		NoticeResultDto ret = new NoticeResultDto();
-		int res = dao.noticeUpdate(noticeId,noticeDto);
+		int res = dao.noticeUpdate(noticeDto);
 		ret.setResult(res);
 		return ret;
 	}
