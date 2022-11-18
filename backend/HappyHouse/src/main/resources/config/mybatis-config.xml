@@ -9,5 +9,6 @@
 
 	<mappers>
 		<mapper resource="mapper/notice_query.xml" />
+		<mapper resource="mapper/user_query.xml" />
 	</mappers>
 </configuration>

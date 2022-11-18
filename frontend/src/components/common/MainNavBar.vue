@@ -13,15 +13,13 @@
 
     <div v-else class="sidebar-user text-center">
       <img class="img-90 rounded-circle" :src="noProfileImageUrl" alt="">
-      <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
-        <h6 class="mt-3 f-14 f-w-600">로그인이 필요합니다.</h6>
-      </a>
-      <p class="mt-2 mb-0">
-        <button class="btn btn-primary-light" type="button">
+      <h6 class="mt-3 f-14">로그인이 필요합니다.</h6>
+      <p class="mt-2">
           <router-link to="/login">
-            <feather type="log-out" size="18" />Log in
+            <div class="btn btn-primary-light" type="button">
+              <feather type="log-out" size="12" />Log in
+            </div>
           </router-link>
-        </button>
       </p>
     </div>
 
