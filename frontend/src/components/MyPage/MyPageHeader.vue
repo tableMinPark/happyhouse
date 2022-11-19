@@ -6,13 +6,13 @@
             <div class="text-center profile-details m-3 mb-0">
                 <h4>{{ myPageUserInfo.userName }}</h4>
                 <h6 class="mb-2">{{ myPageUserInfo.userRegDt }}</h6>
-                <h6>{{ myPageUserInfo.userCodeName }}</h6>
+                <h6>{{ myPageUserInfo.code }}</h6>
                 <!-- 친구페이지를 방문했을 때 -->
                 <div v-if="!isMyPage">
-                    <button v-if="!followingCheck(userInfo.userId)" class="btn btn-primary mb-4">
+                    <button v-if="!isFollowing" @click="follow(userInfo.userId)" class="btn btn-primary mb-4">
                         <span>Follow</span>
                     </button>
-                    <button v-else class="btn btn-primary mb-4">
+                    <button v-else @click="unFollow(userInfo.userId)" class="btn btn-primary mb-4">
                         <span>Unfollow</span>
                     </button>
                 </div>
@@ -21,11 +21,11 @@
             <div class="card-footer row">
                 <div class="col-6 col-sm-6">
                     <h6>Following</h6>
-                    <h3 class="counter">{{ myPageUserInfo.userFollowing }}</h3>
+                    <h3 class="counter">{{ myPageUserInfo.following }}</h3>
                 </div>
                 <div class="col-6 col-sm-6">
                     <h6>Follwer</h6>
-                    <h3 class="counter">{{ myPageUserInfo.userFollower }}</h3>
+                    <h3 class="counter">{{ myPageUserInfo.follower }}</h3>
                 </div>
             </div>
         </div>
@@ -34,13 +34,20 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
     computed: {
         ...mapState("userStore", ["userInfo"]),
-        ...mapState("myPageStore", ["isMyPage", "myPageUserInfo"]),
-        ...mapGetters("myPageStore", ["followingCheck"]),
+        ...mapState("myPageStore", ["isMyPage", "myPageUserInfo", "isFollowing"]),
+    },
+    methods: {
+        ...mapActions("myPageStore", ["followingCheck", "follow", "unFollow"])
+    },
+    watch: {
+        async myPageUserInfo() {
+            await this.followingCheck(this.userInfo.userId);
+        }
     }
 }
 </script>

@@ -1,14 +1,18 @@
-import jwtDecode from "jwt-decode";
-import router from "@/routers/routers";
-import { login, getUserInfo, tokenRegeneration, logout } from "@/api/user";
+import { login, findById, tokenRegeneration, logout } from "@/api/user";
 
-const userStore = {
+const commonStore = {
   namespaced: true,
   state: {
     isLogin: false,
     isLoginError: false,
     userInfo: null,
     isValidToken: false,
+
+    // MyPage
+    isMyPage: false,
+    pageId: "",
+
+    noProfileImageUrl: `http://${location.host}/assets/images/dashboard/1.png`,
   },
   mutations: {    
     SET_IS_LOGIN: (state, isLogin) => {
@@ -21,11 +25,24 @@ const userStore = {
       state.isValidToken = isValidToken;
     },
     SET_USER_INFO(state, userInfo) {
-      state.userInfo = {...userInfo};
-    }
+      state.isLogin = true;
+      state.userInfo = userInfo;
+    },
+    SET_IS_MYPAGE(state, isMyPage, pageId) {
+      state.isMyPage = isMyPage;
+      state.pageId = pageId;
+    },
   },
   actions: {
-    // 토큰발급
+    // context = Vuex
+    setUserInfo({ commit }, userInfo) {
+      commit("SET_USER_INFO", userInfo);
+    },
+    setIsMyPage({ commit }, isMyPage, pageId) {
+      commit("SET_IS_MYPAGE", isMyPage, pageId);
+    },
+
+    // 토큰발금
     async userConfirm({ commit }, user) {
       // 로그인시 토큰만 받아옴
       await login(
@@ -55,12 +72,13 @@ const userStore = {
           console.log(error);
         }
       );
-    },    
+    },
+    
     // 유저정보가져옴
     async getUserInfo({ commit, dispatch }, token) {
       let decodeToken = jwtDecode(token);
 
-      await getUserInfo(
+      await findById(
         decodeToken.userid,
         // 성공시 콜백
         ({ data }) => {
@@ -78,6 +96,7 @@ const userStore = {
         }
       );
     },
+
     // 토큰 갱신
     async tokenRegeneration({ commit, state }) {
 
@@ -120,35 +139,11 @@ const userStore = {
         }
       );
     },
-    // 로그아웃
-    async userLogout({ commit }, userid) {
-      await logout(
-        userid,
-        ({ data }) => {
-          if (data.message === "success") {
-            commit("SET_USER_INFO", null);
-            commit("SET_IS_LOGIN", false);
-            commit("SET_IS_VALID_TOKEN", false);
-          } else {
-            console.log("유저 정보 없음!!!!");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    },
   },
   // 저장소인 state 의 값을 외부에 노출시키는 방법
   // 그대로 또는 state 의 데이터의 변형을 처리한 후 결과를 return <== getters 는 return 이 있는 메소드들
   getters: {
-    checkUserInfo: function (state) {
-      return state.userInfo;
-    },
-    checkToken: function (state) {
-      return state.isValidToken;
-    },
-  }
+  },
 };
 
-export default userStore;
+export default commonStore;

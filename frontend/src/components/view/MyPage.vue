@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 import BasicHeader from '@/components/common/BasicHeader.vue';
 import MyPageBody from '@/components/MyPage/MyPageBody.vue';
@@ -22,7 +22,22 @@ export default {
     MyPageBody
   },
   computed: {
-    ...mapState("myPageStore", ["isMyPage"]),
+    ...mapState("userStore", ["userInfo"]),
+    ...mapState("myPageStore", ["isMyPage", "pageId"]),
+  },
+  methods: {
+      ...mapActions("myPageStore", ["setMyPageInit"]),
+  },
+  async created() {
+      await this.setMyPageInit({
+        pageId: parseInt(this.$route.params.userId), 
+        userInfo: this.userInfo
+      });
+
+      // 조회된 유저 없음 (마이페이지가 없음)
+      if (this.pageId === null) {
+        this.$router.push({name: "main"});
+      }
   }
 }
 </script>

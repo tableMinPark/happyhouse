@@ -3,7 +3,7 @@
 <mapper namespace="com.happyhouse.api.user.dao.UserDao">
 	
 	<select id ="login" parameterType="com.happyhouse.api.user.dto.UserDto" resultType="com.happyhouse.api.user.dto.UserDto">
-		select user_id, user_email, user_password, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code, token
+		select user_id
 		  from users
 		 where user_email = #{userEmail}
 		   and user_password = #{userPassword}
@@ -14,8 +14,10 @@
 		          values ( #{userEmail},#{userPassword}, #{userName}, #{userAddress}, #{userTel}, #{code}, #{auth_code})
 	</insert>
 	
-	<select id ="getUserInfo" parameterType="com.happyhouse.api.user.dto.UserDto" resultType="com.happyhouse.api.user.dto.UserDto">
-		select user_id, user_email, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code
+	<select id ="getUserInfo" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id, user_email, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code, 
+			( select count(follow_id) from follow where user_id_from = #{userId} ) as following, 
+			( select count(follow_id) from follow where user_id_to = #{userId} ) as follower 
 		  from users
 		 where user_id = #{userId}
 	</select>

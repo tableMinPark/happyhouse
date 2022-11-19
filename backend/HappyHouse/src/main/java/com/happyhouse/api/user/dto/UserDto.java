@@ -27,4 +27,6 @@ public class UserDto {
 	private String token;
 	private boolean auth;
 	private String auth_code;
+	private int following;
+	private int follower;
 }

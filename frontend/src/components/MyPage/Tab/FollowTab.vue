@@ -9,7 +9,7 @@
             </ul>
             <div class="tab-content" id="pills-icontabContent">
                 <div class="tab-pane fade active show" id="bookmark" role="tabpanel" aria-labelledby="pills-iconhome-tab">
-                    <profile-bookmark-page v-if="tabSelect == 1" :isMyPage="isMyPage" :userId="userId"></profile-bookmark-page>
+                    <profile-bookmark-page v-if="tabSelect == 1"></profile-bookmark-page>
                     <profile-follow-page v-if="tabSelect == 2"></profile-follow-page>
                 </div>
             </div>
@@ -24,7 +24,6 @@ import ProfileBookmarkPage from '@/components/MyPage/TabModule/ProfileBookmarkPa
 import ProfileFollowPage from '@/components/MyPage/TabModule/ProfileFollowPage.vue';
 
 export default {
-    props: ['isMyPage', 'userId'],
     components: {
         ProfileBookmarkPage,
         ProfileFollowPage

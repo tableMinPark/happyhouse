@@ -5,13 +5,13 @@
     <div class="form-group">
       <label>Email</label>
       <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-        <input class="form-control" type="email" placeholder="your-email@domain.com" v-model="userEmail">
+        <input class="form-control" type="email" placeholder="your-email@domain.com" v-model="userInfo.userEmail">
       </div>
     </div>
     <div class="form-group">
       <label>Password</label>
       <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-        <input class="form-control" type="password" placeholder="*********" v-model="userPassword">
+        <input class="form-control" type="password" placeholder="*********" v-model="userInfo.userPassword">
       </div>
     </div>
     <div class="form-group">
@@ -26,17 +26,31 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return{
-      userEmail: '',
-      userPassword: ''
+      userInfo: {
+        userEmail: '',
+        userPassword: ''
+      }
     }
   },
+  computed: {
+    ...mapState("userStore", ["isLogin", "isLoginError"]),
+  },
   methods: {
-    login() {
-      console.log("login " + this.userEmail + " " + this.userPassword);
-      // this.$router.push('/');
+    ...mapActions("userStore", ["userConfirm", "getUserInfo"]),
+
+    async login() {
+      await this.userConfirm(this.userInfo);
+      let token = sessionStorage.getItem("access-token");
+      
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        this.$router.push({ name: "main" });
+      }
     }
   }
 }

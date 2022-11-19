@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,6 @@ import com.happyhouse.api.user.service.UserService;
 	allowedHeaders = "*", 
 	methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.HEAD,RequestMethod.OPTIONS}
 )
-
 @RequestMapping("/user")
 public class UserController {
 
@@ -41,19 +41,19 @@ public class UserController {
 	private JwtServiceImpl jwtService;
 	
 	@Autowired
-	UserService service;
+	private UserService service;
 
 	/* 로그인 */
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(UserDto userDto){
+	public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto){
+		
+		System.out.println(userDto);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		
 		try {			
 			userDto = service.login(userDto);
-			
-			System.out.println(userDto);
 			
 			if (userDto != null) {
 				String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());// key, data
@@ -62,7 +62,6 @@ public class UserController {
 				resultMap.put("access-token", accessToken);
 				resultMap.put("refresh-token", refreshToken);
 				resultMap.put("message", SUCCESS);
-				resultMap.put("userInfo", userDto);
 				status = HttpStatus.ACCEPTED;
 				
 			} else {
@@ -78,8 +77,10 @@ public class UserController {
 	}
 	
 	/* 로그아웃 */
-	@PostMapping("/logout/{userId}")
+	@GetMapping("/logout/{userId}")
 	public ResponseEntity<Map<String, Object>> logout(@PathVariable("userId") int userId){
+		
+		System.out.println(userId);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -125,10 +126,10 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
+	
 	/* 토큰갱신  */
 	@PostMapping("/refresh")
-	public ResponseEntity<?> refreshToken(UserDto userDto, HttpServletRequest request) throws Exception {
+	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		
@@ -157,7 +158,7 @@ public class UserController {
 
 	/* 회원가입  */
 	@PostMapping("/register")
-	public ResponseEntity<Map<String, Object>> register(UserDto userDto){
+	public ResponseEntity<Map<String, Object>> register(@RequestBody UserDto userDto){
 
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -182,7 +183,7 @@ public class UserController {
 
 	/* 비밀번호찾기  */
 	@PostMapping("/forget_password")
-	public ResponseEntity<Map<String, Object>> forgetPassword (UserDto userDto){
+	public ResponseEntity<Map<String, Object>> forgetPassword (@RequestBody UserDto userDto){
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
