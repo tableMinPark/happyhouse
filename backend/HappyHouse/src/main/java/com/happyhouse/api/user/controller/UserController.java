@@ -157,6 +157,35 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	/* 회원정보 수정 */
+	@PostMapping("/modify")
+	public ResponseEntity<Map<String, Object>> modify (@RequestBody UserDto userDto){
+		
+		System.out.println(userDto);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		
+		try {
+			
+			int ret = service.modify(userDto);
+			
+			if (ret == 1) {
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;				
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;				
+			}			
+			
+		} catch (Exception e) {
+			logger.error("회원정보수정 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 	/* 회원가입  */
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> register(@RequestBody UserDto userDto){
@@ -205,37 +234,7 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	/* 회원정보 수정 */
-	@PostMapping("/modify")
-	public ResponseEntity<Map<String, Object>> modify (@RequestBody UserDto userDto){
 		
-		System.out.println(userDto);
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		
-		try {
-			
-			int ret = service.modify(userDto);
-			
-			if (ret == 1) {
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;				
-			} else {
-				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;				
-			}			
-			
-		} catch (Exception e) {
-			logger.error("회원정보수정 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-	
-
 	/* 비밀번호찾기  */
 	@PostMapping("/forgetPassword")
 	public ResponseEntity<Map<String, Object>> forgetPassword (@RequestBody UserDto userDto){

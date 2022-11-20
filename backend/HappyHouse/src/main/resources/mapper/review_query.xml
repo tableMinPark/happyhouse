@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.happyhouse.api.review.dao.ReviewDao">
+	
+	<select id ="getReviewList" parameterType="int" resultType="com.happyhouse.api.review.dto.ReviewDto">
+		select review_id, user_id, house_id, review_content, review_reg_dt, 
+				review_trafic_rating, review_safety_rating, review_store_rating
+		  from review
+		 where user_id = #{userId}
+	</select>
+		
+	<insert id="registReview" parameterType="com.happyhouse.api.review.dto.ReviewDto">
+		insert into review ( user_id, house_id, review_content, review_trafic_rating, review_safety_rating, review_store_rating )
+			        values ( #{userId}, #{houseId}, #{reviewContent}, #{ReviewTraficRating}, #{ReviewSafefyRating}, #{ReviewStoreRating} )		
+	</insert>
+	
+	<delete id="deleteReview" parameterType="int">
+		delete from review
+			  where reviewId = #{reviewId}
+	</delete>	
+	
+	<update id="modifyReview" parameterType="com.happyhouse.api.review.dto.ReviewDto">
+		update review
+		   set review_content = #{reviewContent},
+		   	   review_trafic_rating = #{ReviewTraficRating}
+		   	   review_safety_rating = #{ReviewSafefyRating}
+		   	   review_store_rating = #{ReviewStoreRating}
+	</update>
+</mapper>

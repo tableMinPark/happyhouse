@@ -11,5 +11,7 @@
 		<mapper resource="mapper/notice_query.xml" />
 		<mapper resource="mapper/user_query.xml" />
 		<mapper resource="mapper/follow_query.xml" />
+		<mapper resource="mapper/bookmark_query.xml" />
+		<mapper resource="mapper/review_query.xml" />
 	</mappers>
 </configuration>

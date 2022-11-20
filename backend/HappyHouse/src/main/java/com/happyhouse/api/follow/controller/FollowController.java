@@ -107,7 +107,6 @@ public class FollowController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-
 	
 	/* 팔로우 */
 	@PostMapping("/register")

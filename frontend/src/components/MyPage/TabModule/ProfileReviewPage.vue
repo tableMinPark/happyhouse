@@ -56,7 +56,7 @@
             </div>
           </td>
           <td><a @click="showReviewModify(review)"><feather  class="me-3" type="edit" size="20"/></a></td>
-          <td><a @click="reviewDelete(review.reviewId)"><feather type="trash" size="20"/></a></td>
+          <td><a @click="deleteReview(review.reviewId)"><feather type="trash" size="20"/></a></td>
         </tr>
       </tbody>      
     </table>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import ReviewModifyModal from '@/components/common/Modal/ReviewModifyModal.vue';
 import ReviewDetailModal from "@/components/common/Modal/ReviewDetailModal.vue";
@@ -89,11 +89,7 @@ export default {
     }
   },
   methods: {
-    // Delete Review
-    reviewDelete(reviewId) {
-      console.log("call reviewDelete " + reviewId);
-    },
-    // Detail Modal show/hide
+    ...mapActions("myPageStore", ["deleteReview"]),
     showReviewDetail(review){
       this.selectedReview = review;
       this.reviewDetailModal.show(); 
@@ -101,7 +97,6 @@ export default {
     closeReviewDetail(){
       this.reviewDetailModal.hide();
     },
-    // Modify Modal show/hide
     showReviewModify(review) { 
       this.selectedReview = review;
       this.reviewModifyModal.show();      
@@ -111,42 +106,14 @@ export default {
     },
   },
     computed: {
-        ...mapState("myPageStore", ["myPageUserInfo"])
+        ...mapState("myPageStore", ["reivewList"])
     },
   mounted() {
     this.reviewModifyModal = new Modal(document.getElementById("reviewModifyModal"));
     this.reviewDetailModal = new Modal(document.getElementById("reviewDetailModal"));
   },  
-  created() {
-    console.log("review read for " + this.myPageUserInfo.userId);
-    // 리뷰 리스트 get
-    this.reviewList = [
-        {
-          reviewId: 10,
-          reviewContent: "넘흐 좋아용",
-          reviewRegDt: '2022-12-31',
-          reviewTraficRating: 3,
-          reviewSafetyRating: 4,
-          reviewStoreRating: 5,
-
-          house: {
-            houseId: 1,
-            houseName: '삼정 그린코아',
-            houseBuildYear: '2022',
-            lat: 12.4,
-            lng: 30.1,
-            sidoCode: '1',
-            sidoName: '부산시',
-            gugunCode: '2',
-            gugunName: '강서구',
-            dongCode: '3',
-            dongName: '송정동',
-            jibun: '1627-5',
-            houseCode: '100',
-            houseCodeName: '아파트'
-          }
-        }
-    ]
+  async created() {
+    await this.getReviewList();
   }
 }
 </script>
