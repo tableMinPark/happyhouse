@@ -11,6 +11,8 @@ import com.happyhouse.api.user.dto.UserDto;
 public interface UserDao {	
 	UserDto login(UserDto userDto);
 	int register(UserDto userDto);
+	int emailCheck(String userEmail);
+	int modify(UserDto userDto);
 	UserDto getUserInfo(int userId);
 	int forgetPassword(UserDto userDto);
 	UserDto emailAuthCheck(String authCode);

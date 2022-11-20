@@ -3,7 +3,7 @@
 <mapper namespace="com.happyhouse.api.user.dao.UserDao">
 	
 	<select id ="login" parameterType="com.happyhouse.api.user.dto.UserDto" resultType="com.happyhouse.api.user.dto.UserDto">
-		select user_id
+		select user_id, auth
 		  from users
 		 where user_email = #{userEmail}
 		   and user_password = #{userPassword}
@@ -13,6 +13,20 @@
 		insert into users ( user_email, user_password, user_name, user_address, user_tel, code, auth_code)
 		          values ( #{userEmail},#{userPassword}, #{userName}, #{userAddress}, #{userTel}, #{code}, #{auth_code})
 	</insert>
+	
+	<select id ="emailCheck" parameterType="string" resultType="int">
+		select count(user_email)
+		  from users
+		 where user_email = #{userEmail}
+	</select>
+	
+	<update id ="modify" parameterType="com.happyhouse.api.user.dto.UserDto">
+		update users
+		   set user_password = #{userPassword},
+		       user_address = #{userAddress},
+		       user_tel = #{userTel}
+	     where user_id = #{userId}
+	</update>
 	
 	<select id ="getUserInfo" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
 		select user_id, user_email, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code, 

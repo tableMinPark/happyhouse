@@ -5,13 +5,13 @@
     <div class="form-group">
       <label>Email</label>
       <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-        <input class="form-control" type="email" placeholder="your-email@domain.com" v-model="userInfo.userEmail">
+        <input class="form-control" type="email" placeholder="your-email@domain.com" :class="{'input-error': isEmail}" v-model="user.userEmail">
       </div>
     </div>
     <div class="form-group">
       <label>Password</label>
       <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-        <input class="form-control" type="password" placeholder="*********" v-model="userInfo.userPassword">
+        <input class="form-control" type="password" placeholder="*********" :class="{'input-error': isPassword}" v-model="user.userPassword">
       </div>
     </div>
     <div class="form-group">
@@ -21,41 +21,50 @@
       <router-link to="/forgetPassword" class="link">비밀번호찾기</router-link>
       <router-link to="/register" class="link me-2">회원가입</router-link>
     </div>
-    
   </form>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+
+import { mapActions } from "vuex";
 
 export default {
   data() {
-    return{
-      userInfo: {
+    return {
+      user: {
         userEmail: '',
         userPassword: ''
-      }
+      },
+      isEmail: false,
+      isPassword: false
     }
   },
-  computed: {
-    ...mapState("userStore", ["isLogin", "isLoginError"]),
-  },
   methods: {
-    ...mapActions("userStore", ["userConfirm", "getUserInfo"]),
-
-    async login() {
-      await this.userConfirm(this.userInfo);
-      let token = sessionStorage.getItem("access-token");
-      
-      if (this.isLogin) {
-        await this.getUserInfo(token);
-        this.$router.push({ name: "main" });
+    ...mapActions("userStore", ["userLogin"]),
+    
+    inputCheck() {
+      let check = true;
+      if (this.user.userEmail === "") {
+        this.isEmail = true;
+        check = false;
+      }
+      if (this.user.userPassword === "") {
+        this.isPassword = true;
+        check = false;
+      }
+      return check;
+    },
+    async login() {      
+      if (this.inputCheck()) {
+        await this.userLogin(this.user);
       }
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.input-error {
+  border-color: #d22d3d !important;
+}
 </style>

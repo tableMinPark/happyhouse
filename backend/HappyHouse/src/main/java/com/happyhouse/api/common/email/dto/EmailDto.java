@@ -1,5 +1,7 @@
 package com.happyhouse.api.common.email.dto;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.Getter;
@@ -10,15 +12,16 @@ import lombok.ToString;
 @Getter
 @ToString
 public class EmailDto {
-	@Value("${spring.mail.username}")
-	private String sendAddress;
     private String receiveAddress;
     private String title;
-    private String content;
+    private String templateName;
+    private Map<String, String> data;
     
-    public EmailDto(String receiveAddress, String title, String content) {
-    	this.receiveAddress = receiveAddress;
-    	this.title = title;
-    	this.content = content;
-    }
+	public EmailDto(String receiveAddress, String title, String templateName, Map<String, String> data) {
+		super();
+		this.receiveAddress = receiveAddress;
+		this.title = title;
+		this.templateName = templateName;
+		this.data = data;
+	}
 }

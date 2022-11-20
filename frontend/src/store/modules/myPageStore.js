@@ -1,4 +1,6 @@
-import { getPageUserInfo, getFollowUserList, followingCheck, follow, unFollow} from "@/api/user";
+import { getPageUserInfo, getFollowUserList, followingCheck, follow, unFollow } from "@/api/user";
+
+import store from '@/store';
 
 const myPageStore = {
   namespaced: true,
@@ -27,6 +29,10 @@ const myPageStore = {
     },
     SET_FOLLOWING_LIST(state, followingList) {
       state.followingList = {...followingList};
+    },
+    SET_FOLLOW_COUNT(state, { pageIdFollowing, pageIdFollower }){
+      state.myPageUserInfo.following = pageIdFollowing;
+      state.myPageUserInfo.follower = pageIdFollower;
     }
   },
   actions: {
@@ -42,7 +48,6 @@ const myPageStore = {
         commit("SET_MYPAGE_USER_INFO", userInfo);
         commit("SET_IS_MYPAGE", isMyPage);
         commit("SET_PAGEID", pageId); 
-
       } 
       // 다른 계정의 페이지이면 (새로받아옴)
       else {
@@ -88,8 +93,6 @@ const myPageStore = {
         pageId: state.pageId 
       }
 
-      console.log(params);
-
       await followingCheck( params,
         ({ data }) => {
           if (data.message === "success") {
@@ -111,11 +114,17 @@ const myPageStore = {
         pageId: state.pageId, 
         userId: userId 
       }
+      console.log(userId);
+      if (userId === undefined) {
+        this.$router.push({ name: "login" })
+      }
 
       await follow( params,
-        ({ data }) => {
-          if (data.message === "success") {
+        async ({ data }) => {
+          if (data.message === "success") {  
             commit("SET_IS_FOLLOWING", true);
+            commit("SET_FOLLOW_COUNT", data.followCount);
+            store.commit("userStore/SET_FOLLOW_COUNT", data.followCount);
           } else {
             commit("SET_IS_FOLLOWING", false);
           }
@@ -124,6 +133,7 @@ const myPageStore = {
           console.log(error);
         }      
       )
+
     },
 
     // 언팔로우 함수
@@ -137,6 +147,8 @@ const myPageStore = {
         ({ data }) => {
           if (data.message === "success") {
             commit("SET_IS_FOLLOWING", false);
+            commit("SET_FOLLOW_COUNT", data.followCount);
+            store.commit("userStore/SET_FOLLOW_COUNT", data.followCount);
           } else {
             commit("SET_IS_FOLLOWING", true);
           }

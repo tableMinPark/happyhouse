@@ -33,15 +33,16 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {    
-    ...mapState("userStore", ["isLogin", "userInfo","noProfileImageUrl"]),
+    ...mapState("userStore", ["isLogin"]),
   },
   methods: {
     ...mapActions("userStore", ["userLogout"]),
     logout() {
-      this.userLogout(this.userInfo.userId);
-      sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
-      sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
-      if (this.$route.path != "/") this.$router.push({ name: "main" });
+      this.userLogout();
+
+      if (!this.isLogin) {
+        if (this.$route.path != "/") this.$router.push({ name: "main" });
+      }
     }
   }
 

@@ -5,7 +5,7 @@
         <img class="img-100 rounded-circle" alt="" :src="userProfileImageUrl">
       </div>
       <div class="mt-3 mb-3">
-          <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
+        <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
       </div>
     </div>
     <div class="mt-3 mb-3">
@@ -13,69 +13,143 @@
       <input class="form-control" placeholder="your-email@domain.com" readonly :value="userEmail">
     </div>
     <div class="mb-3">
-      <label class="form-label">Password</label>
-      <input class="form-control" type="password" value="password" placeholder="*********" v-model="userPassword">
+      <label class="form-label">New Password</label>
+      <input class="form-control" type="password" value="password"  :class="{ 'input-error': isUserPassword }" v-model="userPassword">
     </div>
     <div class="mb-3">
-      <label class="form-label">Password Check</label>
-      <input class="form-control" type="password" value="password" placeholder="*********" v-model="userPasswordCheck">
-    </div>    
+      <label class="form-label">New Password Check</label>
+      <input class="form-control" type="password" value="password"  :class="{ 'input-error': isUserPasswordCheck }" v-model="userPasswordCheck">
+    </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Name</label>
-      <input class="form-control" placeholder="Name" v-model="userName">
-    </div> 
+      <input class="form-control" placeholder="Name" readonly :value="userName">
+    </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Address</label>
-      <input class="form-control" placeholder="Address" v-model="userAddress">
-    </div>    
+      <input class="form-control" placeholder="Address"  :class="{ 'input-error': isUserAddress }" v-model="userAddress">
+    </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Tel</label>
-      <input class="form-control" placeholder="Tel" v-model="userTel">
-    </div>  
+      <input class="form-control" placeholder="Tel" :class="{ 'input-error': isUserTel }"  v-model="userTel">
+    </div>
     <div class="form-footer text-end">
       <button class="btn btn-primary btn-block" @click="profileModify">수정</button>
-    </div></div>
-  </template>
+    </div>
+  </div>
+</template>
   
-  <script>
-  import { mapState } from "vuex";
+<script>
+import { mapState, mapActions } from "vuex";
+import { userModify } from "@/api/user";
 
-  export default {
-    data() {    
-        return {
-            userEmail: '',
-            userPassword: '',
-            userPasswordCheck: '',
-            userName: '',
-            userAddress: '',
-            userTel: '',
-            userProfileImageUrl: this.$hostname + "/assets/images/user/7.jpg" 
-        }
-    },
-    methods: {
-      profileImageModify() {
-        console.log("call profileImageModify");
-      },
-      profileModify() {
-        console.log("call profileModify " + this.userEmail + " " + this.userPassword);
-      }
-    },
-    created() {
-      const userInfo = this.myPageUserInfo;
-      this.userEmail = userInfo.userEmail;
-      this.userName = userInfo.userName;
-      this.userAddress = userInfo.userAddress;
-      this.userTel = userInfo.userTel;
-      this.userProfileImageUrl = userInfo.userProfileImageUrl;
-    },
-    computed: {
-        ...mapState("myPageStore", ["myPageUserInfo"])
+export default {
+  data() {
+    return {
+      userEmail: '',
+      userPassword: '',
+      userPasswordCheck: '',
+      userName: '',
+      userAddress: '',
+      userTel: '',
+      userProfileImageUrl: this.$hostname + "/assets/images/user/7.jpg",
+
+      isUserPassword: false,
+      isUserPasswordCheck: false,
+      isUserTel: false,
+      isUserAddress: false,
     }
+  },
+  computed: {
+    ...mapState("userStore", ["userInfo"])
+  },
+  methods: {    
+    ...mapActions("commonStore", ["setLoading", "alertMessage", "alertClose"]),
+    ...mapActions("userStore", ["getUserInfo"]),
 
+    profileImageModify() {
+      console.log("call profileImageModify");
+    },
 
+    inputCheck() {
+      if (this.userPassword !== this.userPasswordCheck) {
+        this.isUserPassword = true;      
+        this.isUserPasswordCheck = true;      
+        return false;
+      }
+
+      let check = true;
+
+      if (this.userPassword === "") {
+        this.isUserPassword = true;
+        check = false;
+      } else this.isUserPassword = false;
+      if (this.userPasswordCheck === "") {
+        this.isUserPasswordCheck = true;
+        check = false;
+      } else this.isUserPasswordCheck = false;      
+      if (this.userAddress === "") {
+        this.isUserAddress = true;
+        check = false;
+      } else this.isUserTel = false;
+      if (this.userTel === "") {
+        this.isUserTel = true;
+        check = false;
+      } else this.isUserTel = false;
+
+      return check;
+    },
+    
+    async profileModify() {
+      if (this.inputCheck()) {
+        const user = {
+            userId: this.userInfo.userId,
+            userPassword: this.userPassword,
+            userAddress: this.userAddress,
+            userTel: this.userTel
+        }
+
+        console.log(user);
+        this.setLoading(true);
+        await userModify(
+            user,
+            async ({ data }) => {
+                    console.log(data);
+                if (data.message === "success") {              
+                    this.alertMessage({ alertTitle: "회원정보 수정 성공!", alertMessage: "" });      
+                    let token = sessionStorage.getItem("access-token");
+                    await this.getUserInfo(token);
+                    this.userPassword = '';
+                    this.userPasswordCheck = '';
+                    this.userAddress = '';
+                    this.userTel = '';                    
+                } else {
+                    this.alertMessage({ alertTitle: "회원정보 수정 실패!", alertMessage: "잠시후 다시 시도해주세요." });
+                }
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+        this.setLoading(false);
+
+      }
+
+    }
+  },
+  mounted() {
+    console.log(this.userInfo);
+    this.userEmail = this.userInfo.userEmail;
+    this.userName = this.userInfo.userName;
+    this.userAddress = this.userInfo.userAddress;
+    this.userTel = this.userInfo.userTel;
+    this.userProfileImageUrl = this.userInfo.userProfileImageUrl;
   }
-  </script>
+}
+</script>
   
-  <style>
   
-  </style>
+<style scoped>
+.input-error {
+  border-color: #d22d3d !important;
+}
+</style>

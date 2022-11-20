@@ -36,6 +36,7 @@ public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+	private static final String NO_AUTH = "not email auth";
 	
 	@Autowired
 	private JwtServiceImpl jwtService;
@@ -46,27 +47,27 @@ public class UserController {
 	/* 로그인 */
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto){
-		
-		System.out.println(userDto);
-		
+				
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+		HttpStatus status = HttpStatus.ACCEPTED;
 		
 		try {			
 			userDto = service.login(userDto);
-			
+
+			System.out.println(userDto);
 			if (userDto != null) {
-				String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());// key, data
-				String refreshToken = jwtService.createRefreshToken("userid", userDto.getUserId());// key, data
-				service.saveRefreshToken(userDto.getUserId(), refreshToken);
-				resultMap.put("access-token", accessToken);
-				resultMap.put("refresh-token", refreshToken);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-				
+				if (userDto.isAuth()) {
+					String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());// key, data
+					String refreshToken = jwtService.createRefreshToken("userid", userDto.getUserId());// key, data
+					service.saveRefreshToken(userDto.getUserId(), refreshToken);
+					resultMap.put("access-token", accessToken);
+					resultMap.put("refresh-token", refreshToken);
+					resultMap.put("message", SUCCESS);	
+				} else {
+					resultMap.put("message", NO_AUTH);
+				}
 			} else {
 				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;				
 			}
 		} catch (Exception e) {
 			logger.error("로그인 실패 : {}", e);
@@ -180,10 +181,66 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	/* 이메일 중복검사 */
+	@GetMapping("/email/{userEmail}")
+	public ResponseEntity<Map<String, Object>> emailCheck(@PathVariable("userEmail") String userEmail) {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+				
+		try {
+			int ret = service.emailCheck(userEmail);
+			if (ret == 0) {
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;				
+			}
+		} catch (Exception e) {
+			logger.error("정보조회 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	/* 회원정보 수정 */
+	@PostMapping("/modify")
+	public ResponseEntity<Map<String, Object>> modify (@RequestBody UserDto userDto){
+		
+		System.out.println(userDto);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		
+		try {
+			
+			int ret = service.modify(userDto);
+			
+			if (ret == 1) {
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;				
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;				
+			}			
+			
+		} catch (Exception e) {
+			logger.error("회원정보수정 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 
 	/* 비밀번호찾기  */
-	@PostMapping("/forget_password")
+	@PostMapping("/forgetPassword")
 	public ResponseEntity<Map<String, Object>> forgetPassword (@RequestBody UserDto userDto){
+		
+		System.out.println(userDto);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;

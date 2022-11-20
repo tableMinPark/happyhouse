@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.happyhouse.api.follow.dao.FollowDao;
+import com.happyhouse.api.follow.dto.FollowResultDto;
 import com.happyhouse.api.user.dto.UserDto;
 
 @Service
@@ -37,22 +38,22 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public boolean register(Map<String, Integer> param) {
+	public FollowResultDto register(Map<String, Integer> param) {
 		if (dao.followingCheck(param) == 0) {
 			dao.register(param);
-			return true;
+			return dao.getFollowCount(param);
 		} else {
-			return false;
+			return null;
 		}
 	}
 
 	@Override
-	public boolean unRegister(Map<String, Integer> param) {
+	public FollowResultDto unRegister(Map<String, Integer> param) {
 		if (dao.followingCheck(param) != 0) {
 			dao.unRegister(param);
-			return true;
+			return dao.getFollowCount(param);		
 		} else {
-			return false;
+			return null;
 		}
 	}
 

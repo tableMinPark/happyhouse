@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.happyhouse.api.follow.dto.FollowResultDto;
 import com.happyhouse.api.follow.service.FollowService;
 import com.happyhouse.api.user.dto.UserDto;
 
@@ -118,9 +119,13 @@ public class FollowController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			boolean ret = service.register(param);			
-			if (ret) resultMap.put("message", SUCCESS);
-			else resultMap.put("message", FAIL);
+			FollowResultDto ret = service.register(param);			
+			if (ret != null) {
+				resultMap.put("followCount", ret);
+				resultMap.put("message", SUCCESS);
+			} else {
+				resultMap.put("message", FAIL);
+			}
 		} catch (Exception e) {
 			logger.error("팔로우 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
@@ -139,9 +144,13 @@ public class FollowController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			boolean ret = service.unRegister(param);			
-			if (ret) resultMap.put("message", SUCCESS);
-			else resultMap.put("message", FAIL);
+			FollowResultDto ret = service.unRegister(param);			
+			if (ret != null) {
+				resultMap.put("followCount", ret);
+				resultMap.put("message", SUCCESS);
+			} else {
+				resultMap.put("message", FAIL);
+			}
 		} catch (Exception e) {
 			logger.error("언팔로우 실패 : {}", e);
 			resultMap.put("message", e.getMessage());

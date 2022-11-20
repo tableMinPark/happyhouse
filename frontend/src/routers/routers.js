@@ -4,7 +4,7 @@ import store from '@/store';
 
 Vue.use(VueRouter);
 
-const onlyAuthUser = async (to, from, next) => {
+const authAccount = async () => {
   const checkUserInfo = store.getters["userStore/checkUserInfo"];
   const checkToken = store.getters["userStore/checkToken"];
   let token = sessionStorage.getItem("access-token");
@@ -13,12 +13,56 @@ const onlyAuthUser = async (to, from, next) => {
     await store.dispatch("userStore/getUserInfo", token);
   }
   if (!checkToken || checkUserInfo === null) {
-    router.push({ name: "login" });
+    return false;
   } else {
-    next();
+    return true;
   }
 };
+// 로그인되있으면 로그인이랑 회원가입 막음
+const loginCheckFilter = (to, from, next) => {
+  // 로그인체크함수
+  const isLogin = store.getters["userStore/checkIsLogin"];
+  if (isLogin) router.go(-1);
+  else next();
+}
+const loginFilter = async (to, from, next) => {
+  // 토큰 유효성 확인
+  const authFlag = await authAccount();
+  // 로그인 된 경우
+  if (authFlag) next();
+  else router.push({ name: "login" });
+}
+const compnayFilter = async (to, from, next) => {
+  const authFlag = await authAccount();
+  const adminFlag = store.getters["userStore/checkUserInfo"].code === "200" || store.getters["userStore/checkUserInfo"].code === "300";
+  if (authFlag){    
+    if (!adminFlag) {
+      alert("일반회원은 접근이 불가능합니다.");
+      router.go(-1);
+    }
+    else next();
+  } 
+  else router.push({ name: "login" }); 
+}
+const adminFilter = async (to, from, next) => {
+  const authFlag = await authAccount();
+  const adminFlag = store.getters["userStore/checkUserInfo"].code == "300";
+  if (authFlag){    
+    if (!adminFlag){
+      alert("관리자만 접근이 가능합니다.");
+      router.go(-1);
+    }
+    else next();
+  } 
+  else router.push({ name: "login" });
+}
 
+
+// 회원가입 인증
+const emailAuther = async (to) => {
+  const authCode = to.params.authCode;
+  store.dispatch("userStore/emailAuth", authCode);
+}
 
 // 라우팅 //////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +91,7 @@ const routes = [
   {
     path: "/",
     name: "main",
-    component: MainPage,
+    component: MainPage
   },
   {
     path: "/deal",
@@ -67,14 +111,14 @@ const routes = [
       {
         path: "modify",
         name: "houseModify",
-        beforeEnter: onlyAuthUser,
+        beforeEnter: compnayFilter,
         component: HouseModify,
       },
 
       {
         path: "register",
         name: "houseRegister",
-        beforeEnter: onlyAuthUser,
+        beforeEnter: compnayFilter,
         component: HouseRegister,
       },
       {
@@ -85,23 +129,31 @@ const routes = [
     ],
   },    
   {
+    path: '/email_auth/:authCode',
+    beforeEnter: emailAuther
+  },
+  {
       path: '/profile/:userId',
       name: "myPage",
+      beforeEnter: loginFilter,
       component: MyPage
   },
   {
     path: "/login",
     name: "login",
+    beforeEnter: loginCheckFilter,
     component: LoginPage,
   },
   {
     path: "/register",
     name: "register",
+    beforeEnter: loginCheckFilter,
     component: RegisterPage,
   },
   {
     path: "/forgetPassword",
     name: "forgetPassword",
+    beforeEnter: loginCheckFilter,
     component: ForgetPasswordPage,
   },
   {
@@ -117,13 +169,13 @@ const routes = [
       {
         path: ":noticeId",
         name: "noticeDetail",
-        beforeEnter: onlyAuthUser,
+        beforeEnter: loginFilter,
         component: NoticeDetail,
       },
       {
         path: "write",
         name: "noticeWrite",
-        beforeEnter: onlyAuthUser,
+        beforeEnter: adminFilter,
         component: NoticeWrite,
       },
     ],

@@ -3,8 +3,19 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 
 async function login(userInfo, success, fail) {
-  console.log(userInfo)
   await api.post(`/user/login`, userInfo).then(success).catch(fail);
+}
+
+async function userRegister(user, success, fail) {
+  await api.post(`/user/register`, user).then(success).catch(fail);
+}
+
+async function userModify(user, success, fail) {
+  await api.post(`/user/modify`, user).then(success).catch(fail);
+}
+
+async function emailCheck(userEmail, success, fail) {
+  await api.get(`/user/email/${userEmail}`).then(success).catch(fail);
 }
 
 async function getUserInfo(userId, success, fail) {
@@ -44,4 +55,14 @@ async function logout(userid, success, fail) {
   await api.get(`/user/logout/${userid}`).then(success).catch(fail);
 }
 
-export { login, getUserInfo, getPageUserInfo, getFollowUserList, followingCheck, follow, unFollow, tokenRegeneration, logout };
+async function forgetPassword(user, success, fail) {
+  await api.post(`/user/forgetPassword`, user).then(success).catch(fail);
+}
+
+async function emailAUth(authCode, success, fail) {
+  await api.get(`/user/email_auth/${authCode}`).then(success).catch(fail);
+}
+
+
+export { login, userRegister, emailAUth, userModify, emailCheck, getUserInfo, getPageUserInfo, getFollowUserList, 
+  followingCheck, follow, unFollow, tokenRegeneration, logout, forgetPassword };

@@ -9,6 +9,7 @@ import noticeStore from "@/store/modules/noticeStore";
 import reviewStore from "@/store/modules/reviewStore";
 import userStore from "@/store/modules/userStore";
 import myPageStore from "@/store/modules/myPageStore";
+import commonStore from "@/store/modules/commonStore";
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ export default new Vuex.Store({
         noticeStore,
         reviewStore,
         userStore,
-        myPageStore
+        myPageStore,
+        commonStore
       },
       plugins: [
         createPersistedState({

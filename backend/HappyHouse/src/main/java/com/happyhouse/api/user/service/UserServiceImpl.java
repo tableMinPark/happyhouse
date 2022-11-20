@@ -30,12 +30,25 @@ public class UserServiceImpl implements UserService {
 	public int register(UserDto userDto) throws Exception {		
 		// 이메일 인증코드 생성
 		String authCode = UUID.randomUUID().toString();		
-		// 이메일 전송 (인증코드 포함)
-		emailService.sendMail(new EmailDto("tablemin_park@daum.net", "인증테스트", authCode));		
+		// 이메일 전송 (인증코드 포함)		
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("userName", userDto.getUserName());
+		data.put("authUrl", "http://localhost:5500/email_auth/" + authCode);		
+		emailService.sendMail(new EmailDto("tablemin_park@daum.net", "Happy House 회원가입 인증", "registerEmail", data));		
 		// 인증코드 포함 Dto
 		userDto.setAuth_code(authCode);		
 		// 데이터베이스 저장		
 		return dao.register(userDto);
+	}
+	
+	@Override
+	public int emailCheck(String userEmail) throws Exception {
+		return dao.emailCheck(userEmail);
+	}
+	
+	@Override
+	public int modify(UserDto userDto) throws Exception {
+		return dao.modify(userDto);
 	}
 	
 	@Override
@@ -47,12 +60,19 @@ public class UserServiceImpl implements UserService {
 	public int forgetPassword(UserDto userDto) throws Exception {
 		// 새로운 랜덤 비밀번호 생성
 		String randomPassword = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-		// 이메일전송
-		emailService.sendMail(new EmailDto("tablemin_park@daum.net", "비밀번호변경 테스트", randomPassword));		
-		// 새로운 비밀번호 포함 Dto
 		userDto.setUserPassword(randomPassword);
-		// 데이터베이스 저장
-		return dao.forgetPassword(userDto);
+		
+		int ret = dao.forgetPassword(userDto);
+		
+		if (ret == 1) {
+			// 이메일전송
+			Map<String, String> data = new HashMap<String, String>();
+			data.put("userName", userDto.getUserName());
+			data.put("randomPassword", randomPassword);		
+			data.put("url", "http://localhost:5500/login");		
+			emailService.sendMail(new EmailDto("tablemin_park@daum.net", "Happy House 임시 비밀번호 발급", "forgetPasswordEmail", data));	
+		}		
+		return ret;
 	}
 	
 	@Override

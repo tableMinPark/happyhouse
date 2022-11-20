@@ -44,8 +44,7 @@ export default {
     },
     data() {
         return {
-            tabSelect: 1,
-            profileUrl: this.$hostname + "/assets/images/user/7.jpg"
+            tabSelect: 1
         }
     },
     methods: {
