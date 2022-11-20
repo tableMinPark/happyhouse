@@ -8,6 +8,7 @@
 	</settings>
 
 	<mappers>
+		<mapper resource="mapper/deal_query.xml" />
 		<mapper resource="mapper/notice_query.xml" />
 		<mapper resource="mapper/user_query.xml" />
 		<mapper resource="mapper/follow_query.xml" />
