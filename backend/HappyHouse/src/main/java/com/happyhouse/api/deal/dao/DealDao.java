@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.happyhouse.api.deal.dto.CityDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.FileDto;
+import com.happyhouse.api.deal.dto.HouseDto;
 
 @Mapper
 public interface DealDao {
@@ -14,4 +15,6 @@ public interface DealDao {
 	int dealInsert(DealParamDto dto);
 	int houseInsert(DealParamDto dto);
 	int fileInsert(FileDto fileDto);
+	
+	List<HouseDto> houseList(String searchWord);
 }

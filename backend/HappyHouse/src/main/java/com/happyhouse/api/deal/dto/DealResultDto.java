@@ -17,7 +17,8 @@ public class DealResultDto {
 	private int result;
 	private DealDto dealDto;
 	private HouseDto houseDto;
-	private List<DealDto> list;
+	private List<DealDto> dealList;
+	private List<HouseDto> houseList;
 	private int count;
 
 }

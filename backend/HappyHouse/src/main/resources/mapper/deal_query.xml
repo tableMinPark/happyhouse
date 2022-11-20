@@ -34,4 +34,13 @@
 			values(#{dealId},#{fileName},#{fileSize},#{fileContentType},#{fileUrl},now())
 	</insert>
 	
+	<select id = "houseList" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select * 
+		 from house
+		 <if test = '!searchWord.equals("-")'>
+			where house_dong_name like concat('%',#{keyword},'%')
+			 or house_name like concat('%',#{keyword},'%')
+		 </if>
+	</select>
+	
 </mapper>

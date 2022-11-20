@@ -18,6 +18,7 @@ import com.happyhouse.api.deal.dto.CityDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
 import com.happyhouse.api.deal.dto.FileDto;
+import com.happyhouse.api.deal.dto.HouseDto;
 
 @Service
 public class DealServiceImpl implements DealService{
@@ -91,6 +92,18 @@ public class DealServiceImpl implements DealService{
 			boardResultDto.setResult(0);
 		}
 		return boardResultDto;
+	}
+
+	@Override
+	public DealResultDto houseList(String searchWord) {
+		DealResultDto ret = new DealResultDto();
+		try {
+			List<HouseDto> res = dao.houseList(searchWord);
+			ret.setHouseList(res);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 }

@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class HouseDto {
+	private String houseId;
 	private String houseName;
 	private String houseBuildYear;
 	private String houseDongCode;

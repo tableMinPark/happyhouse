@@ -91,4 +91,19 @@ public class DealController {
 			return new ResponseEntity<DealResultDto>(boardResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
 		}		 
 	}
+	
+	@GetMapping("/house/{searchWord}")
+	public ResponseEntity<DealResultDto> houseList(@PathVariable String searchWord){
+		DealResultDto ret = new DealResultDto();
+		try {
+			ret = service.houseList(searchWord);
+			
+			return new ResponseEntity<DealResultDto>(ret,HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<DealResultDto>(ret,HttpStatus.INTERNAL_SERVER_ERROR);
+					
+		}
+		
+	}
 }

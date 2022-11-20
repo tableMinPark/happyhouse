@@ -9,6 +9,10 @@ function dealList(param, success, fail) {
   api.get(`/deal`, { params: param }).then(success).catch(fail);
 }
 
+function houseList(searchWord, success, fail) {
+  api.get(`/house/${searchWord}`).then(success).catch(fail);
+}
+
 function dealRegist(param, success, fail) {
   api
     .post(`/deal`, param, {
@@ -50,5 +54,6 @@ export {
   dealDetail,
   dealModify,
   dealDelete,
+  houseList,
   convertAddress,
 };

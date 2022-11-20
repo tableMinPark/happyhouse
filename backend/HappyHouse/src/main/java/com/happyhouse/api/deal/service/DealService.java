@@ -11,4 +11,5 @@ import com.happyhouse.api.deal.dto.DealResultDto;
 public interface DealService {
 	List<CityDto> cityList(int code);
 	public DealResultDto dealInsert(DealParamDto dto, MultipartHttpServletRequest request);
+	public DealResultDto houseList(String searchWord);
 }
