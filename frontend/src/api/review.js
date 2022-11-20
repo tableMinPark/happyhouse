@@ -6,7 +6,7 @@ async function getReviewList(pageId, success, fail) {
   await api.get(`/review/${pageId}`).then(success).catch(fail);
 }
 async function deleteReview(reviewId, success, fail) {
-  await api.delete(`/review`, reviewId).then(success).catch(fail);
+  await api.delete(`/review/${reviewId}`,).then(success).catch(fail);
 }
 async function registReview(reviewInfo, success, fail) {
   await api.post(`/review`, reviewInfo).then(success).catch(fail);

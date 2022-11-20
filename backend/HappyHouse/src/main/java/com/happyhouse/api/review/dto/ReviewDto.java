@@ -17,9 +17,13 @@ public class ReviewDto {
 	private int reviewId;
 	private int userId;
 	private int houseId;
+	private String houseName;
+	private String houseSidoName;
+	private String houseGugunName;
+	private String houseDongName;
 	private String reviewContent;
 	private LocalDateTime reviewRegDt;
-	private int ReviewTraficRating;
-	private int ReviewSafefyRating;
-	private int ReviewStoreRating;	
+	private int reviewTraficRating;
+	private int reviewSafetyRating;
+	private int reviewStoreRating;	
 }

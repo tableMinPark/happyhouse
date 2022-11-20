@@ -21,7 +21,7 @@ const commonStore = {
     },
     SET_ACCESS_ALERT: (state, accessAlert) => {
       state.accessAlert = accessAlert;
-    }
+    },
   },
   actions: {
     setInit({ commit }) {
@@ -39,7 +39,7 @@ const commonStore = {
       commit("SET_ACCESS_ALERT", true);
       setTimeout(() => { commit("SET_ACCESS_ALERT", false) }, 4000);
     }
-  },
+  }
 };
 
 export default commonStore;

@@ -8,8 +8,7 @@
             </div>
             <div class="modal-body container">
                <div class="row">
-                  <div class="col-7 ps-3 pe-3">
-                     {{ reviewContent }}
+                  <div class="col-7 ps-3 pe-3" v-html="reviewContent">
                   </div>
                   <div class="col-5">
                      <div class="row text-center">
@@ -77,7 +76,7 @@
 
             </div>
             <div class="modal-footer">
-               <button @click="reviewDetail" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal"
+               <button @click="closeReviewDetail" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal"
                   type="button">닫기</button>
             </div>
          </div>
@@ -89,7 +88,7 @@
 export default {
    props: ['review'],
    methods: {
-      reviewDetail() {
+      closeReviewDetail() {
          this.$emit('call-parent-detail-close');
       }
    },

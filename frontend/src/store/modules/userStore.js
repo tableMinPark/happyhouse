@@ -282,7 +282,11 @@ const userStore = {
     checkIsLogin(state) {
       return state.isLogin;
     },
-  },
+    // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
+    getUserId(state) {
+      return state.userInfo.userId;
+    }
+  }
 };
 
 export default userStore;

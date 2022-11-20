@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.happyhouse.api.review.dto.ReviewDto;
@@ -45,6 +44,8 @@ public class ReviewController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<Map<String, Object>> getReviewList(@PathVariable("userId") int userId) {
 		
+		System.out.println(userId);
+		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
@@ -69,6 +70,8 @@ public class ReviewController {
 	@PostMapping("")
 	public ResponseEntity<Map<String, Object>> registReview(@RequestBody ReviewDto reviewDto) {
 		
+		System.out.println(reviewDto);
+		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
@@ -87,8 +90,8 @@ public class ReviewController {
 	}
 	
 	/* 리뷰 삭제 */
-	@DeleteMapping("/")
-	public ResponseEntity<Map<String, Object>> deleteReview(@RequestParam(value="reviewId") int reviewId) {
+	@DeleteMapping("/{reviewId}")
+	public ResponseEntity<Map<String, Object>> deleteReview(@PathVariable("reviewId") int reviewId) {
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
@@ -108,7 +111,7 @@ public class ReviewController {
 	}
 	
 	/* 리뷰 수정 */
-	@PutMapping("/")
+	@PutMapping("")
 	public ResponseEntity<Map<String, Object>> modifyReview(@RequestBody ReviewDto reviewDto) {
 		
 		Map<String, Object> resultMap = new HashMap<>();

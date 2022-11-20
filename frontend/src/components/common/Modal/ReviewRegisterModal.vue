@@ -100,11 +100,13 @@ import VueAlertify from "vue-alertify";
 
 Vue.use(CKEditor).use(VueAlertify);
 
+import { mapActions } from "vuex";
+
+import store from "@/store";
+
 export default {
    data() {
       return {      
-         reviewId: '',   
-         reviewContent: '',
          reviewTraficRating: 1,
          reviewSafetyRating: 1,
          reviewStoreRating: 1,
@@ -112,9 +114,18 @@ export default {
       }
    },
    methods: {
-      reviewRegister() {
-         console.log("review register 'post'");
-         console.log(this.reviewTraficRating + " " + this.reviewSafetyRating + " " + this.reviewStoreRating);
+      ...mapActions("houseStore", ["registReview"]),
+      async reviewRegister() {
+         const reviewInfo = {
+            userId: store.getters["userStore/getUserId"],
+            houseId: store.getters["houseStore/getDealId"],
+            reviewContent: this.CKEditor.getData(),
+            reviewTraficRating: this.reviewTraficRating,
+            reviewSafetyRating: this.reviewSafetyRating,
+            reviewStoreRating: this.reviewStoreRating
+         };
+         console.log(reviewInfo);
+         await this.registReview(reviewInfo);
          this.$emit('call-parent-register-close');
       },
       traficRatingChange(rating){
@@ -135,8 +146,6 @@ export default {
       }
    },
    created(){
-      this.reviewId = '';
-      this.reviewContent = '';
       this.reviewTraficRating = 1;
       this.reviewSafetyRating = 1;
       this.reviewStoreRating = 1;    

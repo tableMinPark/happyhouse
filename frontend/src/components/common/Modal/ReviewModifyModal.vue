@@ -101,13 +101,13 @@ import VueAlertify from "vue-alertify";
 
 Vue.use(CKEditor).use(VueAlertify);
 
+import { mapActions } from "vuex";
+
 export default {
    props: ['review'],
-
    data() {
       return {
          reviewId: '',
-         reviewContent: '',
          reviewTraficRating: 1,
          reviewSafetyRating: 1,
          reviewStoreRating: 1,
@@ -116,14 +116,18 @@ export default {
       }
    },
    methods: {
-      initUI() {
-         this.CKEditor.setData(this.review.reviewContent);
-      },
-      reviewModify() {
-         console.log("review modify 'post'");
-         console.log(this.reviewTraficRating + " " + this.reviewSafetyRating + " " + this.reviewStoreRating);
+      ...mapActions("myPageStore", ["modifyReview"]),
+      async reviewModify() {
+         const reviewInfo = {
+            reviewId: this.reviewId,
+            reviewContent: this.CKEditor.getData(),
+            reviewTraficRating: this.reviewTraficRating,
+            reviewSafetyRating: this.reviewSafetyRating,
+            reviewStoreRating: this.reviewStoreRating
+         }
 
-         this.$emit('call-parent-modify-close');
+         await this.modifyReview(reviewInfo);
+         this.$emit("call-parent-modify-close");
       },
       traficRatingChange(rating) {
          this.reviewTraficRating = rating;
@@ -146,14 +150,13 @@ export default {
       // 모달 초기화
       review: function () {
          this.reviewId = this.review.reviewId,
-            this.reviewContent = this.review.reviewContent;
+         this.reviewContent = this.review.reviewContent;
          this.reviewTraficRating = this.review.reviewTraficRating
          this.reviewSafetyRating = this.review.reviewSafetyRating
          this.reviewStoreRating = this.review.reviewStoreRating
-
          this.CKEditor.setData(this.reviewContent);
       }
-   },
+   }
 };
 </script>
 

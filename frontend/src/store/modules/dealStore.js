@@ -27,8 +27,6 @@ const dealStore = {
     SET_DEAL_INFO(state, dealInfo) {
       state.dealInfo = { ...dealInfo };
     },
-
-
     SET_IS_BOOKMARING(state, isBookmarking) {
     state.isBookmarking = isBookmarking;
     },

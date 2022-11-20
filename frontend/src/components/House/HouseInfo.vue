@@ -107,7 +107,6 @@ export default {
       this.reviewRegisterModal.hide();
     }
   },
-
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script")

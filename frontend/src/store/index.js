@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 import dealStore from "@/store/modules/dealStore";
 import noticeStore from "@/store/modules/noticeStore";
 import userStore from "@/store/modules/userStore";
+import houseStore from "@/store/modules/houseStore";
 import myPageStore from "@/store/modules/myPageStore";
 import commonStore from "@/store/modules/commonStore";
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         dealStore,
         noticeStore,
         userStore,
+        houseStore,
         myPageStore,
         commonStore
       },

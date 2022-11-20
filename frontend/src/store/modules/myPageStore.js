@@ -1,6 +1,6 @@
 import { getPageUserInfo, getFollowUserList, followingCheck, follow, unFollow } from "@/api/user";
 import { getBookmarkList, deleteBookmark } from "@/api/bookmark";
-import { getReviewList, deleteReview, registReview, modifyReview } from "@/api/review";
+import { getReviewList, deleteReview, modifyReview } from "@/api/review";
 
 import store from '@/store';
 
@@ -17,7 +17,7 @@ const myPageStore = {
     bookmarkList: [],
 
     // 리뷰
-    reivewList: [],
+    reviewList: [],
 
     // 팔로잉탭
     followingList: []
@@ -120,7 +120,6 @@ const myPageStore = {
     // 관심매물 리스트
     async getBookmarkList({ commit, state }) {
       console.log("관심매물 리스트");
-      store.dispatch("commonStore/setLoading", true);
       await getBookmarkList( state.pageId,
         ({ data }) => {
           if (data.message === "success") {
@@ -133,7 +132,6 @@ const myPageStore = {
           console.log(error);
         }     
       )
-      store.dispatch("commonStore/setLoading", false); 
     },
     // 관심매물 삭제
     async deleteBookmark({ dispatch }, bookmarkId) {
@@ -167,11 +165,11 @@ const myPageStore = {
     // 리뷰 리스트 
     async getReviewList({ commit, state }) {
       console.log("리뷰 리스트");
-      store.dispatch("commonStore/setLoading", true);
       await getReviewList( state.pageId,
         ({ data }) => {
+          console.log(data)
           if (data.message === "success") {
-            commit("SET_REVIEW_LIST", data.bookmarkList);
+            commit("SET_REVIEW_LIST", data.reviewList);
           } else {
             console.log(data.message);
           }
@@ -180,7 +178,6 @@ const myPageStore = {
           console.log(error);
         }     
       )
-      store.dispatch("commonStore/setLoading", false); 
     },
     // 리뷰 삭제
     async deleteReview({ dispatch }, reviewId) {
@@ -207,31 +204,7 @@ const myPageStore = {
       )
       store.dispatch("commonStore/setLoading", false); 
     },
-    // 리뷰 등록
-    async registReview({ dispatch }, reviewInfo) {
-      console.log("리뷰 등록");
-      store.dispatch("commonStore/setLoading", true);
-      await registReview( reviewInfo,
-        ({ data }) => {
-          if (data.message === "success") {
-            dispatch("getReviewList");            
-            store.dispatch("commonStore/alertMessage", {
-              alertTitle: "리뷰 등록 성공!",
-              alertMessage: '리뷰가 등록되었습니다.',
-            });
-          } else {
-            store.dispatch("commonStore/alertMessage", {
-              alertTitle: "리뷰 등록 실패!",
-              alertMessage: '잠시후 다시 시도 해주세요.',
-            });
-          }
-        },
-        (error) => {
-          console.log(error);
-        }     
-      )
-      store.dispatch("commonStore/setLoading", false); 
-    },
+    
     // 리뷰 수정
     async modifyReview({ dispatch }, reviewInfo) {
       console.log("리뷰 수정");
@@ -241,12 +214,12 @@ const myPageStore = {
           if (data.message === "success") {
             dispatch("getReviewList");            
             store.dispatch("commonStore/alertMessage", {
-              alertTitle: "리뷰 등록 성공!",
+              alertTitle: "리뷰 수정 성공!",
               alertMessage: '리뷰 수정되었습니다.',
             });
           } else {
             store.dispatch("commonStore/alertMessage", {
-              alertTitle: "리뷰 등록 실패!",
+              alertTitle: "리뷰 수정 실패!",
               alertMessage: '잠시후 다시 시도 해주세요.',
             });
           }

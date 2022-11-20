@@ -41,7 +41,6 @@ export default {
   },
   async created() {
       await this.getBookmarkList();
-      console.log(this.bookmarkList)
   }
 }
 </script>

@@ -26,12 +26,12 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public int deleteReview(int reviewId) {
-		return deleteReview(reviewId);
+		return dao.deleteReview(reviewId);
 	}
 	
 	@Override
 	public int modifyReview(ReviewDto reviewDto) {
-		return modifyReview(reviewDto);
+		return dao.modifyReview(reviewDto);
 	}
 
 }

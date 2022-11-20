@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive">                     
+  <div class="table-responsive">
     <table class="table">
       <thead class="table-primary">
         <tr>
@@ -13,18 +13,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(review, index) in reviewList" :key="index" >
-          <td><a @click="showReviewDetail(review)"><div class="task_desc_0">{{ review.house.houseName}}</div></a></td>
-          <td><div class="task_desc_0">{{ review.house.sidoName }} {{ review.house.gugunName }} {{ review.house.dongName }}</div></td>
+        <tr v-for="(review, index) in reviewList" :key="index">
+          <td><a @click="selectReviewDetail(review)">
+              <div class="task_desc_0">{{ review.houseName }}</div>
+            </a></td>
+          <td>
+            <div class="task_desc_0">{{ review.houseSidoName }} {{ review.houseGugunName }} {{ review.houseDongName }}
+            </div>
+          </td>
           <td>
             <div class="rating-container">
               <div class="br-wrapper br-theme-fontawesome-stars">
                 <div class="br-widget">
-                  <a :class="{'br-selected br-current': 1 <= review.reviewTraficRating}"></a>
-                  <a :class="{'br-selected br-current': 2 <= review.reviewTraficRating}"></a>
-                  <a :class="{'br-selected br-current': 3 <= review.reviewTraficRating}"></a>
-                  <a :class="{'br-selected br-current': 4 <= review.reviewTraficRating}"></a>
-                  <a :class="{'br-selected br-current': 5 <= review.reviewTraficRating}"></a>
+                  <a :class="{ 'br-selected br-current': 1 <= review.reviewTraficRating }"></a>
+                  <a :class="{ 'br-selected br-current': 2 <= review.reviewTraficRating }"></a>
+                  <a :class="{ 'br-selected br-current': 3 <= review.reviewTraficRating }"></a>
+                  <a :class="{ 'br-selected br-current': 4 <= review.reviewTraficRating }"></a>
+                  <a :class="{ 'br-selected br-current': 5 <= review.reviewTraficRating }"></a>
                 </div>
               </div>
             </div>
@@ -33,11 +38,11 @@
             <div class="rating-container">
               <div class="br-wrapper br-theme-fontawesome-stars">
                 <div class="br-widget">
-                  <a :class="{'br-selected br-current': 1 <= review.reviewSafetyRating}"></a>
-                  <a :class="{'br-selected br-current': 2 <= review.reviewSafetyRating}"></a>
-                  <a :class="{'br-selected br-current': 3 <= review.reviewSafetyRating}"></a>
-                  <a :class="{'br-selected br-current': 4 <= review.reviewSafetyRating}"></a>
-                  <a :class="{'br-selected br-current': 5 <= review.reviewSafetyRating}"></a>
+                  <a :class="{ 'br-selected br-current': 1 <= review.reviewSafetyRating }"></a>
+                  <a :class="{ 'br-selected br-current': 2 <= review.reviewSafetyRating }"></a>
+                  <a :class="{ 'br-selected br-current': 3 <= review.reviewSafetyRating }"></a>
+                  <a :class="{ 'br-selected br-current': 4 <= review.reviewSafetyRating }"></a>
+                  <a :class="{ 'br-selected br-current': 5 <= review.reviewSafetyRating }"></a>
                 </div>
               </div>
             </div>
@@ -46,19 +51,23 @@
             <div class="rating-container">
               <div class="br-wrapper br-theme-fontawesome-stars">
                 <div class="br-widget">
-                  <a :class="{'br-selected br-current': 1 <= review.reviewStoreRating}"></a>
-                  <a :class="{'br-selected br-current': 2 <= review.reviewStoreRating}"></a>
-                  <a :class="{'br-selected br-current': 3 <= review.reviewStoreRating}"></a>
-                  <a :class="{'br-selected br-current': 4 <= review.reviewStoreRating}"></a>
-                  <a :class="{'br-selected br-current': 5 <= review.reviewStoreRating}"></a>
+                  <a :class="{ 'br-selected br-current': 1 <= review.reviewStoreRating }"></a>
+                  <a :class="{ 'br-selected br-current': 2 <= review.reviewStoreRating }"></a>
+                  <a :class="{ 'br-selected br-current': 3 <= review.reviewStoreRating }"></a>
+                  <a :class="{ 'br-selected br-current': 4 <= review.reviewStoreRating }"></a>
+                  <a :class="{ 'br-selected br-current': 5 <= review.reviewStoreRating }"></a>
                 </div>
               </div>
             </div>
           </td>
-          <td><a @click="showReviewModify(review)"><feather  class="me-3" type="edit" size="20"/></a></td>
-          <td><a @click="deleteReview(review.reviewId)"><feather type="trash" size="20"/></a></td>
+          <td><a @click="selectReviewModify(review)">
+              <feather class="me-3" type="edit" size="20" />
+            </a></td>
+          <td><a @click="deleteReview(review.reviewId)">
+              <feather type="trash" size="20" />
+            </a></td>
         </tr>
-      </tbody>      
+      </tbody>
     </table>
 
     <!-- Modal -->
@@ -79,39 +88,39 @@ export default {
   components: {
     ReviewModifyModal,
     ReviewDetailModal
-  },  
-  data(){
+  },
+  data() {
     return {
       selectedReview: null,
-      reviewList: null,
       reviewModifyModal: null,
       reviewDetailModal: null
     }
   },
   methods: {
-    ...mapActions("myPageStore", ["deleteReview"]),
-    showReviewDetail(review){
+    ...mapActions("myPageStore", ["deleteReview", "getReviewList"]),
+    selectReviewModify(review) {
       this.selectedReview = review;
-      this.reviewDetailModal.show(); 
+      this.reviewModifyModal.show();
     },
-    closeReviewDetail(){
-      this.reviewDetailModal.hide();
-    },
-    showReviewModify(review) { 
+    selectReviewDetail(review) {
       this.selectedReview = review;
-      this.reviewModifyModal.show();      
+      this.reviewDetailModal.show();
     },
-    closeReviewModify(){
+
+    closeReviewModify() {
       this.reviewModifyModal.hide();
     },
+    closeReviewDetail() {
+      this.reviewDetailModal.hide();
+    }
   },
-    computed: {
-        ...mapState("myPageStore", ["reivewList"])
-    },
+  computed: {
+    ...mapState("myPageStore", ["reviewList"]),
+  },
   mounted() {
     this.reviewModifyModal = new Modal(document.getElementById("reviewModifyModal"));
     this.reviewDetailModal = new Modal(document.getElementById("reviewDetailModal"));
-  },  
+  },
   async created() {
     await this.getReviewList();
   }
@@ -122,11 +131,13 @@ export default {
 table {
   table-layout: fixed;
 }
+
 td div {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 a {
   cursor: pointer;
 }
