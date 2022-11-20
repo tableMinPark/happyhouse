@@ -27,7 +27,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public int deleteBookmark(int bookmarkId) {
-		return deleteBookmark(bookmarkId);
+		return dao.deleteBookmark(bookmarkId);
 	}
 
 }

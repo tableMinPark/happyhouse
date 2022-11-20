@@ -1,5 +1,5 @@
 import { getPageUserInfo, getFollowUserList, followingCheck, follow, unFollow } from "@/api/user";
-import { getBookmarkList, deleteBookmark, registBookmark } from "@/api/bookmark";
+import { getBookmarkList, deleteBookmark } from "@/api/bookmark";
 import { getReviewList, deleteReview, registReview, modifyReview } from "@/api/review";
 
 import store from '@/store';
@@ -159,32 +159,7 @@ const myPageStore = {
         }     
       )
       store.dispatch("commonStore/setLoading", false); 
-    },
-    // 관심매물 등록
-    async registBookmark({ dispatch }, dealId) {
-      console.log("관심매물 등록");
-      store.dispatch("commonStore/setLoading", true);
-      await registBookmark( dealId,
-        ({ data }) => {
-          if (data.message === "success") {
-            dispatch("getBookmarkList");            
-            store.dispatch("commonStore/alertMessage", {
-              alertTitle: "관심매물 등록 성공!",
-              alertMessage: '관심매물로 등록되었습니다.',
-            });
-          } else {
-            store.dispatch("commonStore/alertMessage", {
-              alertTitle: "관심매물 등록 실패!",
-              alertMessage: '잠시후 다시 시도 해주세요.',
-            });
-          }
-        },
-        (error) => {
-          console.log(error);
-        }     
-      )
-      store.dispatch("commonStore/setLoading", false); 
-    },
+    },   
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

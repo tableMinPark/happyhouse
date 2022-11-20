@@ -60,10 +60,13 @@ export default {
     return {
       dealList: [
         {
-          dealId: 1
+          dealId: 1024
         },
         {
-          dealId: 2
+          dealId: 1025
+        },
+        {
+          dealId: 1026
         }
       ],
       selected: 'All',      // All - Charter - Rend - Dealing

@@ -4,19 +4,19 @@
       <tbody>
         <tr v-for="(bookmark, index) in bookmarkList" :key="index" >
           <td>
-            <router-link :to="`/houseinfo/${bookmark.deal.dealId}`"><div class="task_desc_0">{{ bookmark.house.houseName}}</div></router-link>
+            <router-link :to="`/houseinfo/${bookmark.dealId}`"><div class="task_desc_0">{{ bookmark.houseName}}</div></router-link>
           </td>
           <td>
-            <div class="task_desc_0">{{ bookmark.house.sidoName }} {{ bookmark.house.gugunName }} {{ bookmark.house.dongName }}</div>
+            <div class="task_desc_0">{{ bookmark.houseGugunName }} {{ bookmark.houseDongName }}</div>
           </td>
           <td>
-            <div class="task_desc_0">{{ bookmark.deal.dealArea }} 평</div>
+            <div class="task_desc_0">{{ bookmark.dealArea }} 평</div>
           </td>
           <td>
-            <div class="task_desc_0">{{ bookmark.deal.dealPrice }}</div>
+            <div class="task_desc_0">{{ bookmark.dealPrice }}</div>
           </td>
           <td v-if="isMyPage">
-            <a @click="deleteBookmark(bookmark.bookmarkId)">
+            <a @click="bookmarkDelete(bookmark.bookmarkId)">
               <feather type="trash" size="20"/>
             </a>
           </td>
@@ -31,13 +31,17 @@ import { mapActions, mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState("myPageStore", ["bookmarkList"]),
+    ...mapState("myPageStore", ["isMyPage", "bookmarkList"]),
   },
   methods: {
     ...mapActions("myPageStore", ["getBookmarkList", "deleteBookmark"]),
+    async bookmarkDelete(bookmarkId) {
+      await this.deleteBookmark(bookmarkId);
+    }
   },
   async created() {
       await this.getBookmarkList();
+      console.log(this.bookmarkList)
   }
 }
 </script>

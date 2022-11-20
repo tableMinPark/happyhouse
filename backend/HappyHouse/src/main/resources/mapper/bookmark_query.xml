@@ -3,18 +3,24 @@
 <mapper namespace="com.happyhouse.api.bookmark.dao.BookmarkDao">
 	
 	<select id ="getBookmarkList" parameterType="int" resultType="com.happyhouse.api.bookmark.dto.BookmarkDto">
-		select bookmark_id, deal_id, house_id
-		  from bookmark
-		 where user_id = #{userId}
+		select b.bookmark_id, b.deal_id, b.house_id, 
+				d.deal_area, d.deal_price,
+				h.house_name, h.house_gugun_name, h.house_dong_name
+		  from bookmark b, deal d, house h
+		 where b.user_id = #{user_id}
+		   and b.deal_id = d.deal_id
+		   and h.house_id = d.house_id;
 	</select>
 		
 	<insert id="registBookmark" parameterType="map">
-		insert into bookmark ( deal_id, user_id )
-			        values ( #{dealId}, #{userId} )		
+		insert into bookmark ( deal_id, user_id, house_id )
+			        values ( #{dealId}, #{userId}, ( select house_id
+			        								   from deal
+			        								  where deal_id = #{dealId} ))		
 	</insert>
 	
 	<delete id="deleteBookmark" parameterType="int">
 		delete from bookmark
-			  where bookmarkId = #{bookmarkId}
+			  where bookmark_id = #{bookmarkId}
 	</delete>	
 </mapper>

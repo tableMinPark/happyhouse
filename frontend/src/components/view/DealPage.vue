@@ -56,13 +56,13 @@
                   <!-- 주소 검색 START -->
                   <div v-show="searchType == 'K'" class="row">
                     <div class="col-10 pe-0 d-flex">
-                      <select id="si" class="form-select me-1" v-model="si">
+                      <select id="si" class="form-select me-1" v-model="sidoCode">
                         <option selected>시</option>
                       </select>
-                      <select id="gugun" class="form-select me-1" v-model="gugun">
+                      <select id="gugun" class="form-select me-1" v-model="gugunCode">
                         <option selected>군</option>
                       </select>
-                      <select id="dong" class="form-select" v-model="dong">
+                      <select id="dong" class="form-select" v-model="dongCode">
                         <option selected>동</option>
                       </select>
                     </div>
@@ -93,9 +93,15 @@
                     <div class="card shadow shadow-showcase mb-2">
                       <div class="container card-body">
                         <div class="row">
-                          <h3>삼정그린코아</h3>
-                          <h6>부산시 강서구 송정동 1627-5</h6>
-                          <h6>2022</h6>
+                          <div class="d-flex justify-content-between">
+                            <h3>{{ dealInfo.houseName }}</h3>
+                            <a @click="registBookmark(userInfo.userId)">
+                              <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30" ></i>
+                              <i v-else class="fa fa-heart-o fa-2x"></i>
+                            </a>
+                          </div>
+                          <h6>{{ dealInfo.houseAddress }}</h6>
+                          <h6>{{ dealInfo.houseBuildYear }}</h6>
                         </div>
                       </div>
                     </div>
@@ -111,8 +117,8 @@
                             <div class="media p-1">
                               <img class="img-50 img-fluid m-r-20 rounded-circle" alt src="assets/images/user/2.png">
                               <div class="media-body mt-2">
-                                <h5 class="d-block">박 상 민</h5>
-                                <h6 class="d-block">2022.11.11</h6>
+                                <h5 class="d-block">{{ reviewList[0].userName }}</h5>
+                                <h6 class="d-block">{{ reviewList[0].userRegDt }}</h6>
                               </div>
                             </div>
                           </div>
@@ -127,11 +133,11 @@
                                 <div class="rating-container">
                                   <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a :class="{ 'br-selected br-current': 1 <= reviewTraficRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 2 <= reviewTraficRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 3 <= reviewTraficRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 4 <= reviewTraficRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 5 <= reviewTraficRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewTraficRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewTraficRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewTraficRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewTraficRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewTraficRating }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -148,11 +154,11 @@
                                 <div class="rating-container">
                                   <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a :class="{ 'br-selected br-current': 1 <= reviewSafetyRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 2 <= reviewSafetyRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 3 <= reviewSafetyRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 4 <= reviewSafetyRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 5 <= reviewSafetyRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewSafetyRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewSafetyRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewSafetyRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewSafetyRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewSafetyRating }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -168,11 +174,11 @@
                                 <div class="rating-container">
                                   <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a :class="{ 'br-selected br-current': 1 <= reviewStoreRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 2 <= reviewStoreRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 3 <= reviewStoreRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 4 <= reviewStoreRating }"></a>
-                                      <a :class="{ 'br-selected br-current': 5 <= reviewStoreRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewStoreRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewStoreRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewStoreRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewStoreRating }"></a>
+                                      <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewStoreRating }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -183,7 +189,7 @@
                         <div class="row mt-3">
                           <div class="col-12">
                             <h6 class="text-center">
-                              리뷰 테스트
+                              {{ reviewList[0].reviewContent }}
                             </h6>
                           </div>
                         </div>
@@ -285,29 +291,34 @@
 
 <script>
 import BasicHeader from '@/components/common/BasicHeader.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  data() {
-    return {
-      map: null,
-      searchType: 'A',    // A - K
-      si: '시',
-      gugun: '군',
-      dong: '동',
-      keyword: '',
-      houseInfo: "1",
-
-      dealInfoToggle: false,
-
-      reviewTraficRating: 3,
-      reviewSafetyRating: 4,
-      reviewStoreRating: 5
-    }
-  },
   components: {
     BasicHeader
   },
+  data() {
+    return {
+      // 카카오맵
+      map: null, 
+
+      // 검색창 데이터
+      searchType: 'A',    // A - K
+      sidoCode: '',
+      gugunCode: '',
+      dongCode: '',
+      keyword: '',
+
+      // 정보창 토글
+      dealInfoToggle: false,
+    }
+  },
+  computed: {
+    ...mapState("userStore", ["userInfo"]),
+    ...mapState("dealStore", ["dealInfo", "reviewList", "isBookmarking"])
+  },  
   methods: {
+    ...mapActions("dealStore", ["registBookmark"]),
     dealInfoToggler() {
       if (this.dealInfoToggle) this.dealInfoToggle = false;
       else this.dealInfoToggle = true;
@@ -346,6 +357,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  cursor: pointer;
+}
 #kakao-map {
   z-index: 1;
   height: 80vh;

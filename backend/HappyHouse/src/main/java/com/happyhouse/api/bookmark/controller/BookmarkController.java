@@ -64,7 +64,7 @@ public class BookmarkController {
 	}
 	
 	/* 관심매물 등록 */
-	@PostMapping("/")
+	@PostMapping("")
 	public ResponseEntity<Map<String, Object>> registBookmark(@RequestParam(value="userId") int userId, @RequestParam(value="dealId") int dealId) {
 		Map<String, Integer> param = new HashMap<String, Integer>();
 		param.put("userId", userId);
@@ -88,13 +88,13 @@ public class BookmarkController {
 	}
 	
 	/* 관심매물 삭제 */
-	@DeleteMapping("/")
-	public ResponseEntity<Map<String, Object>> deleteBookmark(@RequestParam(value="bookmarkId") int bookmarkId) {
-		
+	@DeleteMapping("{bookmarkId}")
+	public ResponseEntity<Map<String, Object>> deleteBookmark(@PathVariable(value="bookmarkId") int bookmarkId) {
+				
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int ret = service.deleteBookmark(bookmarkId);			
+			int ret = service.deleteBookmark(bookmarkId);
 			if (ret == 1) {
 				resultMap.put("message", SUCCESS);
 			} else {

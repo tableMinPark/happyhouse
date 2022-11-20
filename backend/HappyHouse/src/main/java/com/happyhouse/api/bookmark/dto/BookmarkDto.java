@@ -14,5 +14,10 @@ import lombok.ToString;
 public class BookmarkDto {
 	private int bookmarkId;
 	private int dealId;
-	private int userId;
+	private int houseId;
+	private String dealArea;
+	private int dealPrice;
+	private String houseName;
+	private String houseGugunName;
+	private String houseDongName;
 }
