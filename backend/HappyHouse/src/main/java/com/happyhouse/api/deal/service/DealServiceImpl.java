@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.deal.dao.DealDao;
-import com.happyhouse.api.deal.dto.CityDto;
+import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
 import com.happyhouse.api.deal.dto.FileDto;
@@ -31,23 +31,20 @@ public class DealServiceImpl implements DealService{
 	
 	@Value("${app.fileupload.path}")
 	String uploadPath;
-	
-	@Override
-	public List<CityDto> cityList(int code) {
-		return dao.cityList(code);
-	}
-	
+		
 	@Override
 	@Transactional
-	public DealResultDto dealInsert(DealParamDto dto, MultipartHttpServletRequest request) {
+	public int dealInsert(DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request) {
 		
-		DealResultDto boardResultDto = new DealResultDto();
+		int ret = 1;
 		
 		try {
 			//houseId 먼저 생성
-			dao.houseInsert(dto);// useGeneratedKeys="true" keyProperty="houseId"
-			dao.dealInsert(dto); // useGeneratedKeys="true" keyProperty="dealId"
-
+			dao.houseInsert(houseDto);// useGeneratedKeys="true" keyProperty="houseId"
+			System.out.println(houseDto);
+			
+			dealDto.setHouseId(houseDto.getHouseId());
+			dao.dealInsert(dealDto);  // useGeneratedKeys="true" keyProperty="dealId"
 			
 			List<MultipartFile> fileList = request.getFiles("file");
 	
@@ -56,7 +53,7 @@ public class DealServiceImpl implements DealService{
 
 			for (MultipartFile part : fileList) {
 
-				int dealId = dto.getDealId();
+				int dealId = dealDto.getDealId();
 				
 				String fileName = part.getOriginalFilename();
 				
@@ -84,20 +81,20 @@ public class DealServiceImpl implements DealService{
 				
 				dao.fileInsert(fileDto);
 			}
-
-			boardResultDto.setResult(1);
 			
 		}catch(IOException e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
-			boardResultDto.setResult(0);
+			ret = 0;
 		}
-		return boardResultDto;
+		return ret;
 	}
 
 	@Override
 	public DealResultDto houseList(String searchWord) {
-		DealResultDto ret = new DealResultDto();
+		DealResultDto ret = null;
 		try {
+			ret = new DealResultDto();
 			List<HouseDto> res = dao.houseList(searchWord);
 			ret.setHouseList(res);
 		}catch(Exception e) {
@@ -108,10 +105,15 @@ public class DealServiceImpl implements DealService{
 
 	@Override
 	public DealResultDto dealList(DealParamDto dto) {
-		DealResultDto ret = new DealResultDto();
-		List<DealParamDto> res = dao.dealList(dto);
-		ret.setJoinList(res);
-		ret.setCount(dao.dealListCount(dto));
+		DealResultDto ret = null;
+		try {
+			ret = new DealResultDto();
+			List<DealParamDto> res = dao.dealList(dto);
+			ret.setJoinList(res);
+			ret.setCount(dao.dealListCount(dto));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return ret;
 	}
 

@@ -43,9 +43,7 @@ public class ReviewController {
 	/* 리뷰 리스트 */
 	@GetMapping("/{userId}")
 	public ResponseEntity<Map<String, Object>> getReviewList(@PathVariable("userId") int userId) {
-		
-		System.out.println(userId);
-		
+				
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
@@ -69,8 +67,6 @@ public class ReviewController {
 	/* 리뷰 등록 */
 	@PostMapping("")
 	public ResponseEntity<Map<String, Object>> registReview(@RequestBody ReviewDto reviewDto) {
-		
-		System.out.println(reviewDto);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;

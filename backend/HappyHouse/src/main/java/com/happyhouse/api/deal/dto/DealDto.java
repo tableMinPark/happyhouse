@@ -1,9 +1,6 @@
 package com.happyhouse.api.deal.dto;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +14,27 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class DealDto {
-	private int userId;
+	private int dealId;
 	private int houseId;
 	private int dealPrice;
+	private int dealDeposit;
 	private LocalDateTime dealDate;
 	private int dealFloor;
 	private String dealArea;
 	private String code;
-	private int dealComplete;
+	private boolean dealComplete;
+	private String dealContent;
+	private int userId;
+	
+	public DealDto(DealParamDto param) {
+		this.houseId = param.getHouseId();
+		this.dealPrice = param.getDealPrice();
+		this.dealDeposit = param.getDealDeposit();
+		this.dealFloor = param.getDealFloor();
+		this.dealArea = param.getDealArea();
+		this.code = param.getCode();
+		this.dealContent = param.getDealContent();
+		this.userId = param.getUserId();
+	}
 }
 

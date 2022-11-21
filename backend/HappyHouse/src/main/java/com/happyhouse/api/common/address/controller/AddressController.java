@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.happyhouse.api.common.address.dto.AddressDto;
@@ -36,82 +36,51 @@ public class AddressController {
 	@Autowired
 	private AddressService service;
 	
-	/* 시도  */
-	@GetMapping("/sido")
-	public ResponseEntity<Map<String, Object>> getSido() {
+	/*도시 목록 */
+	@GetMapping("/{code}")
+	public ResponseEntity<Map<String, Object>> cityList(@PathVariable int code){
 		
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
 		try {
-			List<AddressDto> sidoList = service.getSido();			
-			if (sidoList != null) {
-				resultMap.put("sidoList", sidoList);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;	
+			List<AddressDto> addressList = service.addressList(code);
+			
+			if (addressList != null) {
+				resultMap.put("addressList", addressList);
+				resultMap.put("message", SUCCESS);	
 			} else {
 				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;				
-			}
-		} catch (Exception e) {
-			logger.error("정보조회 실패 : {}", e);
+			}			
+			
+		}catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	/* 구군  */
-	@GetMapping("/gugun")
-	public ResponseEntity<Map<String, Object>> getGugun(@RequestParam("sidoCode") int sidoCode) {
-		
+	@GetMapping("/coord/{address}")
+	public ResponseEntity<Map<String, Object>> getCoord(@PathVariable String address) {
+				
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
 		try {
-			List<AddressDto> gugunList = service.getGugun(sidoCode);			
-			if (gugunList != null) {
-				resultMap.put("gugunList", gugunList);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;	
+			String addressInfo = service.getCoord(address);
+			
+			if (addressInfo != null) {
+				resultMap.put("addressInfo", addressInfo);
+				resultMap.put("message", SUCCESS);	
 			} else {
 				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;				
-			}
-		} catch (Exception e) {
-			logger.error("정보조회 실패 : {}", e);
+			}			
+			
+		}catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-
-	/* 동  */
-	@GetMapping("/dong")
-	public ResponseEntity<Map<String, Object>> getDong(@RequestParam("sidoCode") int sidoCode, @RequestParam("gugunCode") int gugunCode) {
-		
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("sidoCode", sidoCode);
-		param.put("gugunCode", gugunCode);
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		try {
-			List<AddressDto> dongList = service.getDong(param);			
-			if (dongList != null) {
-				resultMap.put("dongList", dongList);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;	
-			} else {
-				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;				
-			}
-		} catch (Exception e) {
-			logger.error("정보조회 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
 }
 	

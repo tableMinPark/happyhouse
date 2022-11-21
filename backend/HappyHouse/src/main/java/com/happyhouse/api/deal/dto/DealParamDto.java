@@ -17,30 +17,31 @@ import lombok.ToString;
 public class DealParamDto {
 	
 	private int userId;
-	
+
+	private int dealId;
 	private int dealPrice;
-	private LocalDateTime dealDate;
+	private int dealDeposit;
 	private int dealFloor;
 	private String dealArea;
-	private int dealComplete;
+	private String code;
+	private String dealContent;	
+	private LocalDateTime dealDate;
+	private String[] fileUrl;
+
+	private int houseId;
 	private String houseName;
 	private String houseBuildYear;
+	private String houseSidoCode;
+	private String houseSidoName;
 	private String houseDongCode;
 	private String houseDongName;
+	private String houseGugunCode;
+	private String houseGugunName;
 	private String houseJibun;
 	private String houseLat;
 	private String houseLng;
-	private String houseGugunCode;
-	private String houseGugunName;
-	private String houseSidoCode;
-	private String houseSidoName;
-	private String code;
-	private String fileUrl;
-	
-	private int houseId;
-	private int dealId;
-	
-	
+	private String houseCode;	
+		
 	private int limit;
 	private int offset;
 	private String searchType;

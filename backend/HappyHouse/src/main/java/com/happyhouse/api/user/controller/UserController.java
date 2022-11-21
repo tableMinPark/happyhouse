@@ -53,8 +53,7 @@ public class UserController {
 		
 		try {			
 			userDto = service.login(userDto);
-
-			System.out.println(userDto);
+			
 			if (userDto != null) {
 				if (userDto.isAuth()) {
 					String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());// key, data
