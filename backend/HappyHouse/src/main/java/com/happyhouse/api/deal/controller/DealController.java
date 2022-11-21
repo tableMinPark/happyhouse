@@ -2,6 +2,7 @@ package com.happyhouse.api.deal.controller;
 
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.deal.dto.CityDto;
+import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
+import com.happyhouse.api.deal.dto.HouseDto;
 import com.happyhouse.api.deal.service.DealService;
 
 @RestController
@@ -92,6 +96,21 @@ public class DealController {
 		}		 
 	}
 	
+	@GetMapping("/deal")
+	public ResponseEntity<DealResultDto> dealList(DealParamDto dto){
+		DealResultDto ret = new DealResultDto();
+		try {
+			ret = service.dealList(dto);
+
+			return new ResponseEntity<DealResultDto>(ret,HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<DealResultDto>(ret,HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}
+		
+	}
+	
 	@GetMapping("/house/{searchWord}")
 	public ResponseEntity<DealResultDto> houseList(@PathVariable String searchWord){
 		DealResultDto ret = new DealResultDto();
@@ -106,4 +125,5 @@ public class DealController {
 		}
 		
 	}
+	
 }

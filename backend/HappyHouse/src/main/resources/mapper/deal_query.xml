@@ -43,4 +43,21 @@
 		 </if>
 	</select>
 	
+	
+	<select id="dealList" parameterType="com.happyhouse.api.deal.dto.DealParamDto" resultType="com.happyhouse.api.deal.dto.DealParamDto">
+		select a.*, b.file_url 
+		 from(
+			select d.deal_id, d.house_id,d.deal_price,d.deal_floor,d.deal_area,d.code,d.deal_complete,d.deal_content,
+			h.house_name,h.house_sido_name,h.house_gugun_name,h.house_dong_name,h.house_jibun
+			from deal d join house h 
+			on d.house_id = h.house_id
+			) a left join (select * 
+					from(
+					SELECT ROW_NUMBER() OVER(PARTITION BY deal_file.deal_id) AS RNUM, deal_file.deal_id , deal_file.file_url
+					FROM deal_file
+				) r
+				where rnum = 1) b
+		on a.deal_id = b.deal_id limit #{limit} offset #{offset}
+	</select>
+	
 </mapper>

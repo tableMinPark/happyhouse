@@ -26,10 +26,10 @@ public class DealServiceImpl implements DealService{
 	@Autowired
 	DealDao dao;
 	
-	@Value("${app.fileupload.uploadDir}")
+	@Value("${app.fileupload.dealDir}")
 	String uploadFolder;
 	
-	@Value("${app.fileupload.uploadPath}")
+	@Value("${app.fileupload.path}")
 	String uploadPath;
 	
 	@Override
@@ -103,6 +103,14 @@ public class DealServiceImpl implements DealService{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		return ret;
+	}
+
+	@Override
+	public DealResultDto dealList(DealParamDto dto) {
+		DealResultDto ret = new DealResultDto();
+		List<DealParamDto> res = dao.dealList(dto);
+		ret.setJoinList(res);
 		return ret;
 	}
 

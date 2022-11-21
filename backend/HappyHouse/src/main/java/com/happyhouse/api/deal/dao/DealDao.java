@@ -17,4 +17,5 @@ public interface DealDao {
 	int fileInsert(FileDto fileDto);
 	
 	List<HouseDto> houseList(String searchWord);
+	List<DealParamDto> dealList(DealParamDto dto);
 }

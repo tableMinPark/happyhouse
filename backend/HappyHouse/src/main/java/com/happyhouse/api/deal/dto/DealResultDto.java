@@ -19,6 +19,7 @@ public class DealResultDto {
 	private HouseDto houseDto;
 	private List<DealDto> dealList;
 	private List<HouseDto> houseList;
+	private List<DealParamDto> joinList;
 	private int count;
 
 }
