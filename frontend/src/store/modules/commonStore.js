@@ -7,6 +7,8 @@ const commonStore = {
     alertTitle: '',
     alertMessage: '',
 
+
+
     noProfileImageUrl: `http://${location.host}/assets/images/dashboard/1.png`,
   },
   mutations: {    
@@ -38,7 +40,7 @@ const commonStore = {
       commit("SET_ALERT_MESSAGE", payload.alertMessage);
       commit("SET_ACCESS_ALERT", true);
       setTimeout(() => { commit("SET_ACCESS_ALERT", false) }, 4000);
-    }
+    },
   }
 };
 
