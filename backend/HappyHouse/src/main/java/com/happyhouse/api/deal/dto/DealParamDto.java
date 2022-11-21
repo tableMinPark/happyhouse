@@ -33,8 +33,15 @@ public class DealParamDto {
 	private String houseGugunCode;
 	private String houseGugunName;
 	private String code;
+	private String fileUrl;
 	
 	private int houseId;
 	private int dealId;
+	
+	
+	private int limit;
+	private int offset;
+	private String searchType;
+	private String searchWord;
 	
 }
