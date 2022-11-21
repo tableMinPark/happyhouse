@@ -63,6 +63,13 @@
             ></house-list-item>
           </div>
         </div>
+        <PaginationUI
+          :listRowCount="listRowCount"
+          :pageLinkCount="pageLinkCount"
+          :currentPageIndex="currentPageIndex"
+          :totalListItemCount="totalListItemCount"
+          @call-parent-move-page="movePage"
+        ></PaginationUI>
       </div>
     </div>
   </div>
@@ -71,11 +78,13 @@
 <script>
 import BasicHeader from "@/components/common/BasicHeader.vue";
 import HouseListItem from "@/components/House/Module/HouseListItem.vue";
+import PaginationUI from "@/components/common/UI/PaginationUI.vue";
 import { dealList } from "@/api/deal.js";
 export default {
   components: {
     HouseListItem,
     BasicHeader,
+    PaginationUI,
   },
   data() {
     return {
@@ -107,6 +116,8 @@ export default {
       this.selectedRent = false;
       this.selectedDealing = false;
       this.selected = "0";
+      this.offset = 0;
+      this.currentPageIndex = 1;
       this.getList();
     },
     selectCharter() {
@@ -117,6 +128,8 @@ export default {
       this.selectedRent = false;
       this.selectedDealing = false;
       this.selected = "100";
+      this.offset = 0;
+      this.currentPageIndex = 1;
       this.getList();
     },
     selectRent() {
@@ -127,6 +140,8 @@ export default {
       this.selectedRent = true;
       this.selectedDealing = false;
       this.selected = "200";
+      this.offset = 0;
+      this.currentPageIndex = 1;
       this.getList();
     },
     selectDealing() {
@@ -137,10 +152,19 @@ export default {
       this.selectedRent = false;
       this.selectedDealing = true;
       this.selected = "300";
+      this.offset = 0;
+      this.currentPageIndex = 1;
+      this.getList();
+    },
+    movePage(pageIndex) {
+      this.offset = (pageIndex - 1) * this.listRowCount;
+      this.currentPageIndex = pageIndex;
       this.getList();
     },
     search() {
       console.log("search " + this.searchWord);
+      this.offset = 0;
+      this.currentPageIndex = 1;
       this.getList();
     },
     getList() {
@@ -154,7 +178,8 @@ export default {
         param,
         ({ data }) => {
           this.dealList = data.joinList;
-          console.log(data.joinList);
+          this.totalListItemCount = data.count;
+          console.log(data);
         },
         (error) => {
           console.error(error);

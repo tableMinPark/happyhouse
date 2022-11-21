@@ -103,10 +103,11 @@ public class DealController {
 //		System.out.println(dto);
 		try {
 			ret = service.dealList(dto);
-
+			ret.setResult(1);
 			return new ResponseEntity<DealResultDto>(ret,HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
+			ret.setResult(0);
 			return new ResponseEntity<DealResultDto>(ret,HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}

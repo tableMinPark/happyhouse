@@ -74,4 +74,27 @@
 		limit #{limit} offset #{offset}
 	</select>
 	
+	<select id="dealListCount" parameterType="com.happyhouse.api.deal.dto.DealParamDto" resultType="int">
+		select count(*) 
+		 from(
+			select d.deal_id , d.house_id, d.code,h.house_name
+			from deal d join house h 
+			on d.house_id = h.house_id
+			) a 
+		<if test = '!searchType.equals("0")'>
+			where code = #{searchType} 
+		</if>
+		<if test = '!searchWord.equals("")'>
+			<if test = '!searchType.equals("0")'>
+				and 
+			</if>
+			<if test = 'searchType.equals("0")'>
+				where 
+			</if>
+			a.house_name like concat('%' , #{searchWord} , '%')
+		</if>
+		
+	</select>
+	
+	
 </mapper>

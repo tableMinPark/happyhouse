@@ -111,6 +111,7 @@ public class DealServiceImpl implements DealService{
 		DealResultDto ret = new DealResultDto();
 		List<DealParamDto> res = dao.dealList(dto);
 		ret.setJoinList(res);
+		ret.setCount(dao.dealListCount(dto));
 		return ret;
 	}
 
