@@ -13,24 +13,40 @@
                 <!--toggle button-->
                 <ul class="nav nav-primary mb-1">
                   <li class="nav-item" @click="selectAll">
-                    <a class="nav-link" :class="{ active: selectedAll }">전체</a>
+                    <a class="nav-link" :class="{ active: selectedAll }"
+                      >전체</a
+                    >
                   </li>
                   <li class="nav-item" @click="selectCharter">
-                    <a class="nav-link" :class="{ active: selectedCharter }">전세</a>
+                    <a class="nav-link" :class="{ active: selectedCharter }"
+                      >전세</a
+                    >
                   </li>
                   <li class="nav-item" @click="selectRent">
-                    <a class="nav-link" :class="{ active: selectedRent }">월세</a>
+                    <a class="nav-link" :class="{ active: selectedRent }"
+                      >월세</a
+                    >
                   </li>
                   <li class="nav-item" @click="selectDealing">
-                    <a class="nav-link" :class="{ active: selectedDealing }">매매</a>
+                    <a class="nav-link" :class="{ active: selectedDealing }"
+                      >매매</a
+                    >
                   </li>
                 </ul>
                 <!--검색창 , 버튼-->
                 <form class="form-inline">
                   <div class="me-1 mb-1">
-                    <input class="form-control" type="text" placeholder="Search" v-model="searchWord" />
+                    <input
+                      class="form-control"
+                      type="text"
+                      placeholder="Search"
+                      v-model="searchWord"
+                    />
                   </div>
-                  <button class="btn btn-primary text-center" @click.prevent="search">
+                  <button
+                    class="btn btn-primary text-center"
+                    @click.prevent="search"
+                  >
                     <feather type="search" size="15" />
                   </button>
                 </form>
@@ -40,7 +56,11 @@
         </div>
         <div class="product-wrapper-grid">
           <div class="row">
-            <house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal"></house-list-item>
+            <house-list-item
+              v-for="(deal, index) in dealList"
+              :key="index"
+              :deal="deal"
+            ></house-list-item>
           </div>
         </div>
       </div>
@@ -49,9 +69,9 @@
 </template>
 
 <script>
-import BasicHeader from "@/components/common/BasicHeader.vue"
-import HouseListItem from "@/components/House/Module/HouseListItem.vue"
-import { dealList } from "@/api/deal.js"
+import BasicHeader from "@/components/common/BasicHeader.vue";
+import HouseListItem from "@/components/House/Module/HouseListItem.vue";
+import { dealList } from "@/api/deal.js";
 export default {
   components: {
     HouseListItem,
@@ -76,67 +96,76 @@ export default {
       selectedRent: false,
       selectedDealing: false,
       searchWord: "",
-    }
+    };
   },
   methods: {
     selectAll() {
-      console.log("call All")
-      this.searchWord = ""
-      this.selectedAll = true
-      this.selectedCharter = false
-      this.selectedRent = false
-      this.selectedDealing = false
-      this.selected = "0"
+      console.log("call All");
+      this.searchWord = "";
+      this.selectedAll = true;
+      this.selectedCharter = false;
+      this.selectedRent = false;
+      this.selectedDealing = false;
+      this.selected = "0";
+      this.getList();
     },
     selectCharter() {
-      console.log("call charter")
-      this.searchWord = ""
-      this.selectedAll = false
-      this.selectedCharter = true
-      this.selectedRent = false
-      this.selectedDealing = false
-      this.selected = "100"
+      console.log("call charter");
+      this.searchWord = "";
+      this.selectedAll = false;
+      this.selectedCharter = true;
+      this.selectedRent = false;
+      this.selectedDealing = false;
+      this.selected = "100";
+      this.getList();
     },
     selectRent() {
-      console.log("call rent")
-      this.searchWord = ""
-      this.selectedAll = false
-      this.selectedCharter = false
-      this.selectedRent = true
-      this.selectedDealing = false
-      this.selected = "200"
+      console.log("call rent");
+      this.searchWord = "";
+      this.selectedAll = false;
+      this.selectedCharter = false;
+      this.selectedRent = true;
+      this.selectedDealing = false;
+      this.selected = "200";
+      this.getList();
     },
     selectDealing() {
-      console.log("call dealing")
-      this.searchWord = ""
-      this.selectedAll = false
-      this.selectedCharter = false
-      this.selectedRent = false
-      this.selectedDealing = true
-      this.selected = "300"
+      console.log("call dealing");
+      this.searchWord = "";
+      this.selectedAll = false;
+      this.selectedCharter = false;
+      this.selectedRent = false;
+      this.selectedDealing = true;
+      this.selected = "300";
+      this.getList();
     },
     search() {
-      console.log("search " + this.searchWord)
-      // this.searchWord = ""
+      console.log("search " + this.searchWord);
+      this.getList();
+    },
+    getList() {
+      let param = {
+        searchType: this.selected,
+        searchWord: this.searchWord,
+        limit: this.limit,
+        offset: this.offset,
+      };
+      dealList(
+        param,
+        ({ data }) => {
+          this.dealList = data.joinList;
+          console.log(data.joinList);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     },
   },
   created() {
-    let param = {
-      limit: this.limit,
-      offset: this.offset,
-    }
-    dealList(
-      param,
-      ({ data }) => {
-        this.dealList = data.joinList
-        console.log(data.joinList)
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
+    this.getList();
   },
-}
+};
 </script>
 
 <style></style>

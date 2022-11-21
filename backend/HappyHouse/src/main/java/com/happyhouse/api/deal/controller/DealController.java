@@ -100,6 +100,7 @@ public class DealController {
 	@GetMapping("/deal")
 	public ResponseEntity<DealResultDto> dealList(DealParamDto dto){
 		DealResultDto ret = new DealResultDto();
+//		System.out.println(dto);
 		try {
 			ret = service.dealList(dto);
 

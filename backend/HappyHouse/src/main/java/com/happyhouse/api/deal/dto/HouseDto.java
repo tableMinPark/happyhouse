@@ -22,5 +22,7 @@ public class HouseDto {
 	private String houseLng;
 	private String houseGugunCode;
 	private String houseGugunName;
+	private String houseSidoCode;
+	private String houseSidoName;
 	private String code;
 }

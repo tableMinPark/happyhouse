@@ -57,7 +57,21 @@
 					FROM deal_file
 				) r
 				where rnum = 1) b
-		on a.deal_id = b.deal_id limit #{limit} offset #{offset}
+		on a.deal_id = b.deal_id 
+		<if test = '!searchType.equals("0")'>
+			where code = #{searchType} 
+		</if>
+		<if test = '!searchWord.equals("")'>
+			<if test = '!searchType.equals("0")'>
+				and 
+			</if>
+			<if test = 'searchType.equals("0")'>
+				where 
+			</if>
+			a.house_name like concat('%' , #{searchWord} , '%')
+		</if>
+		
+		limit #{limit} offset #{offset}
 	</select>
 	
 </mapper>

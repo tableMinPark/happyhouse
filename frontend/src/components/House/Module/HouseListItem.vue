@@ -1,33 +1,59 @@
 <template>
   <div class="col-xl-3 col-sm-6 xl-4">
     <div class="card">
-    <div class="product-box">
-        <div class="product-img"><img class="img-fluid" :src="this.$hostname + '/assets/images/ecommerce/01.jpg'" alt=""></div>                        
-        <div class="product-details">
-        <router-link :to="`/houseinfo/${deal.dealId}`">
-            <h4><span class="badge bg-primary me-2 text-light">월세</span>삼정그린코아</h4>
-        </router-link>
-        <p>부산시 강서구 녹산동 1627-5</p>
-        <div class="product-price">$1,999,999</div>
+      <div class="product-box">
+        <div class="product-img">
+          <img class="img-fluid" :src="imgPath" alt="" />
         </div>
+        <div class="product-details">
+          <router-link :to="`/houseinfo/${deal.dealId}`">
+            <h4>
+              <span class="badge bg-primary me-2 text-light">{{
+                dealKind
+              }}</span
+              >{{ deal.houseName }}
+            </h4>
+          </router-link>
+          <p>{{ houseAddress }}</p>
+          <div class="product-price">$ {{ deal.dealPrice }}</div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
-  props: [
-    'deal'
-  ],
+  props: ["deal"],
   data() {
     return {
-      houseInfo: null
-    }
+      path: "http://localhost:8080/upload/deal/",
+      houseInfo: null,
+    };
   },
-}
+  computed: {
+    imgPath: function () {
+      if (this.deal.fileUrl == null) return this.path + "noImage.png";
+      return this.path + this.deal.fileUrl;
+    },
+    dealKind: function () {
+      if (this.deal.code == "100") return "전세";
+      if (this.deal.code == "200") return "월세";
+      return "매매";
+    },
+    houseAddress: function () {
+      return (
+        this.deal.houseSidoName +
+        " " +
+        this.deal.houseGugunName +
+        " " +
+        this.deal.houseDongName +
+        " " +
+        this.deal.houseJibun
+      );
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
