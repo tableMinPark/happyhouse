@@ -76,10 +76,13 @@
 </template>
 
 <script>
+import Vue from "vue";
 import BasicHeader from "@/components/common/BasicHeader.vue";
 import HouseListItem from "@/components/House/Module/HouseListItem.vue";
 import PaginationUI from "@/components/common/UI/PaginationUI.vue";
+import VueAlertify from "vue-alertify";
 import { dealList } from "@/api/deal.js";
+Vue.use(VueAlertify);
 export default {
   components: {
     HouseListItem,
@@ -179,10 +182,12 @@ export default {
         ({ data }) => {
           this.dealList = data.joinList;
           this.totalListItemCount = data.count;
-          console.log(data);
+          // console.log(data);
+          this.$alertify.success("로딩완료");
         },
         (error) => {
           console.error(error);
+          this.$alertify.error("서버에 문제가 있습니다.");
         }
       );
     },
