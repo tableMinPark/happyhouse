@@ -7,7 +7,9 @@ const commonStore = {
     alertTitle: '',
     alertMessage: '',
 
-
+    sidoList: [],
+    gugunList: [],
+    dongList: [],
 
     noProfileImageUrl: `http://${location.host}/assets/images/dashboard/1.png`,
   },
@@ -41,6 +43,13 @@ const commonStore = {
       commit("SET_ACCESS_ALERT", true);
       setTimeout(() => { commit("SET_ACCESS_ALERT", false) }, 4000);
     },
+
+    getSido({ commit }) {
+
+      // API 호출
+
+      commit("SET_SIDO_LIST", )
+    }
   }
 };
 

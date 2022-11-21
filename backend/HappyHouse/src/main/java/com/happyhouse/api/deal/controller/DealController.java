@@ -44,6 +44,7 @@ public class DealController {
 		List<CityDto> res = null;
 		try {
 			res = service.cityList(code);
+			System.out.println(res);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<CityDto>>(res,HttpStatus.INTERNAL_SERVER_ERROR);

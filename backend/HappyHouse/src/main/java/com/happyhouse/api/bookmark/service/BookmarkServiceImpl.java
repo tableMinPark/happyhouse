@@ -13,7 +13,7 @@ import com.happyhouse.api.bookmark.dto.BookmarkDto;
 public class BookmarkServiceImpl implements BookmarkService {
 
 	@Autowired
-	BookmarkDao dao;
+	private BookmarkDao dao;
 	
 	@Override
 	public List<BookmarkDto> getBookmarkList(int userId) {

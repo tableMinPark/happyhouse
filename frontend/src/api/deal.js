@@ -1,6 +1,7 @@
 import { apiInstance } from "./index.js";
 
 const api = apiInstance();
+
 function cityList(code, success, fail) {
   api.get(`/city/${code}`).then(success).catch(fail);
 }

@@ -2,8 +2,6 @@ package com.happyhouse.api.common.email.dto;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
