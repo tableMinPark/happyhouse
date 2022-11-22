@@ -1,6 +1,4 @@
-import { apiInstance } from "./index.js"
-
-const api = apiInstance()
+import api  from "./index.js";
 
 async function login(userInfo, success, fail) {
   await api.post(`/user/login`, userInfo).then(success).catch(fail)

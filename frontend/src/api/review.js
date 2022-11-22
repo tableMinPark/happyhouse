@@ -1,6 +1,4 @@
-import { apiInstance } from "./index.js";
-
-const api = apiInstance();
+import api  from "./index.js";
 
 async function getReviewList(pageId, success, fail) {
   await api.get(`/review/${pageId}`).then(success).catch(fail);

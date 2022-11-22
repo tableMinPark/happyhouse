@@ -40,11 +40,9 @@ const dealStore = {
         };
   
         console.log("관심매물 등록");
-        store.dispatch("commonStore/setLoading", true);
         await registBookmark( params,
           ({ data }) => {
-            if (data.message === "success") {
-                // 관심매물 등록 확인 하는 부분 들어가야됨          
+            if (data.message === "success") {        
               store.dispatch("commonStore/alertMessage", {
                 alertTitle: "관심매물 등록 성공!",
                 alertMessage: '관심매물로 등록되었습니다.',
@@ -60,7 +58,6 @@ const dealStore = {
             console.log(error);
           }     
         )
-        store.dispatch("commonStore/setLoading", false); 
       },
   },
 };

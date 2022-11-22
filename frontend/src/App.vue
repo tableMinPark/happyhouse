@@ -21,12 +21,14 @@
 <script>
 import HeaderPage from "@/components/common/MainHeader.vue";
 import BodyPage from "@/components/common/MainBody.vue";
+import { mapState, mapActions } from "vuex";
+import api  from "@/api/index.js";
+import store from "@/store"
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
-
-import { mapState, mapActions } from "vuex";
-
 const commonStore = "commonStore";
+
 
 export default {
   name: "App",
@@ -38,7 +40,7 @@ export default {
     ...mapState(commonStore, ["isLoading", "accessAlert", "alertTitle", "alertMessage"])
   },
   methods: {
-    ...mapActions(commonStore, ["setInit"])
+    ...mapActions(commonStore, ["setInit", "getCode"])
   },
   async mounted() {
     // 스크립트 로딩
@@ -54,16 +56,44 @@ export default {
     await this.$loadScript(this.$hostname + "/assets/js/notify/bootstrap-notify.min.js");
     await this.$loadScript(this.$hostname + "/assets/js/notify/notify-script.js");
     await this.$loadScript(this.$hostname + "/assets/js/notify/bootstrap-notify.min.js");
-  },
+  }, 
   async created() {
-    await this.setInit();
-  }
+    api.interceptors.request.use(
+        (config) => {
+          store.dispatch("commonStore/setLoading", true);
+           return config;
+        },
+        (error) => {
+          store.dispatch("commonStore/setLoading", false);
+           return Promise.reject(error);
+        }
+     );
+
+     api.interceptors.response.use(
+        (response) => {
+          store.dispatch("commonStore/setLoading", false);
+           return response;
+        },
+        (error) => {
+          store.dispatch("commonStore/setLoading", false);
+           return Promise.reject(error);
+        }
+     );
+    await this.setInit();     // 시작시 시도 초기화
+    await this.getCode();			// 시작시 초기화 공통코드
+  },
 }
 </script>
 
 <style scoped>
 .loader-wrapper {
   background: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999999999999;
 }
 
 i {

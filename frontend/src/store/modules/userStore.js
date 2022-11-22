@@ -135,7 +135,6 @@ const userStore = {
     },
     // 로그인
     async userLogin({ dispatch, state }, user) {
-      store.dispatch("commonStore/setLoading", true);
       await dispatch("userConfirm", user);
       const token = sessionStorage.getItem("access-token");
 
@@ -159,7 +158,6 @@ const userStore = {
           });
         }
       }
-      store.dispatch("commonStore/setLoading", false);
     },
     // 로그아웃
     async userLogout({ commit, state }) {
@@ -196,7 +194,6 @@ const userStore = {
     },
     // 비밀번호찾기
     async forgetPassword({ commit }, user) {
-      store.dispatch("commonStore/setLoading", true);
       await forgetPassword(
         user,
         ({ data }) => {
@@ -217,11 +214,9 @@ const userStore = {
           console.log(error);
         }
       );
-      store.dispatch("commonStore/setLoading", false);
     },
     // 회원가입
     async userRegister(context, user) {
-      store.dispatch("commonStore/setLoading", true);
       await userRegister(
         user,
         ({ data }) => {
@@ -242,11 +237,9 @@ const userStore = {
           console.log(error);
         }
       );      
-      store.dispatch("commonStore/setLoading", false);
     },
     // 회원가입 인증
     async emailAuth(context, authCode) {
-      store.dispatch("commonStore/setLoading", true);
       await emailAUth(
         authCode,
         ({ data }) => {
@@ -267,7 +260,6 @@ const userStore = {
           console.log(error);
         }
       );      
-      store.dispatch("commonStore/setLoading", false);
     }
   },
   // 저장소인 state 의 값을 외부에 노출시키는 방법

@@ -1,6 +1,4 @@
-import { apiInstance } from "./index.js";
-
-const api = apiInstance();
+import api  from "./index.js";
 
 async function getBookmarkList(pageId, success, fail) {
   await api.get(`/bookmark/${pageId}`).then(success).catch(fail);

@@ -58,7 +58,6 @@ const myPageStore = {
     // 마이페이지 정보 채우는 action
     async setMyPageInit({ commit }, payload){
       
-      store.dispatch("commonStore/setLoading", true);
       const userId = payload.userInfo.userId;
       const pageId = payload.pageId;
       const userInfo = payload.userInfo;
@@ -89,7 +88,6 @@ const myPageStore = {
           }
         )
       }      
-      store.dispatch("commonStore/setLoading", false);
     },
 
     // 팔로잉 확인하는 함수
@@ -119,7 +117,6 @@ const myPageStore = {
     ///////////////////////////////////////////// 관심매물 탭 /////////////////////////////////////////
     // 관심매물 리스트
     async getBookmarkList({ commit, state }) {
-      console.log("관심매물 리스트");
       await getBookmarkList( state.pageId,
         ({ data }) => {
           if (data.message === "success") {
@@ -135,8 +132,6 @@ const myPageStore = {
     },
     // 관심매물 삭제
     async deleteBookmark({ dispatch }, bookmarkId) {
-      console.log("관심매물 삭제");
-      store.dispatch("commonStore/setLoading", true);
       await deleteBookmark( bookmarkId, 
         ({ data }) => {
           if (data.message === "success") {
@@ -155,8 +150,7 @@ const myPageStore = {
         (error) => {
           console.log(error);
         }     
-      )
-      store.dispatch("commonStore/setLoading", false); 
+      ) 
     },   
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,7 +158,6 @@ const myPageStore = {
     ///////////////////////////////////////////// 리뷰관리 탭 /////////////////////////////////////////
     // 리뷰 리스트 
     async getReviewList({ commit, state }) {
-      console.log("리뷰 리스트");
       await getReviewList( state.pageId,
         ({ data }) => {
           console.log(data)
@@ -181,8 +174,6 @@ const myPageStore = {
     },
     // 리뷰 삭제
     async deleteReview({ dispatch }, reviewId) {
-      console.log("리뷰 삭제");
-      store.dispatch("commonStore/setLoading", true);
       await deleteReview( reviewId,
         ({ data }) => {
           if (data.message === "success") {
@@ -202,13 +193,10 @@ const myPageStore = {
           console.log(error);
         }     
       )
-      store.dispatch("commonStore/setLoading", false); 
     },
     
     // 리뷰 수정
     async modifyReview({ dispatch }, reviewInfo) {
-      console.log("리뷰 수정");
-      store.dispatch("commonStore/setLoading", true);
       await modifyReview( reviewInfo,
         ({ data }) => {
           if (data.message === "success") {
@@ -228,7 +216,6 @@ const myPageStore = {
           console.log(error);
         }     
       )
-      store.dispatch("commonStore/setLoading", false); 
     },
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

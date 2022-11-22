@@ -29,6 +29,7 @@ public class AddressServiceImpl implements AddressService {
 	
 	public String getCoord(String address) {
 		
+		String ret = null;
 	    ResponseEntity<String> res = null;
 		RestTemplate rest = new RestTemplate();
 	    HttpHeaders headers = new HttpHeaders();
@@ -43,10 +44,10 @@ public class AddressServiceImpl implements AddressService {
 		    String rawURI = "https://dapi.kakao.com/v2/local/search/address.json?query=" + encode; 
 		    URI  uri = new URI(rawURI); 
 		    res = rest.exchange(uri, HttpMethod.GET, entity, String.class); 
-		    
+		    ret = res.getBody();		    
 	    } catch(Exception e){
-	    	e.printStackTrace();
+	    	return null;
 	    }	    
-	    return res.getBody();
+	    return ret;
 	}
 }

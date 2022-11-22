@@ -1,9 +1,11 @@
-import { apiInstance } from "./index.js";
-
-const api = apiInstance();
+import api  from "./index.js";
 
 function addressList(code, success, fail) {
   api.get(`/address/${code}`).then(success).catch(fail);
 }
 
-export { addressList };
+function getCodeByGroupCode(groupCode, success, fail) {
+  api.get(`/code/${groupCode}`).then(success).catch(fail);
+}
+
+export { addressList, getCodeByGroupCode };

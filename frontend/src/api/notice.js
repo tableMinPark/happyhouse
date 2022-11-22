@@ -1,6 +1,4 @@
-import { apiInstance } from "./index.js"
-
-const api = apiInstance()
+import api  from "./index.js";
 
 function listImportant(success, fail) {
   api.get(`/inotice`).then(success).catch(fail)

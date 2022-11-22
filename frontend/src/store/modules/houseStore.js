@@ -2,6 +2,7 @@ import { registReview } from "@/api/review";
 import { dealRegist, convertAddress, dealList } from "@/api/deal";
 
 import store from "@/store";
+import router from "@/routers/routers";
 
 const houseStore = {
   namespaced: true,
@@ -11,13 +12,7 @@ const houseStore = {
     totalListItemCount: 0,
 
     // HouseInfo 에서 참조할 매물 데이터
-    dealInfo: {
-      dealId: 1025,
-      houseId: 2,
-      houseName: "삼정그린코코아",
-      houseAddress: "부산시 강서구 송정동 1627-5",
-      houseBuildYear: 2021
-    },
+    dealInfo: {},
   },
   mutations: {
     SET_DEAL_LIST: (state, dealList) => {
@@ -31,9 +26,6 @@ const houseStore = {
   actions: {
     // 리뷰 등록
     async registReview(context, reviewInfo) {
-      console.log("리뷰 등록");
-      store.dispatch("commonStore/setLoading", true);
-      console.log(reviewInfo)
       await registReview( reviewInfo,
         ({ data }) => {
           if (data.message === "success") {    
@@ -52,7 +44,6 @@ const houseStore = {
           console.log(error);
         }     
       )
-      store.dispatch("commonStore/setLoading", false); 
     },
 
     // 컴포넌트에서 호출하는 함수 (주소확인)
@@ -62,19 +53,23 @@ const houseStore = {
         address, 
         // 좌표변환 성공
         async ({ data }) => {
-          if (data.message === "success"){
-            const address = JSON.parse(data.addressInfo).documents[0];
+          const documentList = JSON.parse(data.addressInfo).documents;
+
+          if (data.message === "success" && documentList.length > 0){ 
+            const address = documentList[0];
             const lat = address.y;
             const lng = address.x;  
             await dispatch("dealRegist", { dealInfo, lat, lng });
-          } 
+          } else {
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "주소 확인 실패!",
+              alertMessage: '올바르지 않은 주소입니다.',
+            });      
+          }
         },
         // 좌표변환 실패
-        () => {
-          store.dispatch("commonStore/alertMessage", {
-            alertTitle: "주소 확인 실패!",
-            alertMessage: '올바르지 않은 주소입니다.',
-          });       
+        (error) => {
+          console.log(error); 
         }
       );
     },
@@ -127,6 +122,7 @@ const houseStore = {
               alertTitle: "매물 등록 성공!",
               alertMessage: '',
             });
+            router.go(-1);
           } else {
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "매물 등록 실패!",
@@ -164,7 +160,7 @@ const houseStore = {
         (error) => {
           console.error(error);
         }
-      );
+      ); 
     } 
     
   },

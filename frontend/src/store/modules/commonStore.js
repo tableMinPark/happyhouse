@@ -1,4 +1,4 @@
-import { addressList } from "@/api/common";
+import { addressList, getCodeByGroupCode } from "@/api/common";
 
 const commonStore = {
   namespaced: true,
@@ -12,6 +12,10 @@ const commonStore = {
     sidoList: [],
     gugunList: [],
     dongList: [],
+    
+    userCodeList: [],
+    dealCodeList: [],
+    houseCodeList: [],
 
     noProfileImageUrl: `http://${location.host}/assets/images/dashboard/1.png`,
   },
@@ -36,7 +40,16 @@ const commonStore = {
     },
     SET_DONG_LIST: (state, dongList) => {
       state.dongList = dongList;
-    }
+    },
+    SET_USER_CODE_LIST: (state, userCodeList) => {
+      state.userCodeLis = userCodeList;
+    },
+    SET_DEAL_CODE_LIST: (state, dealCodeList) => {
+      state.dealCodeList = dealCodeList;
+    },
+    SET_HOUSE_CODE_LIST: (state, houseCodeList) => {
+      state.houseCodeList = houseCodeList;
+    },
   },
   actions: {
     async setInit({ commit, dispatch }) {
@@ -53,7 +66,7 @@ const commonStore = {
       commit("SET_ALERT_TITLE", payload.alertTitle);
       commit("SET_ALERT_MESSAGE", payload.alertMessage);
       commit("SET_ACCESS_ALERT", true);
-      setTimeout(() => { commit("SET_ACCESS_ALERT", false) }, 4000);
+      setTimeout(async () => { commit("SET_ACCESS_ALERT", false) }, 4000);
     },
 
     async getSido({ commit }) {
@@ -101,6 +114,35 @@ const commonStore = {
           console.log(error);
         }
       )      
+    },
+    async getCode({ commit }) {
+      await getCodeByGroupCode("100", 
+        ({ data }) => {
+          commit("SET_USER_CODE_LIST", data.codeList);
+          console.log("userCodeList read");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      await getCodeByGroupCode("200", 
+        ({ data }) => {
+          commit("SET_DEAL_CODE_LIST", data.codeList);
+          console.log("dealCodeList read");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      await getCodeByGroupCode("300", 
+      ({ data }) => {
+        commit("SET_HOUSE_CODE_LIST", data.codeList);
+        console.log("houseCodeList read");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     }
   }
 };

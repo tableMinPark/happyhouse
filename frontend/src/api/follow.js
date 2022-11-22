@@ -1,7 +1,4 @@
-import { apiInstance } from "./index.js";
-
-const api = apiInstance();
-
+import api  from "./index.js";
 
 
 export {}
