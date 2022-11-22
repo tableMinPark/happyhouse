@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-7" style="height: 100%">
+      <div class="col-6" style="height: 100%">
         <div class="card">
           <div class="card-header pb-0">
             <h5>House Images</h5>
@@ -9,17 +9,15 @@
           <div class="card-body">
             <div class="owl-carousel owl-theme owl-loaded owl-drag" id="owl-carousel-14">
               <div class="owl-stage-outer owl-height" style="height: 150px">
-                <div class="owl-stage"
-                  style="transform: translate3d(-3504px, 0px, 0px); transition: all 0s ease 0s; width: 12848px">
+                <div class="owl-stage" style="transform: translate3d(-3504px, 0px, 0px); transition: all 0s ease 0s; width: 12848px">
                   <div class="owl-item" style="width: 150px; margin-right: 10px">
                     <div class="item"><img src="https://edu.ssafy.com/asset/images/header-logo.jpg" alt="" /></div>
                   </div>
                 </div>
               </div>
               <div class="owl-nav disabled">
-                <button type="button" role="presentation" class="owl-prev" data-bs-original-title="" title=""><span
-                    aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"
-                  data-bs-original-title="" title=""><span aria-label="Next">›</span></button>
+                <button type="button" role="presentation" class="owl-prev" data-bs-original-title="" title=""><span aria-label="Previous">‹</span></button
+                ><button type="button" role="presentation" class="owl-next" data-bs-original-title="" title=""><span aria-label="Next">›</span></button>
               </div>
             </div>
           </div>
@@ -36,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="col-5" style="height: 100%">
+      <div class="col-6" style="height: 100%">
         <div class="card" style="height: 70%">
           <div class="card-header pb-0">
             <h5 class="card-title">Infomation</h5>
@@ -72,23 +70,22 @@
     <review-register-modal v-on:call-parent-register-close="closeReviewRegister"></review-register-modal>
   </div>
 </template>
-  
+
 <script>
+import ReviewList from "@/components/House/Module/ReviewList.vue"
+import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue"
 
-import ReviewList from '@/components/House/Module/ReviewList.vue';
-import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue";
-
-import { Modal } from "bootstrap";
+import { Modal } from "bootstrap"
 
 export default {
   components: {
     ReviewList,
-    ReviewRegisterModal
+    ReviewRegisterModal,
   },
   data() {
     return {
       map: null,
-      reviewRegisterModal: null
+      reviewRegisterModal: null,
     }
   },
   methods: {
@@ -101,11 +98,11 @@ export default {
       this.map = new kakao.maps.Map(mapContainer, mapOption)
     },
     showReviewRegister() {
-      this.reviewRegisterModal.show();
+      this.reviewRegisterModal.show()
     },
     closeReviewRegister() {
-      this.reviewRegisterModal.hide();
-    }
+      this.reviewRegisterModal.hide()
+    },
   },
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
@@ -119,12 +116,11 @@ export default {
     } else {
       this.initMap()
     }
-    this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"));
-
+    this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"))
   },
 }
 </script>
-  
+
 <style>
 #kakao-map {
   height: 450px;
@@ -134,4 +130,3 @@ export default {
   height: 500px;
 }
 </style>
-  

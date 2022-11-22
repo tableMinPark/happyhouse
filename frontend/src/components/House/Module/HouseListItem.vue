@@ -8,9 +8,7 @@
         <div class="product-details">
           <router-link :to="`/houseinfo/${deal.dealId}`">
             <h4>
-              <span class="badge bg-primary me-2 text-light">{{
-                dealKind
-              }}</span
+              <span class="badge bg-primary me-2 text-light">{{ dealKind }}</span
               >{{ deal.houseName }}
             </h4>
           </router-link>
@@ -29,31 +27,25 @@ export default {
     return {
       path: "http://localhost:8080/upload/deal/",
       houseInfo: null,
-    };
+      dongName: "",
+    }
   },
   computed: {
     imgPath: function () {
-      if (this.deal.fileUrl == null) return this.path + "noImage.png";
-      return this.path + this.deal.fileUrl;
+      if (this.deal.fileUrl == null) return this.path + "noImage.png"
+      return this.path + this.deal.fileUrl
     },
     dealKind: function () {
-      if (this.deal.code == "100") return "전세";
-      if (this.deal.code == "200") return "월세";
-      return "매매";
+      if (this.deal.code == "100") return "전세"
+      if (this.deal.code == "200") return "월세"
+      return "매매"
     },
     houseAddress: function () {
-      return (
-        this.deal.houseSidoName +
-        " " +
-        this.deal.houseGugunName +
-        " " +
-        this.deal.houseDongName +
-        " " +
-        this.deal.houseJibun
-      );
+      if (this.deal.houseDongName == "undefined") return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseJibun
+      return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseDongName + " " + this.deal.houseJibun
     },
   },
-};
+}
 </script>
 
 <style></style>
