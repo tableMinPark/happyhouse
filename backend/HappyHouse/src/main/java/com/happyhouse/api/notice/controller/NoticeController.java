@@ -32,6 +32,19 @@ public class NoticeController {
 	@Autowired
 	NoticeService service;
 	
+	/*중요 목록*/
+	@GetMapping("/inotice")
+	public ResponseEntity<NoticeResultDto> noticeListImportant(){
+		NoticeResultDto noticeResultDto = new NoticeResultDto();
+		try {
+			noticeResultDto = service.listImportant();
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<NoticeResultDto>(noticeResultDto, HttpStatus.OK);
+	}
+	
 	/*목록*/
 	@GetMapping("/notice")
 	public ResponseEntity<NoticeResultDto> noticeList(NoticeParamDto noticeParamDto){

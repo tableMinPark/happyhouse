@@ -10,6 +10,7 @@ import com.happyhouse.api.notice.dto.NoticeParamDto;
 @Mapper
 public interface NoticeDao {
 
+	List<NoticeDto> noticeSelectImportant();
 	List<NoticeDto> noticeSelect(NoticeParamDto noticeParamDto);
 	int noticeCount();
 	

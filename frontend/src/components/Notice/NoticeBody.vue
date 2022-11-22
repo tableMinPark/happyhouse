@@ -13,12 +13,7 @@
               </select>
             </div>
             <div class="me-1 mb-1">
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Search"
-                v-model="searchWord"
-              />
+              <input class="form-control" type="text" placeholder="Search" v-model="searchWord" />
             </div>
             <button class="btn btn-primary text-center" @click.prevent="search">
               <feather type="search" size="15" />
@@ -54,19 +49,9 @@
                   </thead>
                   <tbody>
                     <!--중요공지-->
-                    <notice-td
-                      v-for="(notice, index) in importantNotices"
-                      :key="`i-${index}`"
-                      :important="true"
-                      :notice="notice"
-                    ></notice-td>
+                    <notice-td v-for="(notice, index) in importantNotices" :key="`i-${index}`" :important="true" :notice="notice"></notice-td>
                     <!--일반 공지, 페이징은 여기서만-->
-                    <notice-td
-                      v-for="(notice, index) in normalNotices"
-                      :key="index"
-                      :important="false"
-                      :notice="notice"
-                    ></notice-td>
+                    <notice-td v-for="(notice, index) in normalNotices" :key="index" :important="false" :notice="notice"></notice-td>
                   </tbody>
                 </table>
               </div>
@@ -74,6 +59,7 @@
 
             <div class="col-sm-12 col-lg-12 col-xl-12 text-end">
               <button
+                v-if="userInfo.code == '300'"
                 class="btn btn-square btn-outline-primary btn-sm mt-3 me-3"
                 type="button"
                 data-bs-original-title=""
@@ -104,11 +90,12 @@
 </template>
 
 <script>
-import NoticeTd from "@/components/Notice/NoticeTd.vue";
-import NoticeWrite from "@/components/Notice/NoticeWrite.vue";
-import PaginationUI from "@/components/common/UI/PaginationUI.vue";
-import { listArticle } from "@/api/notice";
-import { Modal } from "bootstrap";
+import NoticeTd from "@/components/Notice/NoticeTd.vue"
+import NoticeWrite from "@/components/Notice/NoticeWrite.vue"
+import PaginationUI from "@/components/common/UI/PaginationUI.vue"
+import { listArticle, listImportant } from "@/api/notice"
+import { Modal } from "bootstrap"
+import { mapState } from "vuex"
 
 export default {
   name: "BoardInfo",
@@ -129,7 +116,7 @@ export default {
       normalNotices: [],
       //modal
       noticeModal: null,
-    };
+    }
   },
   components: {
     NoticeTd,
@@ -138,8 +125,8 @@ export default {
   },
   methods: {
     search() {
-      console.log("call search! " + this.searchType + " " + this.searchWord);
-      this.callList();
+      console.log("call search! " + this.searchType + " " + this.searchWord)
+      this.callList()
     },
     callList() {
       let params = {
@@ -147,34 +134,49 @@ export default {
         offset: this.offset,
         searchType: this.searchType,
         searchWord: this.searchWord,
-      };
+      }
       listArticle(
         params,
         ({ data }) => {
-          console.log(data);
-          this.normalNotices = data.list;
-          this.totalListItemCount = data.count;
+          console.log(data)
+          this.normalNotices = data.list
+          this.totalListItemCount = data.count
         },
         (error) => {
-          console.error(error);
+          console.error(error)
         }
-      );
+      )
+    },
+    callImportant() {
+      listImportant(
+        ({ data }) => {
+          console.log(data)
+          this.importantNotices = data.list
+        },
+        (error) => {
+          console.error(error)
+        }
+      )
     },
     movePage(pageIndex) {
-      this.offset = (pageIndex - 1) * this.listRowCount;
-      this.currentPageIndex = pageIndex;
-      this.callList();
+      this.offset = (pageIndex - 1) * this.listRowCount
+      this.currentPageIndex = pageIndex
+      this.callList()
     },
     showInsertModal() {
-      this.noticeModal.show();
+      this.noticeModal.show()
     },
     closeAfterInsert() {
-      this.noticeModal.hide();
-      this.callList();
+      this.noticeModal.hide()
+      this.callList()
     },
   },
+  computed: {
+    ...mapState("userStore", ["userInfo"]),
+  },
   created() {
-    this.callList();
+    this.callImportant()
+    this.callList()
   },
   //template에서 사용하기 위해 한번 걸러줌
   // filters: {
@@ -185,9 +187,9 @@ export default {
 
   mounted() {
     //modal 객체를 생성해 data의 변수에 할당.
-    this.noticeModal = new Modal(document.querySelector("#insertModal"));
+    this.noticeModal = new Modal(document.querySelector("#insertModal"))
   },
-};
+}
 </script>
 
 <style>

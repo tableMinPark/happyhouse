@@ -17,6 +17,14 @@ public class NoticeServiceImpl implements NoticeService{
 	NoticeDao dao;
 	
 	@Override
+	public NoticeResultDto listImportant() {
+		NoticeResultDto ret = new NoticeResultDto();
+		List<NoticeDto> res = dao.noticeSelectImportant();
+		ret.setList(res);
+		return ret;
+	}
+	
+	@Override
 	public NoticeResultDto list(NoticeParamDto noticeParamDto) {
 		NoticeResultDto ret = new NoticeResultDto();
 		if(noticeParamDto.getSearchWord().equals("")) {
@@ -66,5 +74,7 @@ public class NoticeServiceImpl implements NoticeService{
 		ret.setResult(res);
 		return ret;
 	}
+
+	
 	
 }

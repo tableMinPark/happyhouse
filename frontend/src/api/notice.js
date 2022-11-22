@@ -1,28 +1,28 @@
-import { apiInstance } from "./index.js";
+import { apiInstance } from "./index.js"
 
-const api = apiInstance();
+const api = apiInstance()
 
+function listImportant(success, fail) {
+  api.get(`/inotice`).then(success).catch(fail)
+}
 function listArticle(param, success, fail) {
-  api.get(`/notice`, { params: param }).then(success).catch(fail);
+  api.get(`/notice`, { params: param }).then(success).catch(fail)
 }
 
 function writeArticle(article, success, fail) {
-  api.post(`/notice`, JSON.stringify(article)).then(success).catch(fail);
+  api.post(`/notice`, JSON.stringify(article)).then(success).catch(fail)
 }
 
 function getArticle(articleno, success, fail) {
-  api.get(`/notice/${articleno}`).then(success).catch(fail);
+  api.get(`/notice/${articleno}`).then(success).catch(fail)
 }
 
 function modifyArticle(article, success, fail) {
-  api
-    .post(`/notice/${article.boardId}`, JSON.stringify(article))
-    .then(success)
-    .catch(fail);
+  api.post(`/notice/${article.boardId}`, JSON.stringify(article)).then(success).catch(fail)
 }
 
 function deleteArticle(articleno, success, fail) {
-  api.delete(`/notice/${articleno}`).then(success).catch(fail);
+  api.delete(`/notice/${articleno}`).then(success).catch(fail)
 }
 
-export { listArticle, writeArticle, getArticle, modifyArticle, deleteArticle };
+export { listImportant, listArticle, writeArticle, getArticle, modifyArticle, deleteArticle }
