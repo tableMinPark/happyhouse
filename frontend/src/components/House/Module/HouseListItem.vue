@@ -25,14 +25,14 @@ export default {
   props: ["deal"],
   data() {
     return {
-      path: "http://localhost:8080/upload/deal/",
+      path: "http://localhost:8080/upload/",
       houseInfo: null,
       dongName: "",
     }
   },
   computed: {
     imgPath: function () {
-      if (this.deal.fileUrl == null) return this.path + "noImage.png"
+      if (this.deal.fileUrl == null) return this.path + "deal/" + "noImage.png"
       return this.path + this.deal.fileUrl
     },
     dealKind: function () {
