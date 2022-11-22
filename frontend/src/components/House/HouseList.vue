@@ -76,13 +76,10 @@
 </template>
 
 <script>
-import Vue from "vue";
 import BasicHeader from "@/components/common/BasicHeader.vue";
 import HouseListItem from "@/components/House/Module/HouseListItem.vue";
 import PaginationUI from "@/components/common/UI/PaginationUI.vue";
-import VueAlertify from "vue-alertify";
-import { dealList } from "@/api/deal.js";
-Vue.use(VueAlertify);
+import { mapActions, mapState } from 'vuex';
 export default {
   components: {
     HouseListItem,
@@ -95,14 +92,11 @@ export default {
       offset: 0,
 
       //pagination
-      totalListItemCount: 0,
       listRowCount: 10,
       pageLinkCount: 10,
       currentPageIndex: 1,
 
-      dealList: [],
-
-      selected: 0, // All - Charter - Rend - Dealing
+      selected: 0,
       selectedAll: true,
       selectedCharter: false,
       selectedRent: false,
@@ -110,90 +104,89 @@ export default {
       searchWord: "",
     };
   },
+  computed: {
+    ...mapState("houseStore", ["dealList", "totalListItemCount"]),
+
+  },
   methods: {
-    selectAll() {
-      console.log("call All");
-      this.searchWord = "";
-      this.selectedAll = true;
-      this.selectedCharter = false;
-      this.selectedRent = false;
-      this.selectedDealing = false;
-      this.selected = "0";
-      this.offset = 0;
-      this.currentPageIndex = 1;
-      this.getList();
+    ...mapActions("houseStore", ["getDealList"]),
+    async selectAll() {
+      if (this.selected !== "0") {
+        this.searchWord = "";
+        this.selectedAll = true;
+        this.selectedCharter = false;
+        this.selectedRent = false;
+        this.selectedDealing = false;
+        this.selected = "0";
+        this.offset = 0;
+        this.currentPageIndex = 1;
+        await this.getList();
+      }
     },
-    selectCharter() {
-      console.log("call charter");
-      this.searchWord = "";
-      this.selectedAll = false;
-      this.selectedCharter = true;
-      this.selectedRent = false;
-      this.selectedDealing = false;
-      this.selected = "100";
-      this.offset = 0;
-      this.currentPageIndex = 1;
-      this.getList();
+    async selectCharter() {
+      if (this.selected !== "100") {
+        this.searchWord = "";
+        this.selectedAll = false;
+        this.selectedCharter = true;
+        this.selectedRent = false;
+        this.selectedDealing = false;
+        this.selected = "100";
+        this.offset = 0;
+        this.currentPageIndex = 1;
+        await this.getList();
+      }
     },
-    selectRent() {
-      console.log("call rent");
-      this.searchWord = "";
-      this.selectedAll = false;
-      this.selectedCharter = false;
-      this.selectedRent = true;
-      this.selectedDealing = false;
-      this.selected = "200";
-      this.offset = 0;
-      this.currentPageIndex = 1;
-      this.getList();
+    async selectRent() {
+      if (this.selected !== "200") {
+        this.searchWord = "";
+        this.selectedAll = false;
+        this.selectedCharter = false;
+        this.selectedRent = true;
+        this.selectedDealing = false;
+        this.selected = "200";
+        this.offset = 0;
+        this.currentPageIndex = 1;
+        await this.getList();
+      }
     },
-    selectDealing() {
-      console.log("call dealing");
-      this.searchWord = "";
-      this.selectedAll = false;
-      this.selectedCharter = false;
-      this.selectedRent = false;
-      this.selectedDealing = true;
-      this.selected = "300";
-      this.offset = 0;
-      this.currentPageIndex = 1;
-      this.getList();
+    async selectDealing() {
+      if (this.selected !== "300") {
+        this.searchWord = "";
+        this.selectedAll = false;
+        this.selectedCharter = false;
+        this.selectedRent = false;
+        this.selectedDealing = true;
+        this.selected = "300";
+        this.offset = 0;
+        this.currentPageIndex = 1;
+        await this.getList();
+      }
     },
-    movePage(pageIndex) {
+
+    async movePage(pageIndex) {
       this.offset = (pageIndex - 1) * this.listRowCount;
       this.currentPageIndex = pageIndex;
-      this.getList();
+      await this.getList();
     },
-    search() {
-      console.log("search " + this.searchWord);
+
+    async search() {
       this.offset = 0;
       this.currentPageIndex = 1;
-      this.getList();
+      await this.getList();
     },
-    getList() {
+
+    async getList() {
       let param = {
         searchType: this.selected,
         searchWord: this.searchWord,
         limit: this.limit,
         offset: this.offset,
       };
-      dealList(
-        param,
-        ({ data }) => {
-          this.dealList = data.joinList;
-          this.totalListItemCount = data.count;
-          // console.log(data);
-          this.$alertify.success("로딩완료");
-        },
-        (error) => {
-          console.error(error);
-          this.$alertify.error("서버에 문제가 있습니다.");
-        }
-      );
+      await this.getDealList(param);      
     },
   },
-  created() {
-    this.getList();
+  async created() {
+    await this.getList();
   },
 };
 </script>

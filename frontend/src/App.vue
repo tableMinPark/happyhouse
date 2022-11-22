@@ -55,6 +55,9 @@ export default {
     await this.$loadScript(this.$hostname + "/assets/js/notify/notify-script.js");
     await this.$loadScript(this.$hostname + "/assets/js/notify/bootstrap-notify.min.js");
   },
+  async created() {
+    await this.setInit();
+  }
 }
 </script>
 

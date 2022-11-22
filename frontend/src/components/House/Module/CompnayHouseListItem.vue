@@ -9,9 +9,7 @@
           <p>부산시 강서구 녹산동 1627-5</p>
           <div class="product-price">$1,999,999</div>
         </div>
-
-        <!-- <router-link :to="`/houseinfomodify/${deal.dealId}`"> -->
-        <router-link :to="{ name: 'houseinfomodify', params: { deal: deal } }">
+        <router-link :to="{ name: 'houseModify', params: { deal: deal } }">
           <div type="button" class="btn btn-sm btn-primary float-end">수정</div>
         </router-link>
       </div>
