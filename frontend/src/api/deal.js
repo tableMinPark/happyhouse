@@ -47,6 +47,21 @@ function searchByAddress(address, success, fail) {
   api.get(`/deal/address/${address}`).then(success).catch(fail);
 }
 
+// 거래완료 목록
+function getOldDealList(houseId, success, fail) {
+  api.get(`/deal/old/${houseId}`).then(success).catch(fail);
+}
+
+// 거래중인 목록
+function getNowDealList(houseId, success, fail) {
+  api.get(`/deal/now/${houseId}`).then(success).catch(fail);
+}
+
+// 리뷰 리스트
+function getReviewList(houseId, success, fail) {
+  api.get(`/deal/review/${houseId}`).then(success).catch(fail);
+}
+
 export {
   dealList,
   dealRegist,
@@ -56,4 +71,7 @@ export {
   searchByKeyword,
   searchByAddress,
   convertAddress,
+  getOldDealList, 
+  getNowDealList, 
+  getReviewList 
 };

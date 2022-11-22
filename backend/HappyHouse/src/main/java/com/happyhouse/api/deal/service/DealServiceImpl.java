@@ -19,6 +19,7 @@ import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
 import com.happyhouse.api.deal.dto.FileDto;
 import com.happyhouse.api.deal.dto.HouseDto;
+import com.happyhouse.api.review.dto.ReviewResultDto;
 
 @Service
 public class DealServiceImpl implements DealService{
@@ -142,6 +143,21 @@ public class DealServiceImpl implements DealService{
 	@Override
 	public List<HouseDto> searchByKeyword(String keyword) {
 		return dao.searchByKeyword(keyword);
+	}
+
+	@Override
+	public List<DealDto> getOldDealList(int houseId) {
+		return dao.getOldDealList(houseId);
+	}
+
+	@Override
+	public List<DealDto> getNowDealList(int houseId) {
+		return dao.getNowDealList(houseId);
+	}
+
+	@Override
+	public List<ReviewResultDto> getReviewList(int houseId) {
+		return dao.getReviewList(houseId);
 	}
 
 }

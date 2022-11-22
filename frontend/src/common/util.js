@@ -16,5 +16,5 @@ export default {
       type +
       (second < 10 ? "0" + second : second)
     );
-  },
+  }
 };

@@ -119,6 +119,29 @@
 				house_dong_code, house_dong_name,
 				house_jibun, code, house_lat, house_lng
 		   from house
-		  where house_name like concat("%", #{keyword}, "%")	</select>
+		  where house_name like concat("%", #{keyword}, "%")	
+	</select>
+	
+	<select id="getOldDealList" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select deal_id, house_id, deal_price, deal_deposit, deal_date, deal_floor, deal_area, code
+		  from deal
+		 where house_id = #{houseId}
+		   and deal_complete = 1;
+	</select>
+	
+	<select id="getNowDealList" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select deal_id, house_id, deal_price, deal_deposit, deal_date, deal_floor, deal_area, code
+		  from deal
+		 where house_id = #{houseId}
+		   and deal_complete = 0;
+	</select>
+	
+	<select id="getReviewList" parameterType="int" resultType="com.happyhouse.api.review.dto.ReviewResultDto">
+		select r.review_id, u.user_id, u.user_name, u.user_reg_dt, r.review_content,
+			   r.review_trafic_rating, r.review_safety_rating, r.review_store_rating
+		  from review r, users u
+		 where u.user_id = r.user_id
+		   and house_id = #{houseId};
+	</select>
 	
 </mapper>

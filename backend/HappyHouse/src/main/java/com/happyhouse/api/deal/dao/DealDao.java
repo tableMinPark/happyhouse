@@ -8,6 +8,7 @@ import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.FileDto;
 import com.happyhouse.api.deal.dto.HouseDto;
+import com.happyhouse.api.review.dto.ReviewResultDto;
 
 @Mapper
 public interface DealDao {
@@ -27,4 +28,9 @@ public interface DealDao {
 	// 실거래
 	List<HouseDto> searchByAddress(String dongCode);
 	List<HouseDto> searchByKeyword(String keyword);
+
+	// 거래내역
+	List<DealDto> getOldDealList(int houseId);
+	List<DealDto> getNowDealList(int houseId);
+	List<ReviewResultDto> getReviewList(int houseId);
 }
