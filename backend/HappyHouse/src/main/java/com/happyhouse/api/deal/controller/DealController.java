@@ -1,6 +1,7 @@
 package com.happyhouse.api.deal.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -85,6 +86,33 @@ public class DealController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
+	@GetMapping("/deal/{dealId}")
+	public ResponseEntity<Map<String, Object>> dealDetail(@PathVariable int dealId){
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		DealResultDto ret = new DealResultDto();
+		
+		try {
+			DealDto dealDetail = service.dealDetail(dealId);
+			HouseDto houseDetail = service.houseDetail(dealId);
+			
+			if (dealDetail != null) {
+				ret.setDealDto(dealDetail);
+				ret.setHouseDto(houseDetail);
+				
+				resultMap.put("dealList", ret);
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}		
+		}	catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 	@GetMapping("/house/{searchWord}")
 	public ResponseEntity<Map<String, Object>> houseList(@PathVariable String searchWord){
 		
@@ -96,6 +124,29 @@ public class DealController {
 			
 			if( houseList != null) {
 				resultMap.put("houseList", houseList);
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}			
+			
+		}catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);				
+	}
+	
+	@GetMapping("/dealImg/{dealId}")
+	public ResponseEntity<Map<String, Object>> imgList(@PathVariable int dealId){
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		try {
+			List<String> imgList = service.imgList(dealId);
+			
+			if( imgList != null) {
+				resultMap.put("imgList", imgList);
 				resultMap.put("message", SUCCESS);	
 			} else {
 				resultMap.put("message", FAIL);

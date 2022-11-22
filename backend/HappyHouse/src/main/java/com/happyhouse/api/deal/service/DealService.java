@@ -1,5 +1,7 @@
 package com.happyhouse.api.deal.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.deal.dto.DealDto;
@@ -11,4 +13,8 @@ public interface DealService {
 	public int dealInsert(DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request);
 	public DealResultDto houseList(String searchWord);
 	public DealResultDto dealList(DealParamDto dto);
+	public List<String> imgList(int dealId);
+	
+	public DealDto dealDetail(int dealId);
+	public HouseDto houseDetail(int dealId);
 }

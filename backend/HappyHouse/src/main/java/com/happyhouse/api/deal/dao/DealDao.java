@@ -18,4 +18,9 @@ public interface DealDao {
 	List<HouseDto> houseList(String searchWord);
 	List<DealParamDto> dealList(DealParamDto dto);
 	int dealListCount(DealParamDto dto);
+	
+	List<String> imgList(int dealId);
+	
+	DealDto dealDetail(int dealId);
+	HouseDto houseDetail(int dealId);
 }

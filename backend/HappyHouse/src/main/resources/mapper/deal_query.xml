@@ -90,5 +90,17 @@
 		
 	</select>
 	
+	<select id ="imgList" parameterType="int" resultType="string">
+		select file_url from deal_file where deal_id = #{dealId}
+	</select>
+	
+	<select id ="dealDetail" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select * from deal where deal_id = #{dealId}
+	</select>
+	
+	<select id ="houseDetail" parameterType="int" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select * from house where house_id = (select house_id from deal where deal_id = #{dealId})
+	</select>
+	
 	
 </mapper>

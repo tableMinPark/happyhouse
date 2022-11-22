@@ -117,4 +117,21 @@ public class DealServiceImpl implements DealService{
 		return ret;
 	}
 
+	@Override
+	public List<String> imgList(int dealId) {
+		return dao.imgList(dealId);
+	}
+
+	@Override
+	public DealDto dealDetail(int dealId) {
+		
+		return dao.dealDetail(dealId);
+	}
+
+	@Override
+	public HouseDto houseDetail(int dealId) {
+		
+		return dao.houseDetail(dealId);
+	}
+
 }

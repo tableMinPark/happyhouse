@@ -26,7 +26,7 @@ public class DealParamDto {
 	private String code;
 	private String dealContent;	
 	private LocalDateTime dealDate;
-	private String[] fileUrl;
+	private String fileUrl;
 
 	private int houseId;
 	private String houseName;
