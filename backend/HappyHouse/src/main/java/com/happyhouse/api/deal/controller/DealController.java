@@ -40,18 +40,13 @@ public class DealController {
 	
 	@PostMapping("/deal")
 	public ResponseEntity<Map<String, Object>> dealInsert(DealParamDto dealParamDto, MultipartHttpServletRequest request) {
-		
-		System.out.println(dealParamDto);
-		
+				
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		
 		DealDto dealDto = new DealDto(dealParamDto);
 		HouseDto houseDto = new HouseDto(dealParamDto);
-		
-		System.out.println(dealDto);
-		System.out.println(houseDto);
-		
+				
 		try {
 			int ret = service.dealInsert(dealDto, houseDto, request);
 			

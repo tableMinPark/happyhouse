@@ -17,6 +17,9 @@
     <div class="form-group">
       <a class="btn btn-primary btn-block" @click="login">로그인</a>
     </div>
+    <div class="form-group">
+      <a class="btn btn-primary btn-block" @click="kakaoLogin">카카오 로그인</a>
+    </div>
     <div class="form-group pb-2">
       <router-link to="/forgetPassword" class="link">비밀번호찾기</router-link>
       <router-link to="/register" class="link me-2">회원가입</router-link>
@@ -58,8 +61,22 @@ export default {
       if (this.inputCheck()) {
         await this.userLogin(this.user);
       }
+    },
+
+    async kakaoLogin() {
+
     }
-  }
+  },
+  mounted() {
+      /* global Kakao */
+      if (typeof Kakao != undefined) return;
+
+      const script = document.createElement("script");
+
+      script.onload = () => Kakao.init(process.env.VUE_APP_KAKAO_JAVASCRIPT_KEY);
+      script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+      document.head.appendChild(script);
+  },
 }
 </script>
 
