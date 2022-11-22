@@ -24,9 +24,23 @@
 		update users
 		   set user_password = #{userPassword},
 		       user_address = #{userAddress},
-		       user_tel = #{userTel}
+		       user_tel = #{userTel},
+		       user_profile_image_url = #{userProfileImageUrl}
 	     where user_id = #{userId}
 	</update>
+	
+	<select id="getUserProfileUrl" parameterType="int" resultType="string">
+		select user_profile_image_url from users where user_id = #{userId}
+	</select>
+	
+	<delete id="userProfileDelete" parameterType="int">
+		delete from users_file where user_id = #{userId}
+	</delete>
+	
+	<insert id="userProfileInsert" parameterType="com.happyhouse.api.user.dto.UserFileDto">
+		insert into users_file (user_id,file_name,file_size,file_content_type,file_url,file_reg_dt)
+		 values (#{userId},#{fileName},#{fileSize},#{fileContentType},#{fileUrl},now())
+	</insert>
 	
 	<select id ="getUserInfo" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
 		select user_id, user_email, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code, 

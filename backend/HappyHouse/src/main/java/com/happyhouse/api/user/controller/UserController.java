@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.common.jwt.service.JwtServiceImpl;
 import com.happyhouse.api.user.dto.UserDto;
@@ -158,16 +159,16 @@ public class UserController {
 
 	/* 회원정보 수정 */
 	@PostMapping("/modify")
-	public ResponseEntity<Map<String, Object>> modify (@RequestBody UserDto userDto){
+	public ResponseEntity<Map<String, Object>> modify (UserDto userDto,MultipartHttpServletRequest request){
 		
 		System.out.println(userDto);
-		
+		System.out.println(request);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		
 		try {
 			
-			int ret = service.modify(userDto);
+			int ret = service.modify(userDto,request);
 			
 			if (ret == 1) {
 				resultMap.put("message", SUCCESS);

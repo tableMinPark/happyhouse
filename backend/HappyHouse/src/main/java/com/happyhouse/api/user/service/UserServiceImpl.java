@@ -1,16 +1,24 @@
 package com.happyhouse.api.user.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.common.email.dto.EmailDto;
 import com.happyhouse.api.common.email.service.EmailService;
 import com.happyhouse.api.user.dao.UserDao;
 import com.happyhouse.api.user.dto.UserDto;
+import com.happyhouse.api.user.dto.UserFileDto;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +28,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Value("${app.fileupload.userDir}")
+	String uploadFolder;
+	
+	@Value("${app.fileupload.path}")
+	String uploadPath;
 
 	@Override
 	public UserDto login(UserDto userDto) throws Exception {
@@ -47,8 +61,66 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int modify(UserDto userDto) throws Exception {
-		return dao.modify(userDto);
+	public int modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception {
+		int ret = 1;
+		
+		try {
+			List<MultipartFile> fileList = request.getFiles("file");
+			System.out.println("파일 개수 " + fileList.size());
+			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+			if (!uploadDir.exists()) uploadDir.mkdir();
+			
+			// 기존 파일 삭제
+	    	String fileUrl = dao.getUserProfileUrl(userDto.getUserId());	
+			
+			File file = new File(uploadPath + File.separator, fileUrl);
+			if(file.exists()) {
+				file.delete();
+			}
+			
+
+	    	dao.userProfileDelete(userDto.getUserId()); // 먼저 파일 db삭제
+	    	
+	    	String UserFileUrl = null;
+			for (MultipartFile part : fileList) {
+				int userId = userDto.getUserId();
+				
+				String fileName = part.getOriginalFilename();
+				
+				//Random File Id
+				UUID uuid = UUID.randomUUID();
+				
+				//file extension
+				String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+			
+				String savingFileName = uuid + "." + extension;
+			
+				File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+				
+				System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+				part.transferTo(destFile);
+		    
+			    // Table Insert
+			    UserFileDto userFileDto = new UserFileDto();
+			    userFileDto.setUserId(userId);
+			    userFileDto.setFileName(fileName);
+			    userFileDto.setFileSize(part.getSize());
+			    userFileDto.setFileContentType(part.getContentType());
+				UserFileUrl = uploadFolder + "/" + savingFileName;
+				userFileDto.setFileUrl(UserFileUrl);
+				
+				dao.userProfileInsert(userFileDto);
+			
+			}
+			if(UserFileUrl == null) UserFileUrl = "upload/user/noProfile.png";
+			userDto.setUserProfileImageUrl(UserFileUrl);
+			dao.modify(userDto);
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			ret = 0;
+		}
+		return ret;
 	}
 	
 	@Override
