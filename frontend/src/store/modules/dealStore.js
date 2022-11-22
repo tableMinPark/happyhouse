@@ -109,8 +109,10 @@ const dealStore = {
     },
 
     // 선택한 집의 거래내역 (거래완료 / 거래중 분리해서 리스트로 저장)
-    async searchDealList({ commit }, house_id) {
+    async searchDealList({ commit }, houseId) {
       // houseId 기준으로 모든 거래내역 뽑음
+      console.log(commit);
+      console.log(houseId)
     }
   },
 };
