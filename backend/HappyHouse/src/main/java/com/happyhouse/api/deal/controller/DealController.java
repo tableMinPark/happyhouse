@@ -85,7 +85,7 @@ public class DealController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+		
 	@GetMapping("/deal/{dealId}")
 	public ResponseEntity<Map<String, Object>> dealDetail(@PathVariable int dealId){
 		
@@ -159,4 +159,52 @@ public class DealController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);				
 	}
 	
+
+	// 주소검색
+	@GetMapping("/deal/address/{dongCode}")
+	public ResponseEntity<Map<String, Object>> searchByAddress(@PathVariable String dongCode){
+
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		try {
+			List<HouseDto> dealList = service.searchByAddress(dongCode);
+			
+			if (dealList != null) {
+				resultMap.put("dealList", dealList);
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}		
+		}	catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	// 키워드 검색
+	@GetMapping("/deal/keyword/{keyword}")	
+	public ResponseEntity<Map<String, Object>> searchByKeyword(@PathVariable("keyword") String keyword){
+
+		System.out.println(keyword);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		try {
+			List<HouseDto> dealList = service.searchByKeyword(keyword);
+			
+			if (dealList != null) {
+				resultMap.put("dealList", dealList);
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}		
+		}	catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 }

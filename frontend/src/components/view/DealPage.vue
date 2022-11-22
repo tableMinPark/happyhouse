@@ -10,9 +10,7 @@
         <div class="wrapper container-fluid">
           <div id="search-wrapper" class="row">
             <div class="container-fruid">
-              <div
-                class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"
-              >
+              <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                 <div class="info-block">
                   <h6>
                     <feather type="search" size="15" class="pe-2" />검색종류를
@@ -27,38 +25,18 @@
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input
-                            id="search-radio-keyword"
-                            name="search-radio"
-                            checked
-                            type="radio"
-                            value="A"
-                            v-model="searchType"
-                          />
-                          <label
-                            for="search-radio-keyword"
-                            class="form-check-label ps-2"
-                            >키워드 검색</label
-                          >
+                          <input id="search-radio-keyword" name="search-radio" checked type="radio" value="A"
+                            v-model="searchType" />
+                          <label for="search-radio-keyword" class="form-check-label ps-2">키워드 검색</label>
                         </div>
                       </div>
                     </div>
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input
-                            id="search-radio-address"
-                            class="radio radio-primary"
-                            name="search-radio"
-                            type="radio"
-                            value="K"
-                            v-model="searchType"
-                          />
-                          <label
-                            for="search-radio-address"
-                            class="form-check-label ps-2"
-                            >주소 기준 검색</label
-                          >
+                          <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio"
+                            value="K" v-model="searchType" />
+                          <label for="search-radio-address" class="form-check-label ps-2">주소 기준 검색</label>
                         </div>
                       </div>
                     </div>
@@ -67,19 +45,10 @@
                   <!-- 동, 키워드 검색 START -->
                   <div v-show="searchType == 'A'" class="row">
                     <div class="col-10 pe-0 d-flex">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="동, 키워드"
-                        v-model="keyword"
-                      />
+                      <input type="text" class="form-control" placeholder="동, 키워드" v-model="keyword" />
                     </div>
                     <div class="col-2">
-                      <button
-                        type="button"
-                        @click="keywordSearch"
-                        class="btn btn-primary ps-2 pe-2"
-                      >
+                      <button type="button" @click="keywordSearch" class="btn btn-primary ps-2 pe-2">
                         <feather type="search" size="15" />
                       </button>
                     </div>
@@ -88,30 +57,24 @@
                   <!-- 주소 검색 START -->
                   <div v-show="searchType == 'K'" class="row">
                     <div class="col-10 pe-0 d-flex">
-                      <select
-                        id="si"
-                        class="form-select me-1"
-                        v-model="sidoCode"
-                      >
-                        <option selected>시</option>
+                      <select id="si" class="form-select me-1" v-model="sidoCode">
+                        <option v-for="(sido, index) in sidoList" :key="`sido-${index}`" :value="sido.code">
+                          {{ sido.name }}
+                        </option>
                       </select>
-                      <select
-                        id="gugun"
-                        class="form-select me-1"
-                        v-model="gugunCode"
-                      >
-                        <option selected>군</option>
+                      <select id="gugun" class="form-select me-1" v-model="gugunCode">
+                        <option v-for="(gugun, index) in gugunList" :key="`gugun-${index}`" :value="gugun.code">
+                          {{ gugun.name }}
+                        </option>
                       </select>
                       <select id="dong" class="form-select" v-model="dongCode">
-                        <option selected>동</option>
+                        <option v-for="(dong, index) in dongList" :key="`dong-${index}`" :value="dong.code">
+                          {{ dong.name }}
+                        </option>
                       </select>
                     </div>
                     <div class="col-2">
-                      <button
-                        @click="addressSearch"
-                        type="button"
-                        class="btn btn-primary ps-2 pe-2"
-                      >
+                      <button @click="addressSearch" type="button" class="btn btn-primary ps-2 pe-2">
                         <feather type="search" size="15" />
                       </button>
                     </div>
@@ -122,30 +85,17 @@
             </div>
             <div class="default-according" id="accordion">
               <div class="card">
-                <div
-                  class="card-header bg-primary d-flex justify-content-center align-items-center pb-2"
-                  id="headingFour"
-                >
+                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-2"
+                  id="headingFour">
                   <div class="info-block">
-                    <button
-                      @click="dealInfoToggler"
-                      class="btn btn-link text-white"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseFour"
-                      aria-expanded="true"
-                      aria-controls="collapseFour"
-                    >
+                    <button @click="dealInfoToggler" class="btn btn-link text-white" data-bs-toggle="collapse"
+                      data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
                       <h6>검색된 매물 (2)</h6>
                     </button>
                   </div>
                 </div>
-                <div
-                  class="collapse"
-                  :class="{ show: dealInfoToggle }"
-                  id="collapseFour"
-                  aria-labelledby="headingOne"
-                  data-bs-parent="#accordion"
-                >
+                <div class="collapse" :class="{ show: dealInfoToggle }" id="collapseFour" aria-labelledby="headingOne"
+                  data-bs-parent="#accordion">
                   <div class="container-fruid">
                     <div class="card shadow shadow-showcase mb-2">
                       <div class="container card-body">
@@ -153,11 +103,7 @@
                           <div class="d-flex justify-content-between">
                             <h3>{{ dealInfo.houseName }}</h3>
                             <a @click="registBookmark(userInfo.userId)">
-                              <i
-                                v-if="isBookmarking"
-                                class="fa fa-heart fa-2x"
-                                size="30"
-                              ></i>
+                              <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
                               <i v-else class="fa fa-heart-o fa-2x"></i>
                             </a>
                           </div>
@@ -167,9 +113,7 @@
                       </div>
                     </div>
                     <div class="card shadow shadow-showcase mb-1">
-                      <div
-                        class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"
-                      >
+                      <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                         <div class="info-block">
                           <h6>리뷰</h6>
                         </div>
@@ -178,11 +122,7 @@
                         <div class="row">
                           <div class="col-5">
                             <div class="media p-1">
-                              <img
-                                class="img-50 img-fluid m-r-20 rounded-circle"
-                                alt
-                                src="assets/images/user/2.png"
-                              />
+                              <img class="img-50 img-fluid m-r-20 rounded-circle" alt src="assets/images/user/2.png" />
                               <div class="media-body mt-2">
                                 <h5 class="d-block">
                                   {{ reviewList[0].userName }}
@@ -197,54 +137,38 @@
                             <div class="row text-center">
                               <div class="col-6">
                                 <h6>
-                                  <feather
-                                    type="truck"
-                                    size="15"
-                                    class="pe-2"
-                                  />교통
+                                  <feather type="truck" size="15" class="pe-2" />교통
                                 </h6>
                               </div>
                               <div class="col-6">
                                 <div class="rating-container">
-                                  <div
-                                    class="br-wrapper br-theme-fontawesome-stars"
-                                  >
+                                  <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            1 <=
-                                            reviewList[0].reviewTraficRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            2 <=
-                                            reviewList[0].reviewTraficRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            3 <=
-                                            reviewList[0].reviewTraficRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            4 <=
-                                            reviewList[0].reviewTraficRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            5 <=
-                                            reviewList[0].reviewTraficRating,
-                                        }"
-                                      ></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          1 <=
+                                          reviewList[0].reviewTraficRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          2 <=
+                                          reviewList[0].reviewTraficRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          3 <=
+                                          reviewList[0].reviewTraficRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          4 <=
+                                          reviewList[0].reviewTraficRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          5 <=
+                                          reviewList[0].reviewTraficRating,
+                                      }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -254,54 +178,38 @@
                             <div class="row text-center">
                               <div class="col-6">
                                 <h6>
-                                  <feather
-                                    type="home"
-                                    size="15"
-                                    class="pe-2"
-                                  />치안
+                                  <feather type="home" size="15" class="pe-2" />치안
                                 </h6>
                               </div>
                               <div class="col-6">
                                 <div class="rating-container">
-                                  <div
-                                    class="br-wrapper br-theme-fontawesome-stars"
-                                  >
+                                  <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            1 <=
-                                            reviewList[0].reviewSafetyRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            2 <=
-                                            reviewList[0].reviewSafetyRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            3 <=
-                                            reviewList[0].reviewSafetyRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            4 <=
-                                            reviewList[0].reviewSafetyRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            5 <=
-                                            reviewList[0].reviewSafetyRating,
-                                        }"
-                                      ></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          1 <=
+                                          reviewList[0].reviewSafetyRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          2 <=
+                                          reviewList[0].reviewSafetyRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          3 <=
+                                          reviewList[0].reviewSafetyRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          4 <=
+                                          reviewList[0].reviewSafetyRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          5 <=
+                                          reviewList[0].reviewSafetyRating,
+                                      }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -310,54 +218,38 @@
                             <div class="row text-center">
                               <div class="col-6">
                                 <h6>
-                                  <feather
-                                    type="shopping-cart"
-                                    size="15"
-                                    class="pe-2"
-                                  />상가
+                                  <feather type="shopping-cart" size="15" class="pe-2" />상가
                                 </h6>
                               </div>
                               <div class="col-6">
                                 <div class="rating-container">
-                                  <div
-                                    class="br-wrapper br-theme-fontawesome-stars"
-                                  >
+                                  <div class="br-wrapper br-theme-fontawesome-stars">
                                     <div class="br-widget">
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            1 <=
-                                            reviewList[0].reviewStoreRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            2 <=
-                                            reviewList[0].reviewStoreRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            3 <=
-                                            reviewList[0].reviewStoreRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            4 <=
-                                            reviewList[0].reviewStoreRating,
-                                        }"
-                                      ></a>
-                                      <a
-                                        :class="{
-                                          'br-selected br-current':
-                                            5 <=
-                                            reviewList[0].reviewStoreRating,
-                                        }"
-                                      ></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          1 <=
+                                          reviewList[0].reviewStoreRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          2 <=
+                                          reviewList[0].reviewStoreRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          3 <=
+                                          reviewList[0].reviewStoreRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          4 <=
+                                          reviewList[0].reviewStoreRating,
+                                      }"></a>
+                                      <a :class="{
+                                        'br-selected br-current':
+                                          5 <=
+                                          reviewList[0].reviewStoreRating,
+                                      }"></a>
                                     </div>
                                   </div>
                                 </div>
@@ -375,9 +267,7 @@
                       </div>
                     </div>
                     <div class="card shadow shadow-showcase mb-2">
-                      <div
-                        class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"
-                      >
+                      <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                         <div class="info-block">
                           <h6>실거래가</h6>
                         </div>
@@ -418,9 +308,7 @@
                       </div>
                     </div>
                     <div class="card shadow shadow-showcase mb-2">
-                      <div
-                        class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2"
-                      >
+                      <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                         <div class="info-block">
                           <h6>매물</h6>
                         </div>
@@ -473,7 +361,6 @@
 
 <script>
 import BasicHeader from "@/components/common/BasicHeader.vue";
-import { houseList } from "@/api/deal";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -494,41 +381,44 @@ export default {
 
       // 정보창 토글
       dealInfoToggle: false,
-
-      //매물 목록
-      houseList: [],
     };
   },
   computed: {
     ...mapState("userStore", ["userInfo"]),
-    ...mapState("dealStore", ["dealInfo", "reviewList", "isBookmarking"]),
+    ...mapState("dealStore", ["dealList", "dealInfo", "reviewList", "isBookmarking", "markerList"]),
+    ...mapState("commonStore", ["sidoList", "gugunList", "dongList"]),
   },
   methods: {
-    ...mapActions("dealStore", ["registBookmark"]),
+    ...mapActions("dealStore", ["registBookmark", "searchByKeyword", "searchByAddress"]),
+    ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
+    
     dealInfoToggler() {
       if (this.dealInfoToggle) this.dealInfoToggle = false;
       else this.dealInfoToggle = true;
     },
-    addressSearch() {
-      console.log(
-        "call address search " + this.si + " " + this.gugun + " " + this.dong
-      );
-      this.dealInfoToggle = true;
+    // 주소기준 검색 
+    async addressSearch() {
+      await this.searchByAddress(this.dongCode);
+
+      // 지도에 마커 찍음
+
+      // 마커에 클릭이벤트 추가
+      this.dealInfoToggle = true;   // <- 클릭이벤트 추가하면서 토글버튼 여는 거 추가
     },
-    keywordSearch() {
-      console.log("call keyword search " + this.keyword);
-      houseList(
-        this.keyword,
-        ({ data }) => {
-          this.houseList = data;
-          console.log(data);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-      this.dealInfoToggle = true;
+    // 키워드 기준 검색
+    async keywordSearch() {
+      await this.searchByKeyword(this.keyword);
+
+      // 지도에 마커 찍음
+      // 마커에 클릭 이벤트 추가
+      
     },
+    // 마커찍는함수
+    async makeMarker() {
+
+    },
+
+
     initMap() {
       let mapContainer = document.querySelector("#kakao-map");
       let mapOption = {
@@ -537,18 +427,6 @@ export default {
       };
       this.map = new kakao.maps.Map(mapContainer, mapOption);
     },
-  },
-  created() {
-    houseList(
-      "-",
-      ({ data }) => {
-        this.houseList = data;
-        console.log(data);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
   },
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
@@ -573,6 +451,7 @@ export default {
 a {
   cursor: pointer;
 }
+
 #kakao-map {
   z-index: 1;
   height: 80vh;
@@ -596,7 +475,7 @@ a {
   position: absolute;
 }
 
-#accordion > .card,
+#accordion>.card,
 #collapseFour {
   background-color: transparent;
   border-color: transparent;

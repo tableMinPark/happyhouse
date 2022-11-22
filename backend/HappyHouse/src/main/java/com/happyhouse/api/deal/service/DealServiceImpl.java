@@ -134,4 +134,14 @@ public class DealServiceImpl implements DealService{
 		return dao.houseDetail(dealId);
 	}
 
+	@Override
+	public List<HouseDto> searchByAddress(String dongCode) {
+		return dao.searchByAddress(dongCode);
+	}
+
+	@Override
+	public List<HouseDto> searchByKeyword(String keyword) {
+		return dao.searchByKeyword(keyword);
+	}
+
 }

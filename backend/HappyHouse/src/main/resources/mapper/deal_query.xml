@@ -102,5 +102,23 @@
 		select * from house where house_id = (select house_id from deal where deal_id = #{dealId})
 	</select>
 	
+	<select id="searchByAddress" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select house_id, house_name, house_build_year,
+				house_sido_code, house_sido_name,
+				house_gugun_code, house_gugun_name,
+				house_dong_code, house_dong_name,
+				house_jibun,code, house_lat, house_lng
+		   from house
+		  where house_dong_code = #{dongCode}
+	</select>
+	
+	<select id="searchByKeyword" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select house_id, house_name, house_build_year,
+				house_sido_code, house_sido_name,
+				house_gugun_code, house_gugun_name,
+				house_dong_code, house_dong_name,
+				house_jibun, code, house_lat, house_lng
+		   from house
+		  where house_name like concat("%", #{keyword}, "%")	</select>
 	
 </mapper>

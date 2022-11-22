@@ -4,10 +4,6 @@ function dealList(param, success, fail) {
   api.get(`/deal`, { params: param }).then(success).catch(fail);
 }
 
-function houseList(searchWord, success, fail) {
-  api.get(`/house/${searchWord}`).then(success).catch(fail);
-}
-
 function dealRegist(param, success, fail) {
   api.post(`/deal`, param, {
       headers: {
@@ -41,12 +37,23 @@ function convertAddress(address, success, fail) {
   api.get(`/address/coord/${address}`).then(success).catch(fail);
 }
 
+// 키워드 기준 검색
+function searchByKeyword(searchWord, success, fail) {
+  api.get(`/deal/keyword/${searchWord}`).then(success).catch(fail);
+}
+
+// 주소 기준 검색
+function searchByAddress(address, success, fail) {
+  api.get(`/deal/address/${address}`).then(success).catch(fail);
+}
+
 export {
   dealList,
   dealRegist,
   dealDetail,
   dealModify,
   dealDelete,
-  houseList,
+  searchByKeyword,
+  searchByAddress,
   convertAddress,
 };

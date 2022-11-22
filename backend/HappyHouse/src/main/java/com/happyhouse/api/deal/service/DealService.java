@@ -17,4 +17,9 @@ public interface DealService {
 	
 	public DealDto dealDetail(int dealId);
 	public HouseDto houseDetail(int dealId);
+	
+
+	// 실거래
+	List<HouseDto> searchByAddress(String dongCode);
+	List<HouseDto> searchByKeyword(String keyword);
 }

@@ -23,4 +23,8 @@ public interface DealDao {
 	
 	DealDto dealDetail(int dealId);
 	HouseDto houseDetail(int dealId);
+	
+	// 실거래
+	List<HouseDto> searchByAddress(String dongCode);
+	List<HouseDto> searchByKeyword(String keyword);
 }
