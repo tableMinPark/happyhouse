@@ -72,8 +72,8 @@ function getChartList(param, success, fail) {
 }
 
 // 나의 거래 목록
-function getMyDealList(userId, success, fail) {
-  api.get(`/deal/my/${userId}`).then(success).catch(fail);
+function getMyDealList(param, success, fail) {
+  api.get(`/deal/my`, { params: param }).then(success).catch(fail);
 }
 
 // 이미지 리스트

@@ -145,11 +145,14 @@
 	</select>
 	
 	
-	<select id = "getMyList" parameterType = "int" resultType="com.happyhouse.api.deal.dto.DealParamDto">
+	<select id = "getMyList" parameterType = "com.happyhouse.api.deal.dto.DealParamDto" resultType="com.happyhouse.api.deal.dto.DealParamDto">
 		SELECT d.deal_id, d.house_id,d.deal_price,d.deal_deposit,d.deal_complete,h.house_name ,h.house_build_year,d.deal_content,d.deal_floor,d.deal_area,h.house_sido_name,h.house_gugun_name,h.house_dong_name , h.house_jibun,d.code,h.code house_code, 
 			h.house_sido_code,h.house_gugun_code,h.house_dong_code
 		 FROM deal d join house h on d.house_id = h.house_id 
-		where d.user_id = #{userId};
+		where d.user_id = #{userId} and h.house_name like concat('%',#{searchWord},'%')
+		<if test='!searchType.equals("0")'> 
+			and d.code = #{searchType}
+		</if>
 	</select>
 	
 	<update id="houseUpdate" parameterType = "com.happyhouse.api.deal.dto.HouseDto">

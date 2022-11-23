@@ -36,7 +36,7 @@ public interface DealDao {
 	List<ReviewResultDto> getReviewList(int houseId);
 	
 	// 내 거래 리스트
-	List<DealParamDto> getMyList(int userId);
+	List<DealParamDto> getMyList(DealParamDto dealParamDto);
 	
 	//거래 수정 관련
 	int houseUpdate(HouseDto houseDto);

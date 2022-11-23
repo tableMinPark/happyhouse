@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       dealList: [],
-      selected: "All", // All - Charter - Rend - Dealing
+      selected: "0", // All - Charter - Rend - Dealing
       selectedAll: true,
       selectedCharter: false,
       selectedRent: false,
@@ -91,38 +91,47 @@ export default {
   methods: {
     selectAll() {
       console.log("call All");
+      this.selected = "0";
       this.searchWord = "";
       this.selectedAll = true;
       this.selectedCharter = false;
       this.selectedRent = false;
       this.selectedDealing = false;
+      this.getList();
     },
     selectCharter() {
       console.log("call charter");
+      this.selected = "100";
       this.searchWord = "";
       this.selectedAll = false;
       this.selectedCharter = true;
       this.selectedRent = false;
       this.selectedDealing = false;
+      this.getList();
     },
     selectRent() {
       console.log("call rent");
+      this.selected = "200";
       this.searchWord = "";
       this.selectedAll = false;
       this.selectedCharter = false;
       this.selectedRent = true;
       this.selectedDealing = false;
+      this.getList();
     },
     selectDealing() {
       console.log("call dealing");
+      this.selected = "300";
       this.searchWord = "";
       this.selectedAll = false;
       this.selectedCharter = false;
       this.selectedRent = false;
       this.selectedDealing = true;
+      this.getList();
     },
     search() {
       console.log("search " + this.searchWord);
+      this.getList();
       this.searchWord = "";
     },
     houseInfoRegister() {
@@ -130,8 +139,13 @@ export default {
       this.searchWord = "";
     },
     getList() {
+      let param = {
+        userId: this.userInfo.userId,
+        searchType: this.selected,
+        searchWord: this.searchWord,
+      };
       getMyDealList(
-        this.userInfo.userId,
+        param,
         ({ data }) => {
           console.log(data);
           this.dealList = data.myList.joinList;

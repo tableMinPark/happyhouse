@@ -32,7 +32,7 @@ public interface DealService {
 	List<DealDto> getNowDealList(int houseId);
 	List<ReviewResultDto> getReviewList(int houseId);
 	
-	DealResultDto getMyList(int userId);
+	DealResultDto getMyList(DealParamDto dealParamDto);
 	
 	
 	   // 차트 데이터 read
