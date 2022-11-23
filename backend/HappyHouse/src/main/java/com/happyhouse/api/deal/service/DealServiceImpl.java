@@ -172,6 +172,33 @@ public class DealServiceImpl implements DealService{
 		}
 		return ret;
 	}
+	
+	@Override
+	public int dealDelete(int dealId) {
+		
+		//업로드 폴더 지정
+		File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+		if (!uploadDir.exists()) uploadDir.mkdir();
+		
+		//삭제할 파일 목록
+		List<String> deleteFileList = dao.getDeleteFileList(dealId);
+		
+		//폴더 내 파일 삭제
+		for(String fileUrl : deleteFileList) {
+			File file = new File(uploadPath + File.separator, fileUrl);
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		
+		
+		//db 삭제
+		dao.deleteFile(dealId);
+		
+		
+		
+		return dao.dealDelete(dealId);
+	}
 
 	@Override
 	public DealResultDto houseList(String searchWord) {
@@ -257,6 +284,8 @@ public class DealServiceImpl implements DealService{
     public List<DealChartDto> getChartList(DealDto dealDto) {
         return dao.getChartList(dealDto);
     }
+
+	
     
 
 }

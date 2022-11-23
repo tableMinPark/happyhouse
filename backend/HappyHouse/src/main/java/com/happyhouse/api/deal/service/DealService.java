@@ -14,6 +14,7 @@ import com.happyhouse.api.review.dto.ReviewResultDto;
 public interface DealService {
 	public int dealInsert(DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request);
 	public int dealUpdate(int DealId,DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request);
+	public int dealDelete(int dealId);
 	public DealResultDto houseList(String searchWord);
 	public DealResultDto dealList(DealParamDto dto);
 	public List<String> imgList(int dealId);

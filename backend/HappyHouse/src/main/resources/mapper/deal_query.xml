@@ -191,6 +191,9 @@
 		where deal_id = #{dealId}
 	</delete>
 	
+	<delete id="dealDelete" parameterType="int">
+		delete from deal where deal_id = #{dealId}
+	</delete>
 	
 	 <select id="getChartList" parameterType="com.happyhouse.api.deal.dto.DealDto" resultType="com.happyhouse.api.deal.dto.DealChartDto">
         select DATE_FORMAT(deal_date, '%Y-%m') as deal_date, CEIL(AVG(deal_price)) as deal_price

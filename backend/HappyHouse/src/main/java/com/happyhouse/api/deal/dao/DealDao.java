@@ -41,6 +41,7 @@ public interface DealDao {
 	//거래 수정 관련
 	int houseUpdate(HouseDto houseDto);
 	int dealUpdate(DealDto dealDto);
+	int dealDelete(int dealId);
 	List<String> getDeleteFileList(int dealId);
 	int deleteFile(int dealId);
 	
