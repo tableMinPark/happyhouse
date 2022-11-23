@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.happyhouse.api.deal.dto.DealChartDto;
 import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.FileDto;
@@ -36,4 +37,15 @@ public interface DealDao {
 	
 	// 내 거래 리스트
 	List<DealParamDto> getMyList(int userId);
+	
+	//거래 수정 관련
+	int houseUpdate(HouseDto houseDto);
+	int dealUpdate(DealDto dealDto);
+	List<String> getDeleteFileList(int dealId);
+	int deleteFile(int dealId);
+	
+	
+	
+	 // 차트 데이터 read
+    List<DealChartDto> getChartList(DealDto dealDto);
 }

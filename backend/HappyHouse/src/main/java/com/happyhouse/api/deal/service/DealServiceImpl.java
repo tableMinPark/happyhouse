@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happyhouse.api.deal.dao.DealDao;
+import com.happyhouse.api.deal.dto.DealChartDto;
 import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
@@ -52,6 +53,87 @@ public class DealServiceImpl implements DealService{
 			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
 			if (!uploadDir.exists()) uploadDir.mkdir();
 
+			for (MultipartFile part : fileList) {
+
+				int dealId = dealDto.getDealId();
+				
+				String fileName = part.getOriginalFilename();
+				
+				//Random File Id
+				UUID uuid = UUID.randomUUID();
+				
+				//file extension
+				String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+			
+				String savingFileName = uuid + "." + extension;
+			
+				File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+				
+				System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+				part.transferTo(destFile);
+		    
+			    // Table Insert
+			    FileDto fileDto = new FileDto();
+			    fileDto.setDealId(dealId);
+			    fileDto.setFileName(fileName);
+			    fileDto.setFileSize(part.getSize());
+			    fileDto.setFileContentType(part.getContentType());
+				String boardFileUrl = uploadFolder + "/" + savingFileName;
+				fileDto.setFileUrl(boardFileUrl);
+				
+				dao.fileInsert(fileDto);
+			}
+			
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			ret = 0;
+		}
+		return ret;
+	}
+	
+	@Override
+	@Transactional
+	public int dealUpdate(int DealId,DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request) {
+		
+		int ret = 1;
+		
+		try {
+			
+			
+			houseDto.setHouseId(dealDto.getHouseId());
+			dealDto.setDealId(DealId);
+			System.out.println(houseDto);
+			System.out.println(dealDto);
+			dao.houseUpdate(houseDto);
+			
+			
+			dao.dealUpdate(dealDto);
+			
+			
+			//업로드 폴더 지정
+			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+			if (!uploadDir.exists()) uploadDir.mkdir();
+			
+			//삭제할 파일 목록
+			List<String> deleteFileList = dao.getDeleteFileList(dealDto.getDealId());
+			
+			//폴더 내 파일 삭제
+			for(String fileUrl : deleteFileList) {
+				File file = new File(uploadPath + File.separator, fileUrl);
+				if(file.exists()) {
+					file.delete();
+				}
+			}
+			
+			
+			//db 삭제
+			dao.deleteFile(dealDto.getDealId());
+			
+			List<MultipartFile> fileList = request.getFiles("file");
+	
+			
+			//파일 업로드
 			for (MultipartFile part : fileList) {
 
 				int dealId = dealDto.getDealId();
@@ -168,5 +250,13 @@ public class DealServiceImpl implements DealService{
 		// TODO Auto-generated method stub
 		return ret;
 	}
+	
+	
+	
+	@Override
+    public List<DealChartDto> getChartList(DealDto dealDto) {
+        return dao.getChartList(dealDto);
+    }
+    
 
 }

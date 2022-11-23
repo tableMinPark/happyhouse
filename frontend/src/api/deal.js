@@ -19,9 +19,9 @@ function dealDetail(param, success, fail) {
   api.get(`/deal/${param}`).then(success).catch(fail)
 }
 
-function dealModify(param, success, fail) {
+function dealModify(dealId, param, success, fail) {
   api
-    .post(`/deal/${param.dealId}`, param, {
+    .post(`/deal/${dealId}`, param, {
       headers: {
         "Content-Type": "multiple/form-data",
       },

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.happyhouse.api.deal.dto.DealChartDto;
 import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
@@ -59,6 +60,32 @@ public class DealController {
 			}			
 			
 		}catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);		 
+	}
+	
+	@PostMapping("/deal/{dealId}")
+	public ResponseEntity<Map<String, Object>> dealUpdate(DealParamDto dealParamDto, MultipartHttpServletRequest request) {
+		System.out.println(dealParamDto);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		DealDto dealDto = new DealDto(dealParamDto);
+		HouseDto houseDto = new HouseDto(dealParamDto);
+				
+		try {
+			int ret = service.dealUpdate(dealParamDto.getDealId(),dealDto, houseDto, request);
+			
+			if( ret == 1 ) {
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
@@ -294,5 +321,37 @@ public class DealController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
+	
+	
+	
+	
+	
+	@GetMapping("/deal/chart")
+    public ResponseEntity<Map<String, Object>> getChartList(String code, int houseId){
+        
+        System.out.println("chartdata in : " + code + " " + houseId);
+        
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+                
+        DealDto dealDto = new DealDto();
+        dealDto.setCode(code);
+        dealDto.setHouseId(houseId);
+        
+        try {
+            List<DealChartDto> chartList = service.getChartList(dealDto);
+            
+            if (chartList != null) {
+                resultMap.put("chartList", chartList);
+                resultMap.put("message", SUCCESS);    
+            } else {
+                resultMap.put("message", FAIL);
+            }        
+        }    catch(Exception e) {
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
 }

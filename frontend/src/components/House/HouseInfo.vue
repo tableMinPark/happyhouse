@@ -62,11 +62,11 @@
                 </tr>
                 <tr>
                   <th scope="col">면적</th>
-                  <td>{{ house.houseArea }}</td>
+                  <td>{{ deal.dealArea }}</td>
                 </tr>
                 <tr>
                   <th scope="col">층</th>
-                  <td>{{ house.houseArea }}</td>
+                  <td>{{ deal.dealFloor }} 층</td>
                 </tr>
                 <tr>
                   <th scope="col">설명</th>

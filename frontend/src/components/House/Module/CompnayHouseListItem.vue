@@ -12,7 +12,7 @@
           <p>{{ houseAddress }}</p>
           <div class="product-price">$ {{ deal.dealPrice }}</div>
         </div>
-        <router-link :to="{ name: 'houseModify', params: { deal: deal } }">
+        <router-link :to="{ name: 'houseModify', params: { deal: deal } }" v-if="!deal.dealComplete">
           <div type="button" class="btn btn-sm btn-primary float-end">수정</div>
         </router-link>
       </div>

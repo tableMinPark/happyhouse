@@ -146,9 +146,62 @@
 	
 	
 	<select id = "getMyList" parameterType = "int" resultType="com.happyhouse.api.deal.dto.DealParamDto">
-		SELECT d.deal_id, d.house_id,d.deal_price,d.deal_deposit,d.deal_complete,h.house_name ,h.house_sido_name,h.house_gugun_name,h.house_dong_name , h.house_jibun,d.code 
+		SELECT d.deal_id, d.house_id,d.deal_price,d.deal_deposit,d.deal_complete,h.house_name ,h.house_build_year,d.deal_content,d.deal_floor,d.deal_area,h.house_sido_name,h.house_gugun_name,h.house_dong_name , h.house_jibun,d.code,h.code house_code, 
+			h.house_sido_code,h.house_gugun_code,h.house_dong_code
 		 FROM deal d join house h on d.house_id = h.house_id 
 		where d.user_id = #{userId};
 	</select>
+	
+	<update id="houseUpdate" parameterType = "com.happyhouse.api.deal.dto.HouseDto">
+		update house 
+		 set house_name = #{houseName},
+		 house_build_year = #{houseBuildYear},
+		 house_dong_code = #{houseDongCode},
+		 house_dong_name = #{houseDongName},
+		 house_jibun = #{houseJibun},
+		 house_lat = #{houseLat},
+		 house_lng = #{houseLng},
+		 house_gugun_code = #{houseGugunCode},
+		 house_gugun_name = #{houseGugunName},
+		 code = #{code},
+		 house_sido_code = #{houseSidoCode},
+		 house_sido_name = #{houseSidoName}
+		where house_id = #{houseId}
+	</update>
+	
+	<update id="dealUpdate" parameterType = "com.happyhouse.api.deal.dto.DealDto">
+		update deal
+		 set deal_price = #{dealPrice},
+		 deal_deposit = #{dealDeposit},
+		 deal_floor = #{dealFloor},
+		 deal_area = #{dealArea},
+		 code = #{code},
+		 deal_content = #{dealContent}
+		where deal_id = #{dealId}
+	</update>
+	
+	<select id = "getDeleteFileList" parameterType="int" resultType = "string">
+		select file_url 
+		 from deal_file 
+		where deal_id = #{dealId}
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		delete from deal_file 
+		where deal_id = #{dealId}
+	</delete>
+	
+	
+	 <select id="getChartList" parameterType="com.happyhouse.api.deal.dto.DealDto" resultType="com.happyhouse.api.deal.dto.DealChartDto">
+        select DATE_FORMAT(deal_date, '%Y-%m') as deal_date, CEIL(AVG(deal_price)) as deal_price
+          from deal
+         where date(deal_date) > date(subdate(now(), interval 6 month))
+           and deal_complete = 1
+           and code = #{code}
+           and house_Id = #{houseId}
+      group by DATE_FORMAT(deal_date, '%Y-%m')
+      order by DATE_FORMAT(deal_date, '%Y-%m') ASC;
+    </select>
+	
 	
 </mapper>
