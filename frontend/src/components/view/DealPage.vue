@@ -100,10 +100,10 @@
                         <div class="row">
                           <div class="d-flex justify-content-between">
                             <h5>{{ houseInfo.houseName }}</h5>
-                            <a v-if="userInfo.userId !== undefined" @click="registBookmark(userInfo.userId)">
+                            <!-- <a v-if="userInfo.userId !== undefined" @click="registBookmark(userInfo.userId)">
                               <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
                               <i v-else class="fa fa-heart-o fa-2x"></i>
-                            </a>
+                            </a> -->
                           </div>
                           <p>{{ houseInfo | formatAddress }}</p>
                           <p>{{ houseInfo.houseBuildYear }}</p>
@@ -254,9 +254,9 @@
                         </div>
                       </div>
 
-                      <canvas id="chart"></canvas>
+                      <deal-chart :oldDealData="oldDealData"></deal-chart>
 
-                      <div v-if="reviewList.length === 0" class="container-fruid card-body">
+                      <div v-if="oldDealList.length === 0" class="container-fruid card-body">
                         <h6>등록된 실거래 정보가 없습니다.</h6>
                       </div>
                       <div v-else class="container-fruid card-body p-0 pb-2">
@@ -352,11 +352,13 @@
 
 <script>
 import BasicHeader from "@/components/common/BasicHeader.vue";
+import DealChart from "@/components/common/UI/DealChart.vue"
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
     BasicHeader,
+    DealChart,
   },
   data() {
     return {
@@ -379,18 +381,17 @@ export default {
   },
   computed: {
     ...mapState("userStore", ["userInfo"]),
-    ...mapState("dealStore", ["houseList", "houseInfo", "reviewList", "oldDealList", "nowDealList", "isBookmarking"]),
+    ...mapState("dealStore", ["houseList", "houseInfo", "reviewList", "oldDealList", "nowDealList", "isBookmarking", "oldDealData"]),
     ...mapState("commonStore", ["sidoList", "gugunList", "dongList"]),
   },
   methods: {
     ...mapGetters("dealStore", ["getAddress"]),
     ...mapActions("dealStore", ["registBookmark", "setHouseInfo", "searchByKeyword", "searchByAddress", "setInit",
-      "getOldDealList", "getNowDealList", "getReviewList", "setDealReviewList"]),
+      "getOldDealList", "getNowDealList", "getReviewList", "setDealReviewList", "getChartList"]),
     ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
 
     // 구군 스토어 리드
     async getGugunList() {
-      console.log(this.selectedSido);
       this.selectedGugun = "";
       this.selectedDong = "";
       await this.getGugun(this.selectedSido.code);
@@ -405,12 +406,17 @@ export default {
     // 주소기준 검색 
     async addressSearch() {
       await this.searchByAddress(this.selectedDong.code);
+      this.selectedSido = "";
+      this.selectedGugun = "";
+      this.selectedDong = "";
+      this.keyword = "";
       this.isSelected = false;
       this.houseInfoToggle = false;
     },
     // 키워드 기준 검색
     async keywordSearch() {
       await this.searchByKeyword(this.keyword);
+      this.keyword = "";
       this.isSelected = false;
       this.houseInfoToggle = false;
     },
@@ -429,7 +435,6 @@ export default {
       let bounds = new kakao.maps.LatLngBounds();
 
       Object.values(this.houseList).forEach((house) => {
-
         let position = new kakao.maps.LatLng(house.houseLat, house.houseLng);
         let marker = new kakao.maps.Marker({ position });
 
@@ -454,6 +459,8 @@ export default {
           $this.getNowDealList(house.houseId);
           // 리뷰 리드
           $this.getReviewList(house.houseId);
+          // 차트 데이터 리드
+          $this.getChartList({ houseId: house.houseId, code: "300" });    // 매매정보만 들고옴 일단은
           $this.houseInfoToggle = true;
         });
 
@@ -528,7 +535,7 @@ a {
 .wrapper {
   z-index: 2;
   right: 0;
-  width: 400px;
+  width: 450px;
   height: auto;
   max-height: 100%;
   overflow-x: hidden;

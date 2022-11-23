@@ -7,7 +7,7 @@ import {
   logout,
   forgetPassword,
   userRegister,
-  emailAUth
+  emailAUth,
 } from "@/api/user";
 
 import store from "@/store";
@@ -15,10 +15,11 @@ import store from "@/store";
 const userStore = {
   namespaced: true,
   state: {
+    isAdmin: false,
     isLogin: false,
     isLoginError: false,
     isForgetPasswordError: false,
-    userInfo: null,
+    userInfo: [],
     isValidToken: false,
   },
   mutations: {
@@ -121,7 +122,7 @@ const userStore = {
                 commit("SET_IS_LOGIN", false);
                 commit("SET_USER_INFO", null);
                 commit("SET_IS_VALID_TOKEN", false);
-                router.push({ name: "login" }).catch(()=>{});
+                router.push({ name: "login" }).catch(() => {});
               },
               (error) => {
                 console.log(error);
@@ -144,7 +145,7 @@ const userStore = {
           alertTitle: "로그인 성공!",
           alertMessage: `${state.userInfo.userName} 님 반갑습니다.`,
         });
-        router.push({ name: "main" }).catch(()=>{});
+        router.push({ name: "main" }).catch(() => {});
       } else {
         if (state.isLoginError) {
           store.dispatch("commonStore/alertMessage", {
@@ -179,7 +180,7 @@ const userStore = {
               alertTitle: "로그아웃 성공!",
               alertMessage: "",
             });
-            router.push({name: "main"}).catch(()=>{});
+            router.push({ name: "main" }).catch(() => {});
           } else {
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "로그아웃 실패!",
@@ -190,7 +191,7 @@ const userStore = {
         (error) => {
           console.log(error);
         }
-      );      
+      );
     },
     // 비밀번호찾기
     async forgetPassword({ commit }, user) {
@@ -198,16 +199,20 @@ const userStore = {
         user,
         ({ data }) => {
           console.log(data);
-          if (data.message === "success") {            
+          if (data.message === "success") {
             commit("SET_IS_FORGET_PASSWORD_ERROR", false);
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "비밀번호 찾기 성공!",
-              alertMessage: '임시 비밀번호가 포함된 이메일을 전송했습니다. 이메일을 확인해주세요.',
+              alertMessage:
+                "임시 비밀번호가 포함된 이메일을 전송했습니다. 이메일을 확인해주세요.",
             });
-            router.push({name: "login"}).catch(()=>{});
+            router.push({ name: "login" }).catch(() => {});
           } else {
             commit("SET_IS_FORGET_PASSWORD_ERROR", true);
-            store.dispatch("commonStore/alertMessage", { alertTitle: "비밀번호 찾기 실패!", alertMessage:"입력하신 정보와 일치하는 계정이 없습니다." });
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "비밀번호 찾기 실패!",
+              alertMessage: "입력하신 정보와 일치하는 계정이 없습니다.",
+            });
           }
         },
         (error) => {
@@ -225,7 +230,7 @@ const userStore = {
               alertTitle: "회원가입 성공!",
               alertMessage: `${user.userName} 님 반갑습니다.`,
             });
-            router.push({ name: "login" }).catch(()=>{});
+            router.push({ name: "login" }).catch(() => {});
           } else {
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "회원가입 실패!",
@@ -236,7 +241,7 @@ const userStore = {
         (error) => {
           console.log(error);
         }
-      );      
+      );
     },
     // 회원가입 인증
     async emailAuth(context, authCode) {
@@ -248,7 +253,7 @@ const userStore = {
               alertTitle: "이메일 인증 성공!",
               alertMessage: `로그인이 가능합니다.`,
             });
-            router.push({name : "main"}).catch(()=>{});
+            router.push({ name: "main" }).catch(() => {});
           } else {
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "이메일 인증 실패!",
@@ -259,8 +264,8 @@ const userStore = {
         (error) => {
           console.log(error);
         }
-      );      
-    }
+      );
+    },
   },
   // 저장소인 state 의 값을 외부에 노출시키는 방법
   // 그대로 또는 state 의 데이터의 변형을 처리한 후 결과를 return <== getters 는 return 이 있는 메소드들
@@ -277,8 +282,8 @@ const userStore = {
     // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
     getUserId(state) {
       return state.userInfo.userId;
-    }
-  }
+    },
+  },
 };
 
 export default userStore;

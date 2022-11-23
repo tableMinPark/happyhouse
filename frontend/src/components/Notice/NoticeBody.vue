@@ -49,36 +49,28 @@
                   </thead>
                   <tbody>
                     <!--중요공지-->
-                    <notice-td v-for="(notice, index) in importantNotices" :key="`i-${index}`" :important="true" :notice="notice"></notice-td>
+                    <notice-td v-for="(notice, index) in importantNotices" :key="`i-${index}`" :important="true"
+                      :notice="notice"></notice-td>
                     <!--일반 공지, 페이징은 여기서만-->
-                    <notice-td v-for="(notice, index) in normalNotices" :key="index" :important="false" :notice="notice"></notice-td>
+                    <notice-td v-for="(notice, index) in normalNotices" :key="index" :important="false"
+                      :notice="notice"></notice-td>
                   </tbody>
                 </table>
               </div>
             </div>
 
             <div class="col-sm-12 col-lg-12 col-xl-12 text-end">
-              <button
-                v-if="userInfo.code == '300'"
-                class="btn btn-square btn-outline-primary btn-sm mt-3 me-3"
-                type="button"
-                data-bs-original-title=""
-                title=""
-                @click="showInsertModal"
-              >
+              <button v-if="isAdmin" class="btn btn-square btn-outline-primary btn-sm mt-3 me-3" type="button"
+                data-bs-original-title="" title="" @click="showInsertModal">
                 글쓰기
               </button>
             </div>
 
             <div class="col-sm-12 col-lg-12 col-xl-12">
               <div style="margin: 10px">
-                <PaginationUI
-                  :listRowCount="listRowCount"
-                  :pageLinkCount="pageLinkCount"
-                  :currentPageIndex="currentPageIndex"
-                  :totalListItemCount="totalListItemCount"
-                  @call-parent-move-page="movePage"
-                ></PaginationUI>
+                <PaginationUI :listRowCount="listRowCount" :pageLinkCount="pageLinkCount"
+                  :currentPageIndex="currentPageIndex" :totalListItemCount="totalListItemCount"
+                  @call-parent-move-page="movePage"></PaginationUI>
               </div>
             </div>
           </div>
@@ -125,8 +117,7 @@ export default {
   },
   methods: {
     search() {
-      console.log("call search! " + this.searchType + " " + this.searchWord)
-      this.callList()
+      this.callList();
     },
     callList() {
       let params = {
@@ -172,18 +163,12 @@ export default {
     },
   },
   computed: {
-    ...mapState("userStore", ["userInfo"]),
+    ...mapState("userStore", ["isAdmin"]),
   },
   created() {
     this.callImportant()
     this.callList()
   },
-  //template에서 사용하기 위해 한번 걸러줌
-  // filters: {
-  //   makeDateStr: function (date, type) {
-  //     return util.makeDateStr(date.year, date.month, date.day, type);
-  //   },
-  // },
 
   mounted() {
     //modal 객체를 생성해 data의 변수에 할당.
@@ -197,17 +182,21 @@ table th,
 td {
   text-align: center;
 }
+
 table {
   table-layout: fixed;
 }
+
 td {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 #searchBtn {
   cursor: pointer;
 }
+
 .writeNotice {
   visibility: hidden;
 }
