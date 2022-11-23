@@ -4,10 +4,13 @@
       <div class="product-box">
         <div class="product-details">
           <router-link :to="`/houseinfo/${deal.dealId}`">
-            <h4><span class="badge bg-primary me-2 text-light">월세</span>삼정그린코아</h4>
+            <h4>
+              <span class="badge bg-primary me-2 text-light">{{ dealKind }}</span
+              >{{ deal.houseName }}
+            </h4>
           </router-link>
-          <p>부산시 강서구 녹산동 1627-5</p>
-          <div class="product-price">$1,999,999</div>
+          <p>{{ houseAddress }}</p>
+          <div class="product-price">$ {{ deal.dealPrice }}</div>
         </div>
         <router-link :to="{ name: 'houseModify', params: { deal: deal } }">
           <div type="button" class="btn btn-sm btn-primary float-end">수정</div>
@@ -24,6 +27,17 @@ export default {
     return {
       houseInfo: null,
     }
+  },
+  computed: {
+    dealKind: function () {
+      if (this.deal.code == "100") return "전세"
+      if (this.deal.code == "200") return "월세"
+      return "매매"
+    },
+    houseAddress: function () {
+      if (this.deal.houseDongName == "undefined") return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseJibun
+      return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseDongName + " " + this.deal.houseJibun
+    },
   },
 }
 </script>

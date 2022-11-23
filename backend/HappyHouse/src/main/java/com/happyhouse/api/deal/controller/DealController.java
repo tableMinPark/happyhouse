@@ -272,5 +272,27 @@ public class DealController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	@GetMapping("/deal/my/{userId}")	
+	public ResponseEntity<Map<String, Object>> getMyList(@PathVariable int userId){
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		try {
+			DealResultDto myList = service.getMyList(userId);
+			
+			if (myList != null) {
+				resultMap.put("myList", myList);
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}		
+		}	catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 
 }

@@ -144,4 +144,11 @@
 		   and house_id = #{houseId};
 	</select>
 	
+	
+	<select id = "getMyList" parameterType = "int" resultType="com.happyhouse.api.deal.dto.DealParamDto">
+		SELECT d.deal_id, d.house_id,d.deal_price,d.deal_deposit,d.deal_complete,h.house_name ,h.house_sido_name,h.house_gugun_name,h.house_dong_name , h.house_jibun,d.code 
+		 FROM deal d join house h on d.house_id = h.house_id 
+		where d.user_id = #{userId};
+	</select>
+	
 </mapper>

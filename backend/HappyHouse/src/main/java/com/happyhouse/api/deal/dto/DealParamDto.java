@@ -25,6 +25,7 @@ public class DealParamDto {
 	private String dealArea;
 	private String code;
 	private String dealContent;	
+	private boolean dealComplete;
 	private LocalDateTime dealDate;
 	private String fileUrl;
 

@@ -33,4 +33,7 @@ public interface DealDao {
 	List<DealDto> getOldDealList(int houseId);
 	List<DealDto> getNowDealList(int houseId);
 	List<ReviewResultDto> getReviewList(int houseId);
+	
+	// 내 거래 리스트
+	List<DealParamDto> getMyList(int userId);
 }

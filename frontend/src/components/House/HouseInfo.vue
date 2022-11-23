@@ -7,30 +7,23 @@
             <h5>House Images</h5>
           </div>
           <div class="card-body">
-            <div class="owl-carousel owl-theme owl-loaded owl-drag" id="owl-carousel-14">
-              <div class="owl-stage-outer owl-height">
-                <div class="owl-stage" style="transform: translate3d(-3504px, 0px, 0px); transition: all 0s ease 0s; width: 12848px">
-                  <div class="owl-item" v-for="(item, index) in imgList" :key="index">
-                    <div class="item"><img :src="path + item" alt="" /></div>
-                  </div>
-                </div>
-              </div>
-              <div class="owl-nav disabled">
-                <button type="button" role="presentation" class="owl-prev" data-bs-original-title="" title=""><span aria-label="Previous">‹</span></button
-                ><button type="button" role="presentation" class="owl-next" data-bs-original-title="" title=""><span aria-label="Next">›</span></button>
-              </div>
-            </div>
+            <house-carousel></house-carousel>
           </div>
         </div>
         <div class="card">
           <div class="card-header pb-0 d-flex justify-content-between">
             <h5 class="card-title">Reviews</h5>
+
             <button class="btn btn-primary" @click.prevent="showReviewRegister">
               <feather type="file-text" size="18" />
             </button>
           </div>
           <div class="card-body">
-            <review-list></review-list>
+            <review-list v-if="reviewList.length != 0"></review-list>
+            <div v-else>작성된 리뷰가 없습니다.</div>
+            <div style="float: right; cursor: pointer">
+              <p @click="showReviewDetailAllModal">+ 전체보기</p>
+            </div>
           </div>
         </div>
       </div>
@@ -96,31 +89,36 @@
     </div>
     <!-- Modal -->
     <review-register-modal v-on:call-parent-register-close="closeReviewRegister"></review-register-modal>
+    <review-detail-all-modal v-on:call-parent-detail-all-close="closeReviewDetailAll"></review-detail-all-modal>
   </div>
 </template>
 
 <script>
 import ReviewList from "@/components/House/Module/ReviewList.vue"
 import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue"
-
+import ReviewDetailAllModal from "@/components/common/Modal/ReviewDetailAllModal.vue"
+import HouseCarousel from "@/components/House/Module/HouseCarousel.vue"
 import { Modal } from "bootstrap"
 
-import { dealDetail, imgList } from "@/api/deal"
+import { dealDetail } from "@/api/deal"
+
+import { mapActions, mapState } from "vuex"
 
 export default {
   components: {
     ReviewList,
     ReviewRegisterModal,
+    ReviewDetailAllModal,
+    HouseCarousel,
   },
   data() {
     return {
-      path: "http://localhost:8080/upload/",
       dealId: null,
-      imgList: [],
       house: [], //집정보
       deal: [], //거래정보
       map: null,
       reviewRegisterModal: null,
+      reviewDetailAllModal: null,
     }
   },
   methods: {
@@ -138,6 +136,13 @@ export default {
     closeReviewRegister() {
       this.reviewRegisterModal.hide()
     },
+    showReviewDetailAllModal() {
+      this.reviewDetailAllModal.show()
+    },
+    closeReviewDetailAll() {
+      this.reviewDetailAllModal.hide()
+    },
+    ...mapActions("dealStore", ["getReviewList", "getImgList"]),
   },
 
   computed: {
@@ -150,33 +155,25 @@ export default {
       if (this.house.houseDongName == "undefined") return this.house.houseSidoName + " " + this.house.houseGugunName + " " + this.house.houseJibun
       return this.house.houseSidoName + " " + this.house.houseGugunName + " " + this.house.houseDongName + " " + this.house.houseJibun
     },
+    ...mapState("dealStore", ["reviewList"]),
   },
 
   mounted() {
     this.dealId = this.$route.params.houseId
-
-    imgList(
-      this.dealId,
-      ({ data }) => {
-        // console.log(data)
-        this.imgList = data.imgList
-        if (this.imgList.length == 0) this.imgList = ["deal/noImage.png"]
-      },
-      (error) => {
-        console.error(error)
-      }
-    )
+    this.getImgList(this.dealId)
     dealDetail(
       this.dealId,
       ({ data }) => {
         this.deal = data.dealList.dealDto
         this.house = data.dealList.houseDto
+        console.log(this.house)
+        this.getReviewList(this.house.houseId)
       },
       (error) => {
         console.error(error)
       }
     )
-    console.log(this.dealId)
+
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script")
       script.setAttribute("src", "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services")
@@ -189,6 +186,7 @@ export default {
       this.initMap()
     }
     this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"))
+    this.reviewDetailAllModal = new Modal(document.getElementById("reviewDetailAllModal"))
   },
 }
 </script>

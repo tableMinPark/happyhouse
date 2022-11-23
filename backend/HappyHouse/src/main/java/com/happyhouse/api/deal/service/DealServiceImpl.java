@@ -160,4 +160,13 @@ public class DealServiceImpl implements DealService{
 		return dao.getReviewList(houseId);
 	}
 
+	@Override
+	public DealResultDto getMyList(int userId) {
+		DealResultDto ret = new DealResultDto();
+		List<DealParamDto> res = dao.getMyList(userId);
+		ret.setJoinList(res);
+		// TODO Auto-generated method stub
+		return ret;
+	}
+
 }

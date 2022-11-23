@@ -28,4 +28,6 @@ public interface DealService {
 	List<DealDto> getOldDealList(int houseId);
 	List<DealDto> getNowDealList(int houseId);
 	List<ReviewResultDto> getReviewList(int houseId);
+	
+	DealResultDto getMyList(int userId);
 }
