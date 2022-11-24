@@ -2,11 +2,12 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card custom-card pt-3">
-                <div class="card-profile"><img class="rounded-circle" v-if="userInfo.userProfileImageUrl != undefined"
-                        :src="require(`@/assets/upload/${userInfo.userProfileImageUrl}`)"></div>
+                <div class="card-profile"><img class="rounded-circle"
+                        v-if="myPageUserInfo.userProfileImageUrl != undefined"
+                        :src="require(`@/assets/upload/${myPageUserInfo.userProfileImageUrl}`)"></div>
                 <div class="text-center profile-details m-3 mb-0">
                     <h4>{{ myPageUserInfo.userName }}</h4>
-                    <h6 class="mb-2">{{ myPageUserInfo.userRegDt }}</h6>
+                    <h6 class="mb-2">{{ myPageUserInfo.userRegDt | formatDate }} 가입</h6>
                     <h6>{{ getCodeName() }}</h6>
                     <!-- 친구페이지를 방문했을 때 -->
                     <div v-if="!isMyPage">
@@ -39,6 +40,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
     computed: {
+        ...mapState("myPageStore", ["myPageUserInfo"]),
         ...mapState("userStore", ["userInfo"]),
         ...mapState("myPageStore", ["isMyPage", "myPageUserInfo", "isFollowing"]),
     },

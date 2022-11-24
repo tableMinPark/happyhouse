@@ -58,11 +58,12 @@
                 </tr>
                 <tr>
                   <th scope="col">금액</th>
-                  <td>{{ deal.dealPrice }}</td>
+                  <td v-if="deal.code === '300'">{{ deal.dealPrice | formatPrice }}</td>
+                  <td v-else>{{ deal.dealDeposit | formatPrice }} 만원</td>
                 </tr>
                 <tr>
                   <th scope="col">면적</th>
-                  <td>{{ deal.dealArea }}</td>
+                  <td>{{ deal.dealArea }} m 2</td>
                 </tr>
                 <tr>
                   <th scope="col">층</th>
@@ -94,15 +95,16 @@
 </template>
 
 <script>
-import ReviewList from "@/components/House/Module/ReviewList.vue"
-import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue"
-import ReviewDetailAllModal from "@/components/common/Modal/ReviewDetailAllModal.vue"
-import HouseCarousel from "@/components/House/Module/HouseCarousel.vue"
-import { Modal } from "bootstrap"
+import { Modal } from "bootstrap";
+import ReviewList from "@/components/House/Module/ReviewList.vue";
+import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue";
+import ReviewDetailAllModal from "@/components/common/Modal/ReviewDetailAllModal.vue";
+import HouseCarousel from "@/components/House/Module/HouseCarousel.vue";
 
 import { dealDetail } from "@/api/deal"
 
 import { mapActions, mapState } from "vuex"
+import store from "@/store";
 
 export default {
   components: {
@@ -122,6 +124,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("houseStore", ["setLists"]),
     initMap() {
       let mapContainer = document.querySelector("#kakao-map")
       let mapOption = {
@@ -159,14 +162,21 @@ export default {
   },
 
   mounted() {
+
     this.dealId = this.$route.params.houseId
+
     this.getImgList(this.dealId)
+
     dealDetail(
       this.dealId,
       ({ data }) => {
+        console.log(data);
         this.deal = data.dealList.dealDto
         this.house = data.dealList.houseDto
-        console.log(this.house)
+        this.setLists({ dealInfo: this.deal, houseInfo: this.house });
+
+        console.log("houseStore 에 넣음" + " " + store.getters["houseStore/getHouseId"]);
+
         this.getReviewList(this.house.houseId)
       },
       (error) => {

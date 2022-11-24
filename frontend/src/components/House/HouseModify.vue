@@ -13,11 +13,13 @@
                   <div class="row">
                     <div class="col-xl-4 col-sm-12 col-md-12 mb-4">
                       <label class="form-label" for="validationCustom01">매물 명:</label>
-                      <input class="form-control" id="validationCustom01" type="text" placeholder="house name" required="" v-model="houseName" />
+                      <input class="form-control" id="validationCustom01" type="text" placeholder="house name"
+                        required="" v-model="houseName" />
                     </div>
                     <div class="col-xl-4 col-sm-12 col-md-12 mb-4">
                       <label class="form-label" for="validationCustom01">건축년도:</label>
-                      <input class="form-control" id="validationCustom01" type="text" placeholder="build year" required="" v-model="houseBuildYear" />
+                      <input class="form-control" id="validationCustom01" type="text" placeholder="build year"
+                        required="" v-model="houseBuildYear" />
                     </div>
                   </div>
 
@@ -25,38 +27,45 @@
                     <label>매물 종류:</label>
                     <div class="m-checkbox-inline" style="margin-bottom: 10px">
                       <label class="f-w-500" for="edo-ani">
-                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani" value="100" v-model="dealCode" @change="dealMethod" />전세
+                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani" value="100"
+                          v-model="dealCode" @change="dealMethod" />전세
                       </label>
                       <label class="f-w-500" for="edo-ani1">
-                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani1" value="200" v-model="dealCode" @change="dealMethod" />월세
+                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani1" value="200"
+                          v-model="dealCode" @change="dealMethod" />월세
                       </label>
                       <label class="f-w-500" for="edo-ani2">
-                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani2" value="300" v-model="dealCode" @change="dealMethod" />매매
+                        <input class="radio_animated" type="radio" name="checkboxDealCode" id="edo-ani2" value="300"
+                          v-model="dealCode" @change="dealMethod" />매매
                       </label>
                     </div>
                     <div class="row" v-if="dealCode === '100'">
                       <div class="col-md-8">
                         <label class="form-label" for="validationDefault01">전세금</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="전세금" required="" v-model="charterPrice" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="전세금" required=""
+                          v-model="charterPrice" />
                         <p class="form-label pt-3 ps-3">{{ parsePrice(charterPrice) }}</p>
                       </div>
                     </div>
                     <div class="row" v-else-if="dealCode === '200'">
                       <div class="col-md-4">
                         <label class="form-label" for="validationDefault01">보증금</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="보증금" required="" v-model="rentDeposit" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="보증금" required=""
+                          v-model="rentDeposit" />
                         <p class="form-label pt-3 ps-3">{{ parsePrice(rentDeposit) }}</p>
                       </div>
                       <div class="col-md-4">
                         <label class="form-label" for="validationDefault02">월세</label>
-                        <input class="form-control" id="validationDefault02" type="number" placeholder="월" required="" v-model="rentPrice" />
+                        <input class="form-control" id="validationDefault02" type="number" placeholder="월" required=""
+                          v-model="rentPrice" />
                         <p class="form-labe pt-3 ps-3">{{ parsePrice(rentPrice) }}</p>
                       </div>
                     </div>
                     <div class="row" v-else>
                       <div class="col-md-8">
                         <label class="form-label" for="validationDefault01">매매가</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="매매가" required="" v-model="dealingPrice" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="매매가" required=""
+                          v-model="dealingPrice" />
                         <p class="form-label pt-3 ps-3">{{ parsePrice(dealingPrice) }}</p>
                       </div>
                     </div>
@@ -66,30 +75,36 @@
                     <label>건물 종류:</label>
                     <div class="m-checkbox-inline" style="margin-bottom: 10px">
                       <label class="f-w-500" for="edo-ani3">
-                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani3" value="100" v-model="houseCode" @change="houseMethod" />아파트
+                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani3" value="100"
+                          v-model="houseCode" @change="houseMethod" />아파트
                       </label>
                       <label class="f-w-500" for="edo-ani4">
-                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani4" value="200" v-model="houseCode" @change="houseMethod" />빌라
+                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani4" value="200"
+                          v-model="houseCode" @change="houseMethod" />빌라
                       </label>
                       <label class="f-w-500" for="edo-ani5">
-                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani5" value="300" v-model="houseCode" @change="houseMethod" />주택
+                        <input class="radio_animated" type="radio" name="checkboxHouseCode" id="edo-ani5" value="300"
+                          v-model="houseCode" @change="houseMethod" />주택
                       </label>
                     </div>
 
                     <div class="row" v-if="houseCode !== '300'">
                       <div class="col-xl-4 col-sm-12 col-md-12 mb-4">
                         <label class="form-label" for="validationDefault01">평수</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="평수" required="" v-model="dealArea" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="평수" required=""
+                          v-model="dealArea" />
                       </div>
                       <div class="col-xl-4 col-sm-12 col-md-12 mb-4">
                         <label class="form-label" for="validationDefault01">층</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="층" required="" v-model="dealFloor" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="층" required=""
+                          v-model="dealFloor" />
                       </div>
                     </div>
                     <div class="row" v-else>
                       <div class="col-xl-4 col-sm-12 col-md-12 mb-4">
                         <label class="form-label" for="validationDefault01">평수</label>
-                        <input class="form-control" id="validationDefault01" type="number" placeholder="평수" required="" v-model="dealArea" />
+                        <input class="form-control" id="validationDefault01" type="number" placeholder="평수" required=""
+                          v-model="dealArea" />
                       </div>
                     </div>
                   </div>
@@ -134,14 +149,9 @@
                       <div class="form-group">
                         <label>Content:</label>
 
-                        <div
-                          id="cke_text-box"
+                        <div id="cke_text-box"
                           class="cke_1 cke cke_reset cke_chrome cke_editor_text-box cke_ltr cke_browser_webkit"
-                          dir="ltr"
-                          lang="ko"
-                          role="application"
-                          aria-labelledby="cke_text-box_arialbl"
-                        ></div>
+                          dir="ltr" lang="ko" role="application" aria-labelledby="cke_text-box_arialbl"></div>
                       </div>
                     </div>
                   </div>
@@ -184,10 +194,10 @@ export default {
 
       // 매물 종류
       dealCode: "100",
-      charterPrice: "",
-      rentDeposit: "",
-      rentPrice: "",
-      dealingPrice: "",
+      charterPrice: "0",
+      rentDeposit: "0",
+      rentPrice: "0",
+      dealingPrice: "0",
 
       // 매물 부가정보
       houseCode: "100",

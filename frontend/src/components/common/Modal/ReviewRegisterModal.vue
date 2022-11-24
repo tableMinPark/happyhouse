@@ -85,7 +85,8 @@
                </div>
             </div>
             <div class="modal-footer">
-               <button @click="reviewRegister" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal" type="button">수정</button>
+               <button @click="reviewRegister" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal"
+                  type="button">수정</button>
             </div>
          </div>
       </div>
@@ -106,7 +107,7 @@ import store from "@/store";
 
 export default {
    data() {
-      return {      
+      return {
          reviewTraficRating: 1,
          reviewSafetyRating: 1,
          reviewStoreRating: 1,
@@ -118,7 +119,7 @@ export default {
       async reviewRegister() {
          const reviewInfo = {
             userId: store.getters["userStore/getUserId"],
-            houseId: store.getters["houseStore/getDealId"],
+            houseId: store.getters["houseStore/getHouseId"],
             reviewContent: this.CKEditor.getData(),
             reviewTraficRating: this.reviewTraficRating,
             reviewSafetyRating: this.reviewSafetyRating,
@@ -128,13 +129,13 @@ export default {
          await this.registReview(reviewInfo);
          this.$emit('call-parent-register-close');
       },
-      traficRatingChange(rating){
+      traficRatingChange(rating) {
          this.reviewTraficRating = rating;
       },
-      safetyRatingChange(rating){
+      safetyRatingChange(rating) {
          this.reviewSafetyRating = rating;
       },
-      storeRatingChange(rating){
+      storeRatingChange(rating) {
          this.reviewStoreRating = rating;
       }
    },
@@ -145,17 +146,17 @@ export default {
          console.error(error);
       }
    },
-   created(){
+   created() {
       this.reviewTraficRating = 1;
       this.reviewSafetyRating = 1;
-      this.reviewStoreRating = 1;    
+      this.reviewStoreRating = 1;
    }
 };
 </script>
 
 
 <style scoped>
-.modal >>> .ck-editor__editable {
+.modal>>>.ck-editor__editable {
    min-height: 300px !important;
 }
 

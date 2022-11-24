@@ -298,6 +298,12 @@ const dealStore = {
       );
     },
   },
+  getters: {
+    // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
+    getDealId(state) {
+      return state.houseInfo.houseId;
+    },
+  },
 };
 
 export default dealStore;

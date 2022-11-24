@@ -34,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Value("${app.fileupload.path}")
 	String uploadPath;
+	
+	
 
 	@Override
 	public UserDto login(UserDto userDto) throws Exception {
@@ -62,62 +64,68 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDto modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception {
-		
+
 		UserDto ret = null;
 		
 		try {
 			List<MultipartFile> fileList = request.getFiles("file");
 			System.out.println("파일 개수 " + fileList.size());
-			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
-			if (!uploadDir.exists()) uploadDir.mkdir();
-			
-			// 기존 파일 삭제
-	    	String fileUrl = dao.getUserProfileUrl(userDto.getUserId());	
-			
-			File file = new File(uploadPath + File.separator, fileUrl);
-			if(file.exists()) {
-				file.delete();
-			}
-			
 
-	    	dao.userProfileDelete(userDto.getUserId()); // 먼저 파일 db삭제
-	    	
-	    	String UserFileUrl = null;
-			for (MultipartFile part : fileList) {
-				int userId = userDto.getUserId();
+			if (fileList.size() > 0) {
 				
-				String fileName = part.getOriginalFilename();
+				File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+				if (!uploadDir.exists()) uploadDir.mkdir();
 				
-				//Random File Id
-				UUID uuid = UUID.randomUUID();
+				// 기존 파일 삭제
+		    	String fileUrl = dao.getUserProfileUrl(userDto.getUserId());	
+		    	// user/[이미지이름]
+		    	
+		    	System.out.println(fileUrl);
+		    	
+		    	if (!"user/noProfile.png".equals(fileUrl)) {
+		    		File file = new File(uploadPath + File.separator, fileUrl);
+		    		if(file.exists()) {
+		    			file.delete();
+		    		}	    		
+		    	}
 				
-				//file extension
-				String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
-			
-				String savingFileName = uuid + "." + extension;
-			
-				File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+	
+		    	dao.userProfileDelete(userDto.getUserId()); // 먼저 파일 db삭제
+		    	
+		    	String UserFileUrl = null;
+				for (MultipartFile part : fileList) {
+					int userId = userDto.getUserId();
+					
+					String fileName = part.getOriginalFilename();
+					
+					//Random File Id
+					UUID uuid = UUID.randomUUID();
+					
+					//file extension
+					String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
 				
-				System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
-				part.transferTo(destFile);
-		    
-			    // Table Insert
-			    UserFileDto userFileDto = new UserFileDto();
-			    userFileDto.setUserId(userId);
-			    userFileDto.setFileName(fileName);
-			    userFileDto.setFileSize(part.getSize());
-			    userFileDto.setFileContentType(part.getContentType());
-				UserFileUrl = uploadFolder + "/" + savingFileName;
-				userFileDto.setFileUrl(UserFileUrl);
+					String savingFileName = uuid + "." + extension;
 				
-				dao.userProfileInsert(userFileDto);
-			
+					File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+					
+					System.out.println(uploadPath + File.separator + uploadFolder + File.separator + savingFileName);
+					part.transferTo(destFile);
+			    
+				    // Table Insert
+				    UserFileDto userFileDto = new UserFileDto();
+				    userFileDto.setUserId(userId);
+				    userFileDto.setFileName(fileName);
+				    userFileDto.setFileSize(part.getSize());
+				    userFileDto.setFileContentType(part.getContentType());
+					UserFileUrl = uploadFolder + "/" + savingFileName;
+					userFileDto.setFileUrl(UserFileUrl);
+					
+					dao.userProfileInsert(userFileDto);
+					userDto.setUserProfileImageUrl(UserFileUrl);				
+				}
 			}
 			
-			if(UserFileUrl == null) UserFileUrl = "upload/user/noProfile.png";
-			userDto.setUserProfileImageUrl(UserFileUrl);
-			dao.modify(userDto);
-			
+			dao.modify(userDto);			
 			ret = dao.getUserInfo(userDto.getUserId());
 			
 		}catch(IOException e) {
@@ -125,6 +133,7 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return ret;
+
 	}
 	
 	@Override

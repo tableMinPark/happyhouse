@@ -1,10 +1,11 @@
 <template>
     <div class="row">
-        <div v-for="(userInfo, index) in followingList" :key="index" class="col-sm-4 col-lg-4 col-xl-4">            
+        <div v-for="(userInfo, index) in followingList" :key="index" class="col-sm-4 col-lg-4 col-xl-4">
             <router-link :to="`/profile/${userInfo.userId}`">
                 <div class="card custom-card">
                     <div class="card-profile">
-                        <img class="rounded-circle" :src="userInfo.userProfileImageUrl" alt="">
+                        <img class="rounded-circle" :src="require(`@/assets/upload/${userInfo.userProfileImageUrl}`)"
+                            alt="">
                     </div>
                     <div class="text-center profile-details m-3 mb-0">
                         <h4>{{ userInfo.userName }}</h4>
@@ -28,7 +29,7 @@ export default {
         ...mapActions("myPageStore", ["getFollow"])
     },
     async created() {
-       await this.getFollow();
+        await this.getFollow();
     }
 }
 </script>

@@ -129,6 +129,8 @@ public class DealController {
 				ret.setDealDto(dealDetail);
 				ret.setHouseDto(houseDetail);
 				
+				System.out.println(ret);
+				
 				resultMap.put("dealList", ret);
 				resultMap.put("message", SUCCESS);	
 			} else {

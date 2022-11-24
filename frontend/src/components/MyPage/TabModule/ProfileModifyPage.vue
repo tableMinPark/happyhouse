@@ -124,13 +124,14 @@ export default {
 
     async profileModify() {
       if (this.inputCheck()) {
-        this.userInfo.userProfileImageUrl = undefined;
 
         let formData = new FormData()
         formData.append("userId", this.userInfo.userId)
         formData.append("userPassword", this.userPassword)
         formData.append("userAddress", this.userAddress)
+        formData.append("userProfileImageUrl", this.userInfo.userProfileImageUrl)
         formData.append("userTel", this.userTel)
+        this.userInfo.userProfileImageUrl = undefined;
         console.log(this.profile)
         if (this.profile.length > 0) {
           const fileArray = Array.from(this.profile)

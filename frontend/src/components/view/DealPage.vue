@@ -12,7 +12,9 @@
             <div class="container-fruid">
               <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                 <div class="info-block">
-                  <h6><feather type="search" size="15" class="pe-2" />검색종류를 선택하세요</h6>
+                  <h6>
+                    <feather type="search" size="15" class="pe-2" />검색종류를 선택하세요
+                  </h6>
                 </div>
               </div>
               <div class="card shadow shadow-showcase p-3 mb-1 text-center">
@@ -22,7 +24,8 @@
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input id="search-radio-keyword" name="search-radio" checked type="radio" value="A" v-model="searchType" />
+                          <input id="search-radio-keyword" name="search-radio" checked type="radio" value="A"
+                            v-model="searchType" />
                           <label for="search-radio-keyword" class="form-check-label ps-2">키워드 검색</label>
                         </div>
                       </div>
@@ -30,7 +33,8 @@
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio" value="K" v-model="searchType" />
+                          <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio"
+                            value="K" v-model="searchType" />
                           <label for="search-radio-address" class="form-check-label ps-2">주소 기준 검색</label>
                         </div>
                       </div>
@@ -80,16 +84,14 @@
             </div>
             <div>
               <div class="card">
-                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-2 pt-3" id="headingFour">
+                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-2 pt-3"
+                  id="headingFour">
                   <div class="info-block">
-                    <button
-                      @click="
-                        () => {
-                          houseInfoToggle = !houseInfoToggle
-                        }
-                      "
-                      class="btn btn-link text-white"
-                    >
+                    <button @click="
+                      () => {
+                        houseInfoToggle = !houseInfoToggle
+                      }
+                    " class="btn btn-link text-white">
                       <h6>검색된 건물 ({{ houseList.length }})</h6>
                     </button>
                   </div>
@@ -130,7 +132,7 @@
                                   {{ reviewList[0].userName }}
                                 </h6>
                                 <p class="d-block">
-                                  {{ reviewList[0].userRegDt | formatDate }}
+                                  {{ reviewList[0].userRegDt | formatDate }} 가입
                                 </p>
                               </div>
                             </div>
@@ -141,31 +143,21 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="truck" size="15" class="pe-2" />
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 1 <= reviewList[0].reviewTraficRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 2 <= reviewList[0].reviewTraficRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 3 <= reviewList[0].reviewTraficRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 4 <= reviewList[0].reviewTraficRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 5 <= reviewList[0].reviewTraficRating,
-                                      }"
-                                    ></a>
+                                    <a :class="{
+                                      'br-selected br-current': 1 <= reviewList[0].reviewTraficRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 2 <= reviewList[0].reviewTraficRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 3 <= reviewList[0].reviewTraficRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 4 <= reviewList[0].reviewTraficRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 5 <= reviewList[0].reviewTraficRating,
+                                    }"></a>
                                   </div>
                                 </div>
                               </div>
@@ -175,31 +167,21 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="home" size="15" class="pe-2" />
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 1 <= reviewList[0].reviewSafetyRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 2 <= reviewList[0].reviewSafetyRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 3 <= reviewList[0].reviewSafetyRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 4 <= reviewList[0].reviewSafetyRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 5 <= reviewList[0].reviewSafetyRating,
-                                      }"
-                                    ></a>
+                                    <a :class="{
+                                      'br-selected br-current': 1 <= reviewList[0].reviewSafetyRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 2 <= reviewList[0].reviewSafetyRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 3 <= reviewList[0].reviewSafetyRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 4 <= reviewList[0].reviewSafetyRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 5 <= reviewList[0].reviewSafetyRating,
+                                    }"></a>
                                   </div>
                                 </div>
                               </div>
@@ -209,31 +191,21 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="shopping-cart" size="15" class="pe-2" />
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 1 <= reviewList[0].reviewStoreRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 2 <= reviewList[0].reviewStoreRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 3 <= reviewList[0].reviewStoreRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 4 <= reviewList[0].reviewStoreRating,
-                                      }"
-                                    ></a>
-                                    <a
-                                      :class="{
-                                        'br-selected br-current': 5 <= reviewList[0].reviewStoreRating,
-                                      }"
-                                    ></a>
+                                    <a :class="{
+                                      'br-selected br-current': 1 <= reviewList[0].reviewStoreRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 2 <= reviewList[0].reviewStoreRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 3 <= reviewList[0].reviewStoreRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 4 <= reviewList[0].reviewStoreRating,
+                                    }"></a>
+                                    <a :class="{
+                                      'br-selected br-current': 5 <= reviewList[0].reviewStoreRating,
+                                    }"></a>
                                   </div>
                                 </div>
                               </div>
@@ -283,7 +255,9 @@
                                     <tr v-for="(deal, index) in oldDealList" :key="`old-${index}`">
                                       <td>{{ deal.dealDate | formatDate }}</td>
                                       <td>
-                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{ deal.dealPrice | formatPrice }}</span>
+                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{
+                                            deal.dealPrice | formatPrice
+                                        }}</span>
                                       </td>
                                       <td>{{ deal.dealArea }}</td>
                                       <td>{{ deal.dealFloor }}</td>
@@ -326,7 +300,9 @@
                                     <tr v-for="(deal, index) in nowDealList" :key="`now-${index}`">
                                       <td>{{ deal.dealDate | formatDate }}</td>
                                       <td>
-                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{ deal.dealPrice | formatPrice }}</span>
+                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{
+                                            deal.dealPrice | formatPrice
+                                        }}</span>
                                       </td>
                                       <td>{{ deal.dealArea }}</td>
                                       <td>{{ deal.dealFloor }}</td>
@@ -513,7 +489,6 @@ export default {
     }
     this.paramKey = this.$route.params.searchWord
     this.keyword = this.paramKey
-    console.log(this.paramKey)
     if (this.paramKey != null) {
       await this.keywordSearch()
       this.paramKey = null
@@ -560,7 +535,7 @@ a {
   position: absolute;
 }
 
-#accordion > .card,
+#accordion>.card,
 #collapseFour {
   background-color: transparent;
   border-color: transparent;

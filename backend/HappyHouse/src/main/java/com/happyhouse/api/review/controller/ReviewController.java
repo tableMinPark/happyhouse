@@ -68,6 +68,8 @@ public class ReviewController {
 	@PostMapping("")
 	public ResponseEntity<Map<String, Object>> registReview(@RequestBody ReviewDto reviewDto) {
 		
+		System.out.println(reviewDto);
+		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
