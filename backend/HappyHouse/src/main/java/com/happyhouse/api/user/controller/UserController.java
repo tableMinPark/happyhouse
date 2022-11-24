@@ -104,7 +104,7 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> getUserInfo(@PathVariable("userId") int userId, HttpServletRequest request) {
 		
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		HttpStatus status = HttpStatus.ACCEPTED;
 				
 		if (jwtService.checkToken(request.getHeader("access-token"))) {
 			try {
@@ -123,7 +123,6 @@ public class UserController {
 		} else {
 			logger.error("사용 불가능 토큰!!!");
 			resultMap.put("message", FAIL);
-			status = HttpStatus.UNAUTHORIZED;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}

@@ -51,6 +51,18 @@ export default {
                             ],
                             borderWidth: 2
                         },
+                        // 월세 데이터
+                        {
+                            label: '월세',
+                            data: this.oldDealData.rentData,
+                            backgroundColor: [
+                                'rgba(23, 53, 43, .5)',
+                            ],
+                            borderColor: [
+                                '#36495d',
+                            ],
+                            borderWidth: 2
+                        },
                         // 매매 데이터
                         {
                             label: '매매',

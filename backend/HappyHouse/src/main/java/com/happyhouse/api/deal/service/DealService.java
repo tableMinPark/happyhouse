@@ -1,10 +1,10 @@
 package com.happyhouse.api.deal.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.happyhouse.api.deal.dto.DealChartDto;
 import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
@@ -35,6 +35,6 @@ public interface DealService {
 	DealResultDto getMyList(DealParamDto dealParamDto);
 	
 	
-	   // 차트 데이터 read
-    List<DealChartDto> getChartList(DealDto dealDto);
+	// 차트 데이터 read
+	Map<String, Object> getChartList(int houseId);
 }

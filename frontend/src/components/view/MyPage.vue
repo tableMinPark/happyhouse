@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-5 p-3">
     <div v-if="isMyPage" class="container-fluid">
       <basic-header name="마이페이지"></basic-header>
     </div>
@@ -26,18 +26,18 @@ export default {
     ...mapState("myPageStore", ["isMyPage", "pageId"]),
   },
   methods: {
-      ...mapActions("myPageStore", ["setMyPageInit"]),
+    ...mapActions("myPageStore", ["setMyPageInit"]),
   },
   async created() {
-      await this.setMyPageInit({
-        pageId: parseInt(this.$route.params.userId), 
-        userInfo: this.userInfo
-      });
+    await this.setMyPageInit({
+      pageId: parseInt(this.$route.params.userId),
+      userInfo: this.userInfo
+    });
 
-      // 조회된 유저 없음 (마이페이지가 없음)
-      if (this.pageId === null) {
-        this.$router.push({name: "main"});
-      }
+    // 조회된 유저 없음 (마이페이지가 없음)
+    if (this.pageId === null) {
+      this.$router.push({ name: "main" });
+    }
   }
 }
 </script>

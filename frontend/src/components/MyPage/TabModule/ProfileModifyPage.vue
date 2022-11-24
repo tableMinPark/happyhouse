@@ -7,7 +7,7 @@
       <div class="mt-3 mb-3">
         <div v-if="profile != null" class="thumbnail">
           <img :src="selimg" alt="" /><br />
-          <button class="btn btn-primary" @click="deleteProfile">삭제</button>
+          <button class="btn btn-primary mb-3" @click="deleteProfile">삭제</button>
         </div>
         <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
         <input type="file" style="display: none" ref="changeProfile" @change="changeProfiles" />
@@ -19,11 +19,13 @@
     </div>
     <div class="mb-3">
       <label class="form-label">New Password</label>
-      <input class="form-control" type="password" value="password" :class="{ 'input-error': isUserPassword }" v-model="userPassword" />
+      <input class="form-control" type="password" value="password" :class="{ 'input-error': isUserPassword }"
+        v-model="userPassword" />
     </div>
     <div class="mb-3">
       <label class="form-label">New Password Check</label>
-      <input class="form-control" type="password" value="password" :class="{ 'input-error': isUserPasswordCheck }" v-model="userPasswordCheck" />
+      <input class="form-control" type="password" value="password" :class="{ 'input-error': isUserPasswordCheck }"
+        v-model="userPasswordCheck" />
     </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Name</label>
@@ -31,14 +33,15 @@
     </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Address</label>
-      <input class="form-control" placeholder="Address" :class="{ 'input-error': isUserAddress }" v-model="userAddress" />
+      <input class="form-control" placeholder="Address" :class="{ 'input-error': isUserAddress }"
+        v-model="userAddress" />
     </div>
     <div class="mt-3 mb-3">
       <label class="form-label">Tel</label>
       <input class="form-control" placeholder="Tel" :class="{ 'input-error': isUserTel }" v-model="userTel" />
     </div>
     <div class="form-footer text-end">
-      <button class="btn btn-primary btn-block" @click="profileModify">수정</button>
+      <button class="btn btn-primary btn-block mb-5" @click="profileModify">수정</button>
     </div>
   </div>
 </template>
@@ -172,6 +175,7 @@ export default {
 .input-error {
   border-color: #d22d3d !important;
 }
+
 .thumbnail {
   margin-top: 5px;
 }

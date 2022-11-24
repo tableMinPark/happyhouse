@@ -2,7 +2,14 @@ package com.happyhouse.api.deal.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
@@ -281,10 +288,40 @@ public class DealServiceImpl implements DealService{
 	
 	
 	@Override
-    public List<DealChartDto> getChartList(DealDto dealDto) {
-        return dao.getChartList(dealDto);
-    }
+    public Map<String, Object> getChartList(int houseId) {
+		Map<String, Object> ret = new HashMap<>();
+				
+		DealDto dealDto = new DealDto();
+		dealDto.setHouseId(houseId);
+		dealDto.setCode("100");		
+        List<DealChartDto> charterData = dao.getChartList(dealDto);
+        dealDto.setCode("200");
+        List<DealChartDto> rentData = dao.getChartList(dealDto);
+        dealDto.setCode("300");
+        List<DealChartDto> dealingData = dao.getChartList(dealDto);
+        
+        if (charterData != null && rentData != null && dealingData != null) {
+        	
+        	// 라벨 설정
+        	List<String> labels = new ArrayList<>();
+        	Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.YEAR, -1);
+            DateFormat df = new SimpleDateFormat("yyyy-MM");
+            
+            for (int i = 0; i < 12; i++) {
+            	labels.add(df.format(cal.getTime()));
+                cal.add(Calendar.MONTH, 1);
+            }
 
+        	ret.put("charterData", charterData);
+        	ret.put("rentData", rentData);
+        	ret.put("dealingData", dealingData);
+            ret.put("labels", labels);            
+        } 
+        
+        return ret;
+    }
 	
     
 

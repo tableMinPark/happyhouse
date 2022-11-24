@@ -16,6 +16,7 @@ const userStore = {
   namespaced: true,
   state: {
     isAdmin: false,
+    userCode: "",
     isLogin: false,
     isLoginError: false,
     isForgetPasswordError: false,
@@ -34,6 +35,7 @@ const userStore = {
     },
     SET_USER_INFO(state, userInfo) {
       state.userInfo = { ...userInfo };
+      state.userCode = state.userInfo.userCode;
     },
     SET_FOLLOW_COUNT(state, followCount) {
       state.userInfo.following = followCount.userIdFollowing;

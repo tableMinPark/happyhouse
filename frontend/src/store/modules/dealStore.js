@@ -16,11 +16,12 @@ const dealStore = {
   state: {
     houseList: [],
     houseInfo: {},
-    oldDealList: [], // 과거순부터 순서대로
     nowDealList: [],
     reviewList: [],
     imgList: [],
     isBookmarking: false,
+
+    oldDealList: [], // 과거순부터 순서대로
 
     oldDealData: {},
   },
@@ -239,21 +240,55 @@ const dealStore = {
           console.log(data);
           if (data.message === "success") {
             console.log("차트 데이터 리드성공");
-            console.log(data.chartList);
+            console.log(data);
 
             // 차트 데이터 생성
             let oldDealData = {
-              labels: [],
+              labels: data.labels,
+              charterData: [],
+              rentData: [],
               dealingData: [],
             };
-            // 하나하나 까면서 정리
-            data.chartList.forEach((chartData) => {
-              oldDealData.labels.push(chartData.dealDate);
-              oldDealData.dealingData.push(chartData.dealPrice);
-            });
+            // 데이터 담음
+            let ch = data.charterData;
+            let re = data.rentData;
+            let de = data.dealingData;
+
+            // 전세
+            let temp = 0;
+            for (let i = 0; i < 12; i++) {
+              if (ch[0] === undefined || ch[0].dealDate !== data.labels[i]) {
+                oldDealData.charterData.push(temp);
+              } else {
+                let price = ch.shift().dealPrice;
+                temp = price;
+                oldDealData.charterData.push(price);
+              }
+            }
+            // 월세
+            temp = 0;
+            for (let i = 0; i < 12; i++) {
+              if (re[0] === undefined || re[0].dealDate !== data.labels[i]) {
+                oldDealData.rentData.push(temp);
+              } else {
+                let price = re.shift().dealPrice;
+                temp = price;
+                oldDealData.rentData.push(price);
+              }
+            }
+            // 매매
+            temp = 0;
+            for (let i = 0; i < 12; i++) {
+              if (de[0] === undefined || de[0].dealDate !== data.labels[i]) {
+                oldDealData.dealingData.push(temp);
+              } else {
+                let price = de.shift().dealPrice;
+                temp = price;
+                oldDealData.dealingData.push(price);
+              }
+            }
 
             console.log(oldDealData);
-
             commit("SET_OLD_DEAL_DATA", oldDealData);
           } else {
             console.log("차트 데이터 리드실패");

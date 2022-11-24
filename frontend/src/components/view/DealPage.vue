@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="container-fluid">
-      <basic-header name="실거래가"></basic-header>
+  <div class="pt-5">
+    <div class="container-fluid  ">
+      <basic-header class="ps-3" name="실거래가"></basic-header>
     </div>
     <div class="container-fluid map-wrapper">
       <!-- map div -->

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.happyhouse.api.deal.dto.DealChartDto;
 import com.happyhouse.api.deal.dto.DealDto;
 import com.happyhouse.api.deal.dto.DealParamDto;
 import com.happyhouse.api.deal.dto.DealResultDto;
@@ -329,22 +328,19 @@ public class DealController {
 	
 	
 	@GetMapping("/deal/chart")
-    public ResponseEntity<Map<String, Object>> getChartList(String code, int houseId){
-        
-        System.out.println("chartdata in : " + code + " " + houseId);
+    public ResponseEntity<Map<String, Object>> getChartList(int houseId){
         
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-                
-        DealDto dealDto = new DealDto();
-        dealDto.setCode(code);
-        dealDto.setHouseId(houseId);
-        
+                        
         try {
-            List<DealChartDto> chartList = service.getChartList(dealDto);
-            
-            if (chartList != null) {
-                resultMap.put("chartList", chartList);
+        	Map<String, Object> ret = service.getChartList(houseId);
+        	
+        	if (ret != null) {        	
+                resultMap.put("charterData", ret.get("charterData"));
+                resultMap.put("rentData", ret.get("rentData"));
+                resultMap.put("dealingData", ret.get("dealingData"));
+                resultMap.put("labels", ret.get("labels"));
                 resultMap.put("message", SUCCESS);    
             } else {
                 resultMap.put("message", FAIL);

@@ -3,22 +3,22 @@
     <div v-if="isLogin" class="sidebar-user text-center">
       <router-link :to="`/profile/${userInfo.userId}`" class="setting-primary">
         <feather type="settings" size="15" />
-      </router-link><img class="img-90 rounded-circle" :src="$noProfileImageUrl" alt="">
-      <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a>
-        <h6 class="mt-3 f-14 f-w-600">{{userInfo.userName}}</h6>
+      </router-link><img class="img-90 rounded-circle" :src="require(`@/assets/${userInfo.userProfileUrl}`)">
+      <a>
+        <h6 class="mt-3 f-14 f-w-600">{{ userInfo.userName }}</h6>
       </a>
-      <p class="mb-0 font-roboto">{{userInfo.code}}</p>
+      <p class="mb-0 font-roboto">{{ userInfo.code }}</p>
     </div>
 
     <div v-else class="sidebar-user text-center">
-      <img class="img-90 rounded-circle" :src="$noProfileImageUrl" alt="">
+      <img class="img-90 rounded-circle" src="@/assets/upload/user/noProfile.png">
       <h6 class="mt-3 f-14">로그인이 필요합니다.</h6>
       <p class="mt-2">
-          <router-link to="/login">
-            <div class="btn btn-primary-light" type="button">
-              <feather type="log-out" size="12" />Log in
-            </div>
-          </router-link>
+        <router-link to="/login">
+          <div class="btn btn-primary-light" type="button">
+            <feather type="log-out" size="12" />Log in
+          </div>
+        </router-link>
       </p>
     </div>
 

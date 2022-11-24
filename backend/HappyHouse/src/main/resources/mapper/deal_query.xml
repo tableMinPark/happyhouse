@@ -199,9 +199,17 @@
 	</delete>
 	
 	 <select id="getChartList" parameterType="com.happyhouse.api.deal.dto.DealDto" resultType="com.happyhouse.api.deal.dto.DealChartDto">
-        select DATE_FORMAT(deal_date, '%Y-%m') as deal_date, CEIL(AVG(deal_price)) as deal_price
-          from deal
-         where date(deal_date) > date(subdate(now(), interval 6 month))
+        select DATE_FORMAT(deal_date, '%Y-%m') as deal_date,         	
+       		<choose>
+	        	<when test="code == '100'">
+	       			CEIL(AVG(deal_deposit)) as deal_price
+	       		</when>
+	       		<otherwise>
+	       			CEIL(AVG(deal_price)) as deal_price	       			
+	       		</otherwise>
+       		</choose>
+          from deal 
+         where date(deal_date) > date(subdate(now(), interval 1 year))
            and deal_complete = 1
            and code = #{code}
            and house_Id = #{houseId}

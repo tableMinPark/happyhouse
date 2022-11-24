@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from '@/store';
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -24,74 +24,71 @@ const loginCheckFilter = (to, from, next) => {
   const isLogin = store.getters["userStore/checkIsLogin"];
   if (isLogin) router.go(-1);
   else next();
-}
+};
 const loginFilter = async (to, from, next) => {
   // 토큰 유효성 확인
   const authFlag = await authAccount();
   // 로그인 된 경우
   if (authFlag) next();
   else router.push({ name: "login" });
-}
+};
 const compnayFilter = async (to, from, next) => {
   const authFlag = await authAccount();
-  const adminFlag = store.getters["userStore/checkUserInfo"].code === "200" || store.getters["userStore/checkUserInfo"].code === "300";
-  if (authFlag){    
+  const adminFlag =
+    store.getters["userStore/checkUserInfo"].code === "200" ||
+    store.getters["userStore/checkUserInfo"].code === "300";
+  if (authFlag) {
     if (!adminFlag) {
       alert("일반회원은 접근이 불가능합니다.");
       router.go(-1);
-    }
-    else next();
-  } 
-  else router.push({ name: "login" }); 
-}
+    } else next();
+  } else router.push({ name: "login" });
+};
 const adminFilter = async (to, from, next) => {
   const authFlag = await authAccount();
   const adminFlag = store.getters["userStore/checkUserInfo"].code == "300";
-  if (authFlag){    
-    if (!adminFlag){
+  if (authFlag) {
+    if (!adminFlag) {
       alert("관리자만 접근이 가능합니다.");
       router.go(-1);
-    }
-    else next();
-  } 
-  else router.push({ name: "login" });
-}
-
+    } else next();
+  } else router.push({ name: "login" });
+};
 
 // 회원가입 인증
 const emailAuther = async (to) => {
   const authCode = to.params.authCode;
   store.dispatch("userStore/emailAuth", authCode);
-}
+};
 
 // 라우팅 //////////////////////////////////////////////////////////////////////////////
 
-import MainPage from "@/components/view/MainPage.vue"
-import DealPage from "@/components/view/DealPage.vue"
+import MainPage from "@/components/view/MainPage.vue";
+import DealPage from "@/components/view/DealPage.vue";
 
-import HousePage from "@/components/view/HousePage.vue"
+import HousePage from "@/components/view/HousePage.vue";
 
-import LoginPage from "@/components/view/LoginPage.vue"
-import RegisterPage from "@/components/view/RegisterPage.vue"
-import ForgetPasswordPage from "@/components/view/ForgetPasswordPage.vue"
+import LoginPage from "@/components/view/LoginPage.vue";
+import RegisterPage from "@/components/view/RegisterPage.vue";
+import ForgetPasswordPage from "@/components/view/ForgetPasswordPage.vue";
 
-import MyPage from '@/components/view/MyPage.vue'
+import MyPage from "@/components/view/MyPage.vue";
 
-import NoticeBody from "@/components/Notice/NoticeBody.vue"
-import NoticePage from "@/components/view/NoticePage.vue"
-import NoticeDetail from "@/components/Notice/NoticeDetail.vue"
-import NoticeWrite from "@/components/Notice/NoticeWrite.vue"
+import NoticeBody from "@/components/Notice/NoticeBody.vue";
+import NoticePage from "@/components/view/NoticePage.vue";
+import NoticeDetail from "@/components/Notice/NoticeDetail.vue";
+import NoticeWrite from "@/components/Notice/NoticeWrite.vue";
 
-import HouseList from "@/components/House/HouseList.vue"
-import HouseInfo from "@/components/House/HouseInfo.vue"
-import HouseRegister from "@/components/House/HouseRegister.vue"
-import HouseModify from "@/components/House/HouseModify.vue"
+import HouseList from "@/components/House/HouseList.vue";
+import HouseInfo from "@/components/House/HouseInfo.vue";
+import HouseRegister from "@/components/House/HouseRegister.vue";
+import HouseModify from "@/components/House/HouseModify.vue";
 
 const routes = [
   {
     path: "/",
     name: "main",
-    component: MainPage
+    component: MainPage,
   },
   {
     path: "/deal",
@@ -127,16 +124,16 @@ const routes = [
         component: HouseInfo,
       },
     ],
-  },    
-  {
-    path: '/email_auth/:authCode',
-    beforeEnter: emailAuther
   },
   {
-      path: '/profile/:userId',
-      name: "myPage",
-      beforeEnter: loginFilter,
-      component: MyPage
+    path: "/email_auth/:authCode",
+    beforeEnter: emailAuther,
+  },
+  {
+    path: "/profile/:userId",
+    name: "myPage",
+    beforeEnter: loginFilter,
+    component: MyPage,
   },
   {
     path: "/login",
@@ -180,8 +177,7 @@ const routes = [
       },
     ],
   },
-]
-
+];
 
 const router = new VueRouter({
   mode: "history",

@@ -43,13 +43,8 @@
             <house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal"></house-list-item>
           </div>
         </div>
-        <PaginationUI
-          :listRowCount="listRowCount"
-          :pageLinkCount="pageLinkCount"
-          :currentPageIndex="currentPageIndex"
-          :totalListItemCount="totalListItemCount"
-          @call-parent-move-page="movePage"
-        ></PaginationUI>
+        <PaginationUI :listRowCount="listRowCount" :pageLinkCount="pageLinkCount" :currentPageIndex="currentPageIndex"
+          :totalListItemCount="totalListItemCount" @call-parent-move-page="movePage"></PaginationUI>
       </div>
     </div>
   </div>
@@ -170,4 +165,6 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+
+</style>

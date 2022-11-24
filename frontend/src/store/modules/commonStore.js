@@ -6,24 +6,22 @@ const commonStore = {
     isLoading: false,
 
     accessAlert: false,
-    alertTitle: '',
-    alertMessage: '',
+    alertTitle: "",
+    alertMessage: "",
 
     sidoList: [],
     gugunList: [],
     dongList: [],
-    
+
     userCodeList: [],
     dealCodeList: [],
     houseCodeList: [],
-
-    noProfileImageUrl: `http://${location.host}/assets/images/dashboard/1.png`,
   },
-  mutations: {    
+  mutations: {
     SET_IS_LOADING: (state, isLoading) => {
       state.isLoading = isLoading;
     },
-    SET_ALERT_TITLE: (state, alertTitle) => {      
+    SET_ALERT_TITLE: (state, alertTitle) => {
       state.alertTitle = alertTitle;
     },
     SET_ALERT_MESSAGE: (state, alertMessage) => {
@@ -54,21 +52,22 @@ const commonStore = {
   actions: {
     async setInit({ commit, dispatch }) {
       commit("SET_IS_LOADING", false);
-      commit("SET_ALERT_TITLE", '');
-      commit("SET_ALERT_MESSAGE", '');
+      commit("SET_ALERT_TITLE", "");
+      commit("SET_ALERT_MESSAGE", "");
       commit("SET_ACCESS_ALERT", false);
       await dispatch("getSido");
     },
     setLoading({ commit }, isLoading) {
       commit("SET_IS_LOADING", isLoading);
     },
-    alertMessage({ commit }, payload ) {
+    alertMessage({ commit }, payload) {
       commit("SET_ALERT_TITLE", payload.alertTitle);
       commit("SET_ALERT_MESSAGE", payload.alertMessage);
       commit("SET_ACCESS_ALERT", true);
-      setTimeout(async () => { commit("SET_ACCESS_ALERT", false) }, 4000);
+      setTimeout(async () => {
+        commit("SET_ACCESS_ALERT", false);
+      }, 4000);
     },
-
     async getSido({ commit }) {
       // API 호출
       await addressList(
@@ -83,7 +82,7 @@ const commonStore = {
         (error) => {
           console.log(error);
         }
-      )
+      );
     },
     async getGugun({ commit }, sidoCode) {
       await addressList(
@@ -98,7 +97,7 @@ const commonStore = {
         (error) => {
           console.log(error);
         }
-      )
+      );
     },
     async getDong({ commit }, dongCode) {
       await addressList(
@@ -113,36 +112,45 @@ const commonStore = {
         (error) => {
           console.log(error);
         }
-      )      
+      );
     },
     async getCode({ commit }) {
-      await getCodeByGroupCode("100", 
+      await getCodeByGroupCode(
+        "100",
         ({ data }) => {
           commit("SET_USER_CODE_LIST", data.codeList);
-          console.log("userCodeList read");
         },
         (error) => {
           console.log(error);
         }
       );
-      await getCodeByGroupCode("200", 
+      await getCodeByGroupCode(
+        "200",
         ({ data }) => {
           commit("SET_DEAL_CODE_LIST", data.codeList);
-          console.log("dealCodeList read");
         },
         (error) => {
           console.log(error);
         }
       );
-      await getCodeByGroupCode("300", 
-      ({ data }) => {
-        commit("SET_HOUSE_CODE_LIST", data.codeList);
-        console.log("houseCodeList read");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      await getCodeByGroupCode(
+        "300",
+        ({ data }) => {
+          commit("SET_HOUSE_CODE_LIST", data.codeList);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+  },
+  getters: {
+    getProfileUrl( state ) {
+      console.log(state);
+      return state.userInfo.userProfileUrl;
+    },
+    getIser() {
+
     }
   }
 };

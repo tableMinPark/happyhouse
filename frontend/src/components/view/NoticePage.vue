@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="pt-5 p-3">
     <div class="container-fluid">
       <basic-header name="공지사항"></basic-header>
     </div>
     <div class="container-fluid">
-      <router-view></router-view>      
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -20,4 +20,5 @@ export default {
 </script>
 
 <style>
+
 </style>
