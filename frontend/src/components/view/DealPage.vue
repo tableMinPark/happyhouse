@@ -1,6 +1,6 @@
 <template>
   <div class="pt-5">
-    <div class="container-fluid  ">
+    <div class="container-fluid">
       <basic-header class="ps-3" name="실거래가"></basic-header>
     </div>
     <div class="container-fluid map-wrapper">
@@ -12,10 +12,7 @@
             <div class="container-fruid">
               <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-0 pt-2">
                 <div class="info-block">
-                  <h6>
-                    <feather type="search" size="15" class="pe-2" />검색종류를
-                    선택하세요
-                  </h6>
+                  <h6><feather type="search" size="15" class="pe-2" />검색종류를 선택하세요</h6>
                 </div>
               </div>
               <div class="card shadow shadow-showcase p-3 mb-1 text-center">
@@ -25,8 +22,7 @@
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input id="search-radio-keyword" name="search-radio" checked type="radio" value="A"
-                            v-model="searchType" />
+                          <input id="search-radio-keyword" name="search-radio" checked type="radio" value="A" v-model="searchType" />
                           <label for="search-radio-keyword" class="form-check-label ps-2">키워드 검색</label>
                         </div>
                       </div>
@@ -34,8 +30,7 @@
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
                         <div class="radio radio-primary">
-                          <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio"
-                            value="K" v-model="searchType" />
+                          <input id="search-radio-address" class="radio radio-primary" name="search-radio" type="radio" value="K" v-model="searchType" />
                           <label for="search-radio-address" class="form-check-label ps-2">주소 기준 검색</label>
                         </div>
                       </div>
@@ -85,10 +80,16 @@
             </div>
             <div>
               <div class="card">
-                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-2 pt-3"
-                  id="headingFour">
+                <div class="card-header bg-primary d-flex justify-content-center align-items-center pb-2 pt-3" id="headingFour">
                   <div class="info-block">
-                    <button @click="() => { houseInfoToggle = !houseInfoToggle }" class="btn btn-link text-white">
+                    <button
+                      @click="
+                        () => {
+                          houseInfoToggle = !houseInfoToggle
+                        }
+                      "
+                      class="btn btn-link text-white"
+                    >
                       <h6>검색된 건물 ({{ houseList.length }})</h6>
                     </button>
                   </div>
@@ -140,31 +141,31 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="truck" size="15" class="pe-2" />
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        1 <=
-                                        reviewList[0].reviewTraficRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        2 <=
-                                        reviewList[0].reviewTraficRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        3 <=
-                                        reviewList[0].reviewTraficRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        4 <=
-                                        reviewList[0].reviewTraficRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        5 <=
-                                        reviewList[0].reviewTraficRating,
-                                    }"></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 1 <= reviewList[0].reviewTraficRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 2 <= reviewList[0].reviewTraficRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 3 <= reviewList[0].reviewTraficRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 4 <= reviewList[0].reviewTraficRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 5 <= reviewList[0].reviewTraficRating,
+                                      }"
+                                    ></a>
                                   </div>
                                 </div>
                               </div>
@@ -174,31 +175,31 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="home" size="15" class="pe-2" />
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        1 <=
-                                        reviewList[0].reviewSafetyRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        2 <=
-                                        reviewList[0].reviewSafetyRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        3 <=
-                                        reviewList[0].reviewSafetyRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        4 <=
-                                        reviewList[0].reviewSafetyRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        5 <=
-                                        reviewList[0].reviewSafetyRating,
-                                    }"></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 1 <= reviewList[0].reviewSafetyRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 2 <= reviewList[0].reviewSafetyRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 3 <= reviewList[0].reviewSafetyRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 4 <= reviewList[0].reviewSafetyRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 5 <= reviewList[0].reviewSafetyRating,
+                                      }"
+                                    ></a>
                                   </div>
                                 </div>
                               </div>
@@ -208,31 +209,31 @@
                                 <div class="br-wrapper br-theme-fontawesome-stars">
                                   <div class="br-widget">
                                     <feather type="shopping-cart" size="15" class="pe-2" />
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        1 <=
-                                        reviewList[0].reviewStoreRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        2 <=
-                                        reviewList[0].reviewStoreRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        3 <=
-                                        reviewList[0].reviewStoreRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        4 <=
-                                        reviewList[0].reviewStoreRating,
-                                    }"></a>
-                                    <a :class="{
-                                      'br-selected br-current':
-                                        5 <=
-                                        reviewList[0].reviewStoreRating,
-                                    }"></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 1 <= reviewList[0].reviewStoreRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 2 <= reviewList[0].reviewStoreRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 3 <= reviewList[0].reviewStoreRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 4 <= reviewList[0].reviewStoreRating,
+                                      }"
+                                    ></a>
+                                    <a
+                                      :class="{
+                                        'br-selected br-current': 5 <= reviewList[0].reviewStoreRating,
+                                      }"
+                                    ></a>
                                   </div>
                                 </div>
                               </div>
@@ -241,8 +242,7 @@
                         </div>
                         <div class="row mt-3">
                           <div class="col-12">
-                            <h6 class="text-center" v-html="reviewList[0].reviewContent">
-                            </h6>
+                            <h6 class="text-center" v-html="reviewList[0].reviewContent"></h6>
                           </div>
                         </div>
                       </div>
@@ -282,9 +282,9 @@
                                   <tbody>
                                     <tr v-for="(deal, index) in oldDealList" :key="`old-${index}`">
                                       <td>{{ deal.dealDate | formatDate }}</td>
-                                      <td><span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{
-                                          deal.dealPrice | formatPrice
-                                      }}</span></td>
+                                      <td>
+                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{ deal.dealPrice | formatPrice }}</span>
+                                      </td>
                                       <td>{{ deal.dealArea }}</td>
                                       <td>{{ deal.dealFloor }}</td>
                                     </tr>
@@ -325,9 +325,9 @@
                                   <tbody>
                                     <tr v-for="(deal, index) in nowDealList" :key="`now-${index}`">
                                       <td>{{ deal.dealDate | formatDate }}</td>
-                                      <td><span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{
-                                          deal.dealPrice | formatPrice
-                                      }}</span></td>
+                                      <td>
+                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{ deal.dealPrice | formatPrice }}</span>
+                                      </td>
                                       <td>{{ deal.dealArea }}</td>
                                       <td>{{ deal.dealFloor }}</td>
                                     </tr>
@@ -351,9 +351,9 @@
 </template>
 
 <script>
-import BasicHeader from "@/components/common/BasicHeader.vue";
+import BasicHeader from "@/components/common/BasicHeader.vue"
 import DealChart from "@/components/common/UI/DealChart.vue"
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex"
 
 export default {
   components: {
@@ -366,18 +366,17 @@ export default {
       map: null,
       markerList: [],
 
-
       // 검색창 데이터
       searchType: "A", // A - K
       selectedSido: "",
       selectedGugun: "",
       selectedDong: "",
       keyword: "",
-
+      paramKey: null,
       // 정보창 토글
       isSelected: false,
       houseInfoToggle: false,
-    };
+    }
   },
   computed: {
     ...mapState("userStore", ["userInfo"]),
@@ -386,39 +385,49 @@ export default {
   },
   methods: {
     ...mapGetters("dealStore", ["getAddress"]),
-    ...mapActions("dealStore", ["registBookmark", "setHouseInfo", "searchByKeyword", "searchByAddress", "setInit",
-      "getOldDealList", "getNowDealList", "getReviewList", "setDealReviewList", "getChartList"]),
+    ...mapActions("dealStore", [
+      "registBookmark",
+      "setHouseInfo",
+      "searchByKeyword",
+      "searchByAddress",
+      "setInit",
+      "getOldDealList",
+      "getNowDealList",
+      "getReviewList",
+      "setDealReviewList",
+      "getChartList",
+    ]),
     ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
 
     // 구군 스토어 리드
     async getGugunList() {
-      this.selectedGugun = "";
-      this.selectedDong = "";
-      await this.getGugun(this.selectedSido.code);
+      this.selectedGugun = ""
+      this.selectedDong = ""
+      await this.getGugun(this.selectedSido.code)
     },
     // 동 스토어 리드
     async getDongList() {
-      this.selectedDong = "";
-      await this.getDong(this.selectedGugun.code);
+      this.selectedDong = ""
+      await this.getDong(this.selectedGugun.code)
     },
 
     ///////////////////////////// 검색 ///////////////////////////////////////////
-    // 주소기준 검색 
+    // 주소기준 검색
     async addressSearch() {
-      await this.searchByAddress(this.selectedDong.code);
-      this.selectedSido = "";
-      this.selectedGugun = "";
-      this.selectedDong = "";
-      this.keyword = "";
-      this.isSelected = false;
-      this.houseInfoToggle = false;
+      await this.searchByAddress(this.selectedDong.code)
+      this.selectedSido = ""
+      this.selectedGugun = ""
+      this.selectedDong = ""
+      this.keyword = ""
+      this.isSelected = false
+      this.houseInfoToggle = false
     },
     // 키워드 기준 검색
     async keywordSearch() {
-      await this.searchByKeyword(this.keyword);
-      this.keyword = "";
-      this.isSelected = false;
-      this.houseInfoToggle = false;
+      await this.searchByKeyword(this.keyword)
+      this.keyword = ""
+      this.isSelected = false
+      this.houseInfoToggle = false
     },
     /////////////////////////////////////////////////////////////////////////////////
 
@@ -426,92 +435,100 @@ export default {
     // 마커삭제
     async removeMarker() {
       this.markerList.forEach((marker) => {
-        marker.setMap(null);
-      });
-      this.markerList = [];
+        marker.setMap(null)
+      })
+      this.markerList = []
     },
     // 마커생성 (houseList)
     async makeMarker() {
-      let bounds = new kakao.maps.LatLngBounds();
+      let bounds = new kakao.maps.LatLngBounds()
 
       Object.values(this.houseList).forEach((house) => {
-        let position = new kakao.maps.LatLng(house.houseLat, house.houseLng);
-        let marker = new kakao.maps.Marker({ position });
+        let position = new kakao.maps.LatLng(house.houseLat, house.houseLng)
+        let marker = new kakao.maps.Marker({ position })
 
         let infowindow = new kakao.maps.InfoWindow({
-          content: `<div style="padding:5px; text-align: center;">${house.houseName}</div>`
-        });
+          content: `<div style="padding:5px; text-align: center;">${house.houseName}</div>`,
+        })
 
         // 마우스 오버
-        kakao.maps.event.addListener(marker, 'mouseover', () => { infowindow.open(this.map, marker); });
+        kakao.maps.event.addListener(marker, "mouseover", () => {
+          infowindow.open(this.map, marker)
+        })
         // 마우스 아웃
-        kakao.maps.event.addListener(marker, 'mouseout', () => { infowindow.close(); });
+        kakao.maps.event.addListener(marker, "mouseout", () => {
+          infowindow.close()
+        })
         // 마우스 클릭
-        const $this = this;
-        kakao.maps.event.addListener(marker, 'click', function () {
-          $this.isSelected = true;
-          $this.setHouseInfo(house);
+        const $this = this
+        kakao.maps.event.addListener(marker, "click", function () {
+          $this.isSelected = true
+          $this.setHouseInfo(house)
           // 리뷰, 거래내역, 현재거래중인 매물 초기화
-          $this.setDealReviewList();
+          $this.setDealReviewList()
           // 실거래가 리드
-          $this.getOldDealList(house.houseId);
+          $this.getOldDealList(house.houseId)
           // 현재 거래중인 거래 리드
-          $this.getNowDealList(house.houseId);
+          $this.getNowDealList(house.houseId)
           // 리뷰 리드
-          $this.getReviewList(house.houseId);
+          $this.getReviewList(house.houseId)
           // 차트 데이터 리드
-          $this.getChartList({ houseId: house.houseId, code: "300" });    // 매매정보만 들고옴 일단은
-          $this.houseInfoToggle = true;
-        });
+          $this.getChartList({ houseId: house.houseId, code: "300" }) // 매매정보만 들고옴 일단은
+          $this.houseInfoToggle = true
+        })
 
-        this.markerList.push(marker);
-        marker.setMap(this.map);
-        bounds.extend(position);
-      });
+        this.markerList.push(marker)
+        marker.setMap(this.map)
+        bounds.extend(position)
+      })
 
       // 센터 위치이동
-      this.map.setBounds(bounds);
+      this.map.setBounds(bounds)
     },
     ////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////// 맵생성 ///////////////////////////////////////
     initMap() {
-      let mapContainer = document.querySelector("#kakao-map");
+      let mapContainer = document.querySelector("#kakao-map")
       let mapOption = {
         center: new kakao.maps.LatLng(37.55931174210629, 127.00434608141744),
         level: 7,
-      };
-      this.map = new kakao.maps.Map(mapContainer, mapOption);
+      }
+      this.map = new kakao.maps.Map(mapContainer, mapOption)
     },
-    /////////////////////////////////////////////////////////////////////////////////////  
+    /////////////////////////////////////////////////////////////////////////////////////
   },
-  mounted() {
-    this.setInit();
+  async mounted() {
+    this.setInit()
     if (!window.kakao || !window.kakao.maps) {
-      const script = document.createElement("script");
-      script.setAttribute(
-        "src",
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services"
-      );
+      const script = document.createElement("script")
+      script.setAttribute("src", "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services")
       /* global kakao */
       script.addEventListener("load", () => {
-        kakao.maps.load(this.initMap);
-      });
-      document.head.appendChild(script);
+        kakao.maps.load(this.initMap)
+      })
+      document.head.appendChild(script)
     } else {
-      this.initMap();
+      this.initMap()
+    }
+    this.paramKey = this.$route.params.searchWord
+    this.keyword = this.paramKey
+    console.log(this.paramKey)
+    if (this.paramKey != null) {
+      await this.keywordSearch()
+      this.paramKey = null
     }
   },
   watch: {
     // houseList 변화감지해서 마커찍는 watch
     async houseList() {
-      await this.removeMarker();
+      await this.removeMarker()
       if (this.houseList.length > 0) {
-        await this.makeMarker();
+        await this.makeMarker()
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style scoped>
@@ -543,7 +560,7 @@ a {
   position: absolute;
 }
 
-#accordion>.card,
+#accordion > .card,
 #collapseFour {
   background-color: transparent;
   border-color: transparent;
