@@ -7,7 +7,7 @@
                 <div class="text-center profile-details m-3 mb-0">
                     <h4>{{ myPageUserInfo.userName }}</h4>
                     <h6 class="mb-2">{{ myPageUserInfo.userRegDt }}</h6>
-                    <h6>{{ myPageUserInfo.code }}</h6>
+                    <h6>{{ getCodeName() }}</h6>
                     <!-- 친구페이지를 방문했을 때 -->
                     <div v-if="!isMyPage">
                         <button v-if="!isFollowing" @click="follow(userInfo.userId)" class="btn btn-primary mb-4">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
     computed: {
@@ -43,6 +43,7 @@ export default {
         ...mapState("myPageStore", ["isMyPage", "myPageUserInfo", "isFollowing"]),
     },
     methods: {
+        ...mapGetters("userStore", ["getCodeName"]),
         ...mapActions("myPageStore", ["followingCheck", "follow", "unFollow"])
     },
     watch: {
