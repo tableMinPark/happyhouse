@@ -1,11 +1,11 @@
 import api from "./index.js";
 
-function dealList(param, success, fail) {
-  api.get(`/deal`, { params: param }).then(success).catch(fail);
+async function dealList(param, success, fail) {
+  await api.get(`/deal`, { params: param }).then(success).catch(fail);
 }
 
-function dealRegist(param, success, fail) {
-  api
+async function dealRegist(param, success, fail) {
+  await api
     .post(`/deal`, param, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -15,12 +15,12 @@ function dealRegist(param, success, fail) {
     .catch(fail);
 }
 
-function dealDetail(param, success, fail) {
-  api.get(`/deal/${param}`).then(success).catch(fail);
+async function dealDetail(param, success, fail) {
+  await api.get(`/deal/${param}`).then(success).catch(fail);
 }
 
-function dealModify(dealId, param, success, fail) {
-  api
+async function dealModify(dealId, param, success, fail) {
+  await api
     .post(`/deal/${dealId}`, param, {
       headers: {
         "Content-Type": "multiple/form-data",
@@ -30,55 +30,55 @@ function dealModify(dealId, param, success, fail) {
     .catch(fail);
 }
 
-function dealDelete(param, success, fail) {
-  api.delete(`/deal/${param}`).then(success).catch(fail);
+async function dealDelete(param, success, fail) {
+  await api.delete(`/deal/${param}`).then(success).catch(fail);
 }
 
-function convertAddress(address, success, fail) {
-  api.get(`/address/coord/${address}`).then(success).catch(fail);
+async function convertAddress(address, success, fail) {
+  await api.get(`/address/coord/${address}`).then(success).catch(fail);
 }
 
 // 키워드 기준 검색
-function searchByKeyword(searchWord, success, fail) {
-  api.get(`/deal/keyword/${searchWord}`).then(success).catch(fail);
+async function searchByKeyword(searchWord, success, fail) {
+  await api.get(`/deal/keyword/${searchWord}`).then(success).catch(fail);
 }
 
 // 주소 기준 검색
-function searchByAddress(address, success, fail) {
-  api.get(`/deal/address/${address}`).then(success).catch(fail);
+async function searchByAddress(address, success, fail) {
+  await api.get(`/deal/address/${address}`).then(success).catch(fail);
 }
 
 // 거래완료 목록
-function getOldDealList(houseId, success, fail) {
-  api.get(`/deal/old/${houseId}`).then(success).catch(fail);
+async function getOldDealList(houseId, success, fail) {
+  await api.get(`/deal/old/${houseId}`).then(success).catch(fail);
 }
 
 // 거래중인 목록
-function getNowDealList(houseId, success, fail) {
-  api.get(`/deal/now/${houseId}`).then(success).catch(fail);
+async function getNowDealList(houseId, success, fail) {
+  await api.get(`/deal/now/${houseId}`).then(success).catch(fail);
 }
 
 // 리뷰 리스트
-function getReviewList(houseId, success, fail) {
-  api.get(`/deal/review/${houseId}`).then(success).catch(fail);
+async function getReviewList(houseId, success, fail) {
+  await api.get(`/deal/review/${houseId}`).then(success).catch(fail);
 }
 
 // 차트 데이터 목록 (전 / 월 / 매)
-function getChartList(param, success, fail) {
-  api
+async function getChartList(param, success, fail) {
+  await api
     .get(`/deal/chart?code=${param.code}&houseId=${param.houseId}`)
     .then(success)
     .catch(fail);
 }
 
 // 나의 거래 목록
-function getMyDealList(param, success, fail) {
-  api.get(`/deal/my`, { params: param }).then(success).catch(fail);
+async function getMyDealList(param, success, fail) {
+  await api.get(`/deal/my`, { params: param }).then(success).catch(fail);
 }
 
 // 이미지 리스트
-function getImgList(dealId, success, fail) {
-  api.get(`/dealImg/${dealId}`).then(success).catch(fail);
+async function getImgList(dealId, success, fail) {
+  await api.get(`/dealImg/${dealId}`).then(success).catch(fail);
 }
 
 export {

@@ -5,7 +5,6 @@ import {
   getOldDealList,
   getNowDealList,
   getReviewList,
-  getImgList,
   getChartList,
 } from "@/api/deal";
 
@@ -18,7 +17,6 @@ const dealStore = {
     houseInfo: {},
     nowDealList: [],
     reviewList: [],
-    imgList: [],
     isBookmarking: false,
 
     oldDealList: [], // 과거순부터 순서대로
@@ -34,9 +32,6 @@ const dealStore = {
     },
     SET_REVIEW_LIST(state, reviewList) {
       state.reviewList = reviewList;
-    },
-    SET_IMG_LIST(state, imgList) {
-      state.imgList = imgList;
     },
     SET_OLD_DEAL_LIST(state, oldDealList) {
       state.oldDealList = oldDealList;
@@ -56,7 +51,6 @@ const dealStore = {
       commit("SET_HOUSE_LIST", []);
       commit("SET_HOUSE_INFO", []);
       commit("SET_REVIEW_LIST", []);
-      commit("SET_IMG_LIST", []);
       commit("SET_OLD_DEAL_LIST", []);
       commit("SET_NOW_DEAL_LIST", []);
       commit("SET_IS_BOOKMARING", false);
@@ -199,19 +193,6 @@ const dealStore = {
         }
       );
     },
-    async getImgList({ commit }, dealId) {
-      getImgList(
-        dealId,
-        ({ data }) => {
-          console.log("리뷰 리스트 : " + data.imgList);
-          commit("SET_IMG_LIST", data.imgList);
-          if (data.imgList.length == 0) commit("SET_IMG_LIST", ["deal/noImage.png"]);
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    },
     // 해당 집에 대한 리뷰
     async getReviewList({ commit }, houseId) {
       await getReviewList(
@@ -219,7 +200,6 @@ const dealStore = {
         ({ data }) => {
           console.log(data);
           if (data.message === "success") {
-            console.log("리뷰 리스트 : " + data.reviewList);
             commit("SET_REVIEW_LIST", data.reviewList);
           } else {
             console.log("리뷰 리스트 없음");
@@ -238,9 +218,6 @@ const dealStore = {
         ({ data }) => {
           console.log(data);
           if (data.message === "success") {
-            console.log("차트 데이터 리드성공");
-            console.log(data);
-
             // 차트 데이터 생성
             let oldDealData = {
               labels: data.labels,

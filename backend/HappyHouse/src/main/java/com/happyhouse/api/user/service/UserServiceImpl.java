@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("userName", userDto.getUserName());
 		data.put("authUrl", "http://localhost:5500/email_auth/" + authCode);		
-		emailService.sendMail(new EmailDto("tablemin_park@daum.net", "Happy House 회원가입 인증", "registerEmail", data));		
+		emailService.sendMail(new EmailDto(userDto.getUserEmail(), "Happy House 회원가입 인증", "registerEmail", data));		
 		// 인증코드 포함 Dto
 		userDto.setAuth_code(authCode);		
 		// 데이터베이스 저장		
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 			data.put("userName", userDto.getUserName());
 			data.put("randomPassword", randomPassword);		
 			data.put("url", "http://localhost:5500/login");		
-			emailService.sendMail(new EmailDto("tablemin_park@daum.net", "Happy House 임시 비밀번호 발급", "forgetPasswordEmail", data));	
+			emailService.sendMail(new EmailDto(userDto.getUserEmail(), "Happy House 임시 비밀번호 발급", "forgetPasswordEmail", data));	
 		}		
 		return ret;
 	}

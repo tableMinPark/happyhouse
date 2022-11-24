@@ -1,11 +1,11 @@
-import api from "./index.js"
+import api from "./index.js";
 
-function addressList(code, success, fail) {
-  api.get(`/address/${code}`).then(success).catch(fail)
+async function addressList(code, success, fail) {
+  await api.get(`/address/${code}`).then(success).catch(fail);
 }
 
-function getCodeByGroupCode(groupCode, success, fail) {
-  api.get(`/code/${groupCode}`).then(success).catch(fail)
+async function getCodeByGroupCode(groupCode, success, fail) {
+  await api.get(`/code/${groupCode}`).then(success).catch(fail);
 }
 
-export { addressList, getCodeByGroupCode }
+export { addressList, getCodeByGroupCode };

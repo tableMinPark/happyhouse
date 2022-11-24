@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-7">
           <div class="media p-3">
-            <img class="img-50 img-fluid m-r-20 rounded-circle" alt src="assets/images/user/2.png" />
+            <img class="img-50 img-fluid m-r-20 rounded-circle" alt
+              :src="require(`@/assets/upload/${reviewList[0].userProfileImageUrl}`)" />
             <div class="media-body mt-2">
               <h5 class="d-block">{{ reviewList[0].userName }}</h5>
               <h6 class="d-block">{{ reviewList[0].userRegDt }}</h6>
@@ -14,7 +15,9 @@
         <div class="col-5">
           <div class="row text-center">
             <div class="col-6">
-              <h6><feather type="truck" size="15" class="pe-2" />교통점수</h6>
+              <h6>
+                <feather type="truck" size="15" class="pe-2" />교통
+              </h6>
             </div>
             <div class="col-6">
               <div class="rating-container">
@@ -33,7 +36,9 @@
 
           <div class="row text-center">
             <div class="col-6">
-              <h6><feather type="home" size="15" class="pe-2" />치안점수</h6>
+              <h6>
+                <feather type="home" size="15" class="pe-2" />치안
+              </h6>
             </div>
             <div class="col-6">
               <div class="rating-container">
@@ -51,7 +56,9 @@
           </div>
           <div class="row text-center">
             <div class="col-6">
-              <h6><feather type="shopping-cart" size="15" class="pe-2" />상가점수</h6>
+              <h6>
+                <feather type="shopping-cart" size="15" class="pe-2" />상가
+              </h6>
             </div>
             <div class="col-6">
               <div class="rating-container">
@@ -88,7 +95,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("dealStore", ["reviewList"]),
+    ...mapState("houseStore", ["reviewList"]),
   },
   methods: {
     // Delete Review

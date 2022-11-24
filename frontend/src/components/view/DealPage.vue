@@ -103,10 +103,10 @@
                         <div class="row">
                           <div class="d-flex justify-content-between">
                             <h5>{{ houseInfo.houseName }}</h5>
-                            <!-- <a v-if="userInfo.userId !== undefined" @click="registBookmark(userInfo.userId)">
+                            <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
                               <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
                               <i v-else class="fa fa-heart-o fa-2x"></i>
-                            </a> -->
+                            </a>
                           </div>
                           <p>{{ houseInfo | formatAddress }}</p>
                           <p>{{ houseInfo.houseBuildYear }}</p>
@@ -355,7 +355,7 @@ export default {
     }
   },
   computed: {
-    ...mapState("userStore", ["userInfo"]),
+    ...mapState("userStore", ["userInfo", "isLogin"]),
     ...mapState("dealStore", ["houseList", "houseInfo", "reviewList", "oldDealList", "nowDealList", "isBookmarking", "oldDealData"]),
     ...mapState("commonStore", ["sidoList", "gugunList", "dongList"]),
   },
@@ -487,6 +487,7 @@ export default {
     } else {
       this.initMap()
     }
+
     this.paramKey = this.$route.params.searchWord
     this.keyword = this.paramKey
     if (this.paramKey != null) {

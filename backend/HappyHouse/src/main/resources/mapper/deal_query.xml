@@ -41,7 +41,7 @@
 	<select id="dealList" parameterType="com.happyhouse.api.deal.dto.DealParamDto" resultType="com.happyhouse.api.deal.dto.DealParamDto">
 		select a.*, b.file_url 
 		 from(
-			select d.deal_id, d.house_id,d.deal_price,d.deal_floor,d.deal_area,d.code,d.deal_complete,d.deal_content,
+			select d.deal_id, d.house_id,d.deal_price,d.deal_floor,d.deal_area,d.code,d.deal_complete,d.deal_content, d.deal_deposit,
 			h.house_name,h.house_sido_name,h.house_gugun_name,h.house_dong_name,h.house_jibun
 			from deal d join house h 
 			on d.house_id = h.house_id
@@ -137,7 +137,7 @@
 	</select>
 	
 	<select id="getReviewList" parameterType="int" resultType="com.happyhouse.api.review.dto.ReviewResultDto">
-		select r.review_id, u.user_id, u.user_name, u.user_reg_dt, r.review_content,
+		select r.review_id, u.user_id, u.user_name, u.user_reg_dt, r.review_content, u.user_profile_image_url, 
 			   r.review_trafic_rating, r.review_safety_rating, r.review_store_rating
 		  from review r, users u
 		 where u.user_id = r.user_id

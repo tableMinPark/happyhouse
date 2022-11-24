@@ -17,6 +17,7 @@ public class ReviewResultDto {
 	private int reviewId;
 	private int userId;
 	private String userName;
+	private String userProfileImageUrl;
 	private LocalDateTime userRegDt;
 	
 	private int houseId;

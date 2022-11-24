@@ -8,25 +8,28 @@
               <h3 style="font-weight: bold;">{{ title }}</h3>
             </div>
             <div class="col-4 text-end">
-              <small> 작성자 : {{ writer }} | 작성 일시 : {{ date }}</small>
+              <small> 작성자 : {{ writer }} | 작성 일시 : {{ date | formatDate }}</small>
             </div>
           </div>
 
         </div>
-        <div v-html="content" class="col-12 mt-5 ps-5 mb-5">
+        <div v-html="content" class="col-12 pmt-5 ps-5 mb-5">
         </div>
       </div>
     </div>
-    <div style="float: right">
-      <button v-if="userInfo.code == 300" @click="showUpdateModal" type="button"
-        class="btn btn-square btn-outline-primary btn-sm">수정</button>
-      <button @click="$router.push('/notice')" type="button"
-        class="btn btn-square btn-outline-primary btn-sm">목록</button>
-      <button v-if="userInfo.code == 300" :class="{ deleteNotice: false }" @click="deleteNotice" type="button"
-        class="btn btn-square btn-outline-primary btn-sm">삭제</button>
+    <div>
+      <div class="text-end mt-0">
+        <button v-if="userInfo.code == 300" @click="showUpdateModal" type="button"
+          class="btn btn-square btn-outline-primary btn-sm">수정</button>
+        <button @click="$router.push('/notice')" type="button"
+          class="btn btn-square btn-outline-primary btn-sm">목록</button>
+        <button v-if="userInfo.code == 300" :class="{ deleteNotice: false }" @click="deleteNotice" type="button"
+          class="btn btn-square btn-outline-primary btn-sm">삭제</button>
+      </div>
+      <notice-update :noticeId="noticeId" :title="title" :content="content" :important="important"
+        @call-parent-update="closeUpdate"></notice-update>
     </div>
-    <notice-update :noticeId="noticeId" :title="title" :content="content" :important="important"
-      @call-parent-update="closeUpdate"></notice-update>
+
   </div>
 </template>
 
@@ -37,6 +40,7 @@ import { getArticle, deleteArticle } from "@/api/notice"
 import Vue from "vue"
 import alertify from "vue-alertify"
 import { mapState } from "vuex"
+import store from "@/store";
 
 Vue.use(alertify)
 export default {
@@ -65,7 +69,7 @@ export default {
         ({ data }) => {
           console.log(data.dto)
           this.title = data.dto.boardTitle
-          this.writer = data.dto.userId
+          this.writer = data.dto.userName
           this.content = data.dto.boardContent
           this.date = data.dto.boardRegDt
           this.important = data.dto.important
@@ -78,6 +82,10 @@ export default {
     closeUpdate() {
       this.updateModal.hide()
       this.getDetail()
+      store.dispatch("commonStore/alertMessage", {
+        alertTitle: "공지사항이 수정되었습니다!",
+        alertMessage: "",
+      });
     },
 
     deleteNotice() {
@@ -87,17 +95,22 @@ export default {
           deleteArticle(
             this.noticeId,
             () => {
-              console.log("삭제 완료")
+              store.dispatch("commonStore/alertMessage", {
+                alertTitle: "공지사항 삭제 성공!",
+                alertMessage: "",
+              });
               this.$router.push("/notice")
             },
             (error) => {
               console.error(error)
             }
           )
-          this.$alertify.success("삭제완료")
         },
         () => {
-          this.$alertify.error("취소되었습니다.")
+          store.dispatch("commonStore/alertMessage", {
+            alertTitle: "공지사항 삭제 실패!",
+            alertMessage: "잠시후 다시시도 해주세요.",
+          });
         }
       )
     },

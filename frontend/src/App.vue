@@ -48,7 +48,7 @@ export default {
     await this.$loadScript(this.$hostname + "/assets/js/jquery-3.5.1.min.js")
     await this.$loadScript(this.$hostname + "/assets/js/sidebar-menu.js")
     await this.$loadScript(this.$hostname + "/assets/js/config.js")
-    await this.$loadScript(this.$hostname + "/assets/js/prism/prism.min.js")
+    // await this.$loadScript(this.$hostname + "/assets/js/prism/prism.min.js")
     await this.$loadScript(this.$hostname + "/assets/js/script.js")
     await this.$loadScript(this.$hostname + "/assets/js/select2/select2.full.min.js")
     await this.$loadScript(this.$hostname + "/assets/js/select2/select2-custom.js")

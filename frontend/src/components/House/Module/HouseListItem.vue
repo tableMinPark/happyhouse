@@ -3,17 +3,29 @@
     <div class="card">
       <div class="product-box">
         <div class="product-img">
-          <img class="img-fluid" :src="imgPath" alt="" />
+          <img class="img-fluid" :src="require(`@/assets/upload/${path}`)" id="thImage" alt="" />
         </div>
         <div class="product-details" style="overflow: hidden">
           <router-link :to="`/houseinfo/${deal.dealId}`">
-            <h4>
-              <span class="badge bg-primary me-2 text-light">{{ dealKind }}</span
-              >{{ deal.houseName }}
+            <h4 class="name">
+              <span class="badge bg-primary me-2 text-light">{{ deal | formatDeal }}</span>{{ deal.houseName }}
             </h4>
           </router-link>
-          <p>{{ houseAddress }}</p>
-          <div class="product-price">$ {{ deal.dealPrice }}</div>
+          <p>{{ deal | formatAddress }}</p>
+
+          <div class="d-flex justify-content-between">
+            <div v-if="deal.code === '100'" class="product-price">$ {{ deal.dealDeposit | formatPrice }} 만원</div>
+            <div v-else-if="deal.code === '200'" class="product-price">$ {{ deal.dealDeposit | formatPrice }} / {{
+                deal.dealPrice | formatPrice
+            }}만원</div>
+            <div v-else class="product-price">$ {{ deal.dealPrice | formatPrice }} 만원</div>
+            <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
+              <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
+              <i v-else class="fa fa-heart-o fa-2x"></i>
+            </a>
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -21,35 +33,37 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: ["deal"],
   data() {
     return {
-      path: "http://localhost:8080/upload/",
+      path: "deal/noImage.jpg",
       houseInfo: null,
       dongName: "",
     }
-  },
-  computed: {
-    imgPath: function () {
-      if (this.deal.fileUrl == null) return this.path + "deal/" + "noImage.png"
-      return this.path + this.deal.fileUrl
-    },
-    dealKind: function () {
-      if (this.deal.code == "100") return "전세"
-      if (this.deal.code == "200") return "월세"
-      return "매매"
-    },
-    houseAddress: function () {
-      if (this.deal.houseDongName == "undefined") return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseJibun
-      return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseDongName + " " + this.deal.houseJibun
-    },
-  },
+  }, computed: {
+    ...mapState("userStore", ["isLogin", "isBookmarking"]),
+  }
 }
 </script>
 
 <style>
 #ptitle {
   font-size: 10px;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#thImage {
+  padding: 10px;
+  padding-bottom: 0;
+  width: 100%;
+  max-height: 350px;
 }
 </style>

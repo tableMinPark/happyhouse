@@ -1,13 +1,9 @@
 <template>
-  <tr
-    style="cursor: pointer"
-    :class="{ importance: important }"
-    @click="noticeDetail(notice.boardId)"
-  >
+  <tr style="cursor: pointer" :class="{ importance: important }" @click="noticeDetail(notice.boardId)">
     <th>{{ notice.boardId }}</th>
     <td><span v-if="important">[필독] </span>{{ notice.boardTitle }}</td>
-    <td>{{ notice.userId }}</td>
-    <td>{{ notice.boardRegDt }}</td>
+    <td>{{ notice.userName }}</td>
+    <td>{{ notice.boardRegDt | formatDate }}</td>
   </tr>
 </template>
 
@@ -30,6 +26,7 @@ th,
 td {
   text-align: center;
 }
+
 .importance {
   background-color: #e8f8f5;
 }

@@ -42,6 +42,9 @@ const userStore = {
     SET_IS_FORGET_PASSWORD_ERROR(state, isForgetPasswordError) {
       state.isForgetPasswordError = isForgetPasswordError;
     },
+    SET_IS_ADMIN(state, isAdmin) {
+      state.isAdmin = isAdmin;
+    },
   },
   actions: {
     async setUserInfo({ commit }, userInfo) {
@@ -138,7 +141,7 @@ const userStore = {
       );
     },
     // 로그인
-    async userLogin({ dispatch, state }, user) {
+    async userLogin({ dispatch, state, commit }, user) {
       await dispatch("userConfirm", user);
       const token = sessionStorage.getItem("access-token");
 
@@ -148,6 +151,7 @@ const userStore = {
           alertTitle: "로그인 성공!",
           alertMessage: `${state.userInfo.userName} 님 반갑습니다.`,
         });
+        if (state.userInfo.userCode === "300") commit("SET_IS_ADMIN", true);
         router.push({ name: "main" }).catch(() => {});
       } else {
         if (state.isLoginError) {
@@ -173,6 +177,7 @@ const userStore = {
             commit("SET_USER_INFO", null);
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_VALID_TOKEN", false);
+            commit("SET_IS_ADMIN", false);
 
             // 토큰삭제
             sessionStorage.removeItem("access-token");
@@ -183,6 +188,7 @@ const userStore = {
               alertTitle: "로그아웃 성공!",
               alertMessage: "",
             });
+            commit("SET_IS_ADMIN", false);
             router.push({ name: "main" }).catch(() => {});
           } else {
             store.dispatch("commonStore/alertMessage", {
@@ -269,8 +275,6 @@ const userStore = {
       );
     },
   },
-  // 저장소인 state 의 값을 외부에 노출시키는 방법
-  // 그대로 또는 state 의 데이터의 변형을 처리한 후 결과를 return <== getters 는 return 이 있는 메소드들
   getters: {
     checkUserInfo(state) {
       return state.userInfo;

@@ -1,5 +1,13 @@
 import { registReview } from "@/api/review";
-import { dealModify, dealRegist, convertAddress, dealList } from "@/api/deal";
+import {
+  dealModify,
+  dealRegist,
+  convertAddress,
+  dealList,
+  getImgList,
+  getReviewList,
+  dealDetail,
+} from "@/api/deal";
 
 import store from "@/store";
 import router from "@/routers/routers";
@@ -14,17 +22,33 @@ const houseStore = {
     // HouseInfo 에서 참조할 매물 데이터
     dealInfo: {},
     houseInfo: {},
+    imgList: [],
+    reviewList: [],
   },
   mutations: {
+    SET_INIT: (state) => {
+      state.dealInfo = {};
+      state.houseInfo = {};
+      state.imgList = [];
+      state.reviewList = [];
+    },
     SET_DEAL_LIST: (state, dealList) => {
       state.dealList = dealList;
     },
-    SET_LISTS: (state, payload) => {
-      state.dealInfo = payload.dealInfo;
-      state.houseInfo = payload.houseInfo;
-    },
     SET_TOTAL_LIST_ITEM_COUNT: (state, totalListItemCount) => {
       state.totalListItemCount = totalListItemCount;
+    },
+    SET_DEAL_INFO(state, dealInfo) {
+      state.dealInfo = dealInfo;
+    },
+    SET_HOUSE_INFO(state, houseInfo) {
+      state.houseInfo = houseInfo;
+    },
+    SET_IMG_LIST(state, imgList) {
+      state.imgList = imgList;
+    },
+    SET_REVIEW_LIST(state, reviewList) {
+      state.reviewList = reviewList;
     },
   },
   actions: {
@@ -261,6 +285,48 @@ const houseStore = {
         },
         (error) => {
           console.error(error);
+        }
+      );
+    },
+
+    // 이미지 리스트
+    async getImgList({ commit }, dealId) {
+      await getImgList(
+        dealId,
+        ({ data }) => {
+          commit("SET_IMG_LIST", data.imgList);
+          if (data.imgList.length == 0) commit("SET_IMG_LIST", ["deal/noImage.jpg"]);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    },
+    async dealDetail({ commit }, dealId) {
+      await dealDetail(
+        dealId,
+        async ({ data }) => {
+          commit("SET_DEAL_INFO", data.dealList.dealDto);
+          commit("SET_HOUSE_INFO", data.dealList.houseDto);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    },
+    // 해당 집에 대한 리뷰
+    async getReviewList({ commit }, houseId) {
+      await getReviewList(
+        houseId,
+        ({ data }) => {
+          if (data.message === "success") {
+            commit("SET_REVIEW_LIST", data.reviewList);
+          } else {
+            console.log("리뷰 리스트 없음");
+          }
+        },
+        (error) => {
+          console.log(error);
         }
       );
     },

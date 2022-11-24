@@ -3,12 +3,12 @@
 <mapper namespace="com.happyhouse.api.notice.dao.NoticeDao">
 	
 	<select id = "noticeSelectImportant" resultType="com.happyhouse.api.notice.dto.NoticeDto">
-		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count, user_name
 		 from board where important = 1 ORDER BY board_id DESC limit 5
 	</select>
 	
 	<select id ="noticeSelect" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
-		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count, user_name
 		  from board ORDER BY board_id DESC limit #{limit} offset #{offset}
 	</select>
 	
@@ -18,7 +18,7 @@
 	</select>
 	
 	<select id ="noticeSelectSearchWord" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
-		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count, user_name
 		  from board 
 		 where board_title like CONCAT('%', #{searchWord} ,'%')
 		 <if test = 'searchType.equals("TW")'>
@@ -36,14 +36,14 @@
 	</select>
 	
 	<select id ="noticeDetail" parameterType="com.happyhouse.api.notice.dto.NoticeParamDto" resultType="com.happyhouse.api.notice.dto.NoticeDto">
-		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count,important
+		select board_id , user_id , board_title , board_content , board_reg_dt , board_read_count,important, user_name
 		  from board
 		 where board_id = #{board_id}
 	</select>
 	
 	<insert id="noticeInsert" parameterType="com.happyhouse.api.notice.dto.NoticeDto">
-		insert into board ( board_id, user_id,board_title, board_content, board_reg_dt, board_read_count ,important)
-		            VALUES ( #{boardId},#{userId}, #{boardTitle}, #{boardContent}, now(), 0 ,#{important})
+		insert into board ( board_id, user_id,board_title, board_content, board_reg_dt, board_read_count ,important, user_name)
+		            VALUES ( #{boardId},#{userId}, #{boardTitle}, #{boardContent}, now(), 0 ,#{important}, #{userName})
 	</insert>
 	
 	<update id="noticeUpdate" parameterType="com.happyhouse.api.notice.dto.NoticeDto">

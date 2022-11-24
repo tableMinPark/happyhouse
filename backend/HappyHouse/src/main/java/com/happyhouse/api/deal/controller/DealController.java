@@ -289,6 +289,8 @@ public class DealController {
 		try {
 			List<ReviewResultDto> reviewList = service.getReviewList(houseId);
 			
+			System.out.println(reviewList);
+			
 			if (reviewList != null) {
 				resultMap.put("reviewList", reviewList);
 				resultMap.put("message", SUCCESS);	

@@ -1,24 +1,28 @@
 <template>
-  <div :id="`menu-${deal.dealId}`" class="col-xl-3 col-sm-6 xl-4" @click.prevent="openMenu">
+  <div :id="`menu-${deal.dealId}`" class="col-xl-3 col-sm-6 xl-4" @contextmenu.prevent="openMenu">
     <div class="card">
       <div class="product-box">
         <div class="product-details">
           <router-link :to="`/houseinfo/${deal.dealId}`">
-            <h4>
-              <span class="badge bg-primary me-2 text-light">{{ dealKind }}</span
-              >{{ deal.houseName }}
+            <h4 class="name">
+              <span class="badge bg-primary me-2 text-light">{{ deal | formatDeal }}</span>{{ deal.houseName }}
             </h4>
           </router-link>
-          <p>{{ houseAddress }}</p>
-          <div class="product-price">$ {{ deal.dealPrice }}</div>
+          <p class="name">{{ deal | formatAddress }}</p>
+          <div v-if="deal.code === '100'" class="product-price">$ {{ deal.dealDeposit | formatPrice }} 만원</div>
+          <div v-else-if="deal.code === '200'" class="product-price">$ {{ deal.dealDeposit | formatPrice }} / {{
+              deal.dealPrice | formatPrice
+          }}만원</div>
+          <div v-else class="product-price">$ {{ deal.dealPrice | formatPrice }} 만원</div>
         </div>
         <div style="float: right">
-          <p v-if="!deal.dealComplete">거래중</p>
-          <p v-else>거래종료</p>
+          <h6 v-if="!deal.dealComplete"><span class="badge bg-secondary me-2 text-light">거래중</span></h6>
+          <h6 v-else><span class="badge bg-danger me-2 text-light">거래종료</span></h6>
         </div>
       </div>
     </div>
-    <ul id="right-click-menu" tabindex="-1" ref="right" v-if="viewMenu" @blur="closeMenu" :style="{ top: top, left: left }">
+    <ul id="right-click-menu" tabindex="-1" ref="right" v-if="viewMenu" @blur="closeMenu"
+      :style="{ top: top, left: left }">
       <li>거래 완료</li>
       <li @click="Modify">수정</li>
       <li @click="Delete(deal.dealId)">삭제</li>
@@ -30,6 +34,7 @@
 import Vue from "vue"
 import { dealDelete } from "@/api/deal"
 import VueAlertify from "vue-alertify"
+import store from "@/store"
 
 Vue.use(VueAlertify)
 export default {
@@ -58,33 +63,27 @@ export default {
         () => {
           dealDelete(
             dealId,
-            ({ data }) => {
-              console.log(data)
-              this.$alertify.success("삭제 완료")
-              this.$emit("call-parent-delete")
+            () => {
+              store.dispatch("commonStore/alertMessage", {
+                alertTitle: `삭제 성공!!`,
+                alertMessage: "",
+              });
             },
             (error) => {
               console.error(error)
-              this.$alertify.error("서버에 문제가 생겼습니다.")
+              store.dispatch("commonStore/alertMessage", {
+                alertTitle: `삭제 실패!`,
+                alertMessage: "잠시후 다시시도 해주세요.",
+              });
             }
           )
         },
-        () => this.$alertify.error("취소되었습니다.")
       )
     },
     setMenu: function (top, left) {
-      // console.log(top, left)
-      // console.log(this.element)
       let elementTop = this.element.getBoundingClientRect().top
       let elementLeft = this.element.getBoundingClientRect().left
-      // console.log(elementTop, elementLeft)
-      // let largestHeight = window.innerHeight - this.$refs.right.offsetHeight - 25
-      // let largestWidth = window.innerWidth - this.$refs.right.offsetWidth - 25
-      // console.log(top, largestHeight)
-      // console.log(left, largestWidth)
-      // if (top > largestHeight) top = largestHeight
 
-      // if (left > largestWidth) left = largestWidth
       top = top - elementTop
       left = left - elementLeft
       console.log(top, left)
@@ -105,22 +104,17 @@ export default {
         }.bind(this)
       )
     },
-  },
-  computed: {
-    dealKind: function () {
-      if (this.deal.code == "100") return "전세"
-      if (this.deal.code == "200") return "월세"
-      return "매매"
-    },
-    houseAddress: function () {
-      if (this.deal.houseDongName == "undefined") return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseJibun
-      return this.deal.houseSidoName + " " + this.deal.houseGugunName + " " + this.deal.houseDongName + " " + this.deal.houseJibun
-    },
-  },
+  }
 }
 </script>
 
 <style>
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 h1 {
   font-size: 3em;
 }

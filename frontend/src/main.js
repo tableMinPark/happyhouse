@@ -29,6 +29,11 @@ Vue.filter("formatPrice", function (price) {
 Vue.filter("formatAddress", function (info) {
   return `${info.houseSidoName} ${info.houseGugunName} ${info.houseDongName} ${info.houseJibun}`;
 });
+Vue.filter("formatDeal", function (deal) {
+  if (deal.code === "100") return "전세";
+  else if (deal.code === "200") return "월세";
+  else return "매매";
+});
 
 import router from "@/routers/routers.js";
 new Vue({

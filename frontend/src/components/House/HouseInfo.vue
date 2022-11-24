@@ -6,7 +6,7 @@
           <div class="card-header pb-0">
             <h5>House Images</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body p-4">
             <house-carousel></house-carousel>
           </div>
         </div>
@@ -42,36 +42,35 @@
               <tbody>
                 <tr>
                   <th scope="col">매물 명</th>
-                  <td>{{ house.houseName }}</td>
+                  <td>{{ houseInfo.houseName }}</td>
                 </tr>
                 <tr>
                   <th scope="col">주소</th>
-                  <td>{{ houseAddress }}</td>
+                  <td>{{ houseInfo | formatAddress }}</td>
                 </tr>
                 <tr>
                   <th scope="col">거래</th>
-                  <td>{{ dealKind }}</td>
+                  <td>{{ dealInfo | formatDeal }}</td>
                 </tr>
-                <tr v-if="deal.code == 200">
+                <tr v-if="dealInfo.code == '200' || dealInfo.code == '100'">
                   <th scope="col">보증금</th>
-                  <td>{{ deal.dealDeposit }}</td>
+                  <td>{{ dealInfo.dealDeposit | formatPrice }} 만원</td>
                 </tr>
-                <tr>
+                <tr v-if="dealInfo.code != '100'">
                   <th scope="col">금액</th>
-                  <td v-if="deal.code === '300'">{{ deal.dealPrice | formatPrice }}</td>
-                  <td v-else>{{ deal.dealDeposit | formatPrice }} 만원</td>
+                  <td>{{ parseInt(dealInfo.dealPrice) | formatPrice }} 만원</td>
                 </tr>
                 <tr>
                   <th scope="col">면적</th>
-                  <td>{{ deal.dealArea }} m 2</td>
+                  <td>{{ dealInfo.dealArea }}</td>
                 </tr>
                 <tr>
                   <th scope="col">층</th>
-                  <td>{{ deal.dealFloor }} 층</td>
+                  <td>{{ dealInfo.dealFloor }} 층</td>
                 </tr>
                 <tr>
                   <th scope="col">설명</th>
-                  <td v-html="deal.dealContent"></td>
+                  <td v-html="dealInfo.dealContent"></td>
                 </tr>
               </tbody>
             </table>
@@ -95,44 +94,35 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
-import ReviewList from "@/components/House/Module/ReviewList.vue";
-import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue";
-import ReviewDetailAllModal from "@/components/common/Modal/ReviewDetailAllModal.vue";
-import HouseCarousel from "@/components/House/Module/HouseCarousel.vue";
-
-import { dealDetail } from "@/api/deal"
-
-import { mapActions, mapState } from "vuex"
-import store from "@/store";
+import { mapActions, mapState } from 'vuex'
+import ReviewList from "@/components/House/Module/ReviewList.vue"
+import ReviewRegisterModal from "@/components/common/Modal/ReviewRegisterModal.vue"
+import ReviewDetailAllModal from "@/components/common/Modal/ReviewDetailAllModal.vue"
+import HouseCarousel from "@/components/House/Module/HouseCarousel.vue"
+import { Modal } from "bootstrap"
 
 export default {
   components: {
     ReviewList,
     ReviewRegisterModal,
     ReviewDetailAllModal,
-    HouseCarousel,
+    HouseCarousel
   },
   data() {
     return {
-      dealId: null,
-      house: [], //집정보
-      deal: [], //거래정보
-      map: null,
+      dealId: '',
       reviewRegisterModal: null,
       reviewDetailAllModal: null,
+
     }
   },
+  computed: {
+    ...mapState("houseStore", ["imgList", "houseInfo", "dealInfo", "reviewList"]),
+
+  },
   methods: {
-    ...mapActions("houseStore", ["setLists"]),
-    initMap() {
-      let mapContainer = document.querySelector("#kakao-map")
-      let mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 1,
-      }
-      this.map = new kakao.maps.Map(mapContainer, mapOption)
-    },
+    ...mapActions("houseStore", ["getImgList", "dealDetail", "getReviewList"]),
+
     showReviewRegister() {
       this.reviewRegisterModal.show()
     },
@@ -145,45 +135,40 @@ export default {
     closeReviewDetailAll() {
       this.reviewDetailAllModal.hide()
     },
-    ...mapActions("dealStore", ["getReviewList", "getImgList"]),
-  },
 
-  computed: {
-    dealKind: function () {
-      if (this.deal.code == "100") return "전세"
-      if (this.deal.code == "200") return "월세"
-      return "매매"
-    },
-    houseAddress: function () {
-      if (this.house.houseDongName == "undefined") return this.house.houseSidoName + " " + this.house.houseGugunName + " " + this.house.houseJibun
-      return this.house.houseSidoName + " " + this.house.houseGugunName + " " + this.house.houseDongName + " " + this.house.houseJibun
-    },
-    ...mapState("dealStore", ["reviewList"]),
-  },
-
-  mounted() {
-
-    this.dealId = this.$route.params.houseId
-
-    this.getImgList(this.dealId)
-
-    dealDetail(
-      this.dealId,
-      ({ data }) => {
-        console.log(data);
-        this.deal = data.dealList.dealDto
-        this.house = data.dealList.houseDto
-        this.setLists({ dealInfo: this.deal, houseInfo: this.house });
-
-        console.log("houseStore 에 넣음" + " " + store.getters["houseStore/getHouseId"]);
-
-        this.getReviewList(this.house.houseId)
-      },
-      (error) => {
-        console.error(error)
+    initMap() {
+      let mapContainer = document.querySelector("#kakao-map")
+      let mapOption = {
+        center: new kakao.maps.LatLng(37.55931174210629, 127.00434608141744),
+        level: 3,
       }
-    )
+      this.map = new kakao.maps.Map(mapContainer, mapOption);
 
+      let position = new kakao.maps.LatLng(this.houseInfo.houseLat, this.houseInfo.houseLng)
+      let marker = new kakao.maps.Marker({ position })
+      this.map.setCenter(position);
+
+      let infowindow = new kakao.maps.InfoWindow({
+        content: `<div style="padding:5px; text-align: center;">${this.houseInfo.houseName}</div>`,
+      })
+
+      // 마우스 오버
+      kakao.maps.event.addListener(marker, "mouseover", () => {
+        infowindow.open(this.map, marker)
+      })
+      // 마우스 아웃
+      kakao.maps.event.addListener(marker, "mouseout", () => {
+        infowindow.close()
+      })
+      // 마우스 클릭
+      kakao.maps.event.addListener(marker, "click", function () {
+        console.log("click")
+      })
+
+      marker.setMap(this.map)
+    }
+  },
+  async mounted() {
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script")
       script.setAttribute("src", "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services")
@@ -195,8 +180,19 @@ export default {
     } else {
       this.initMap()
     }
-    this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"))
-    this.reviewDetailAllModal = new Modal(document.getElementById("reviewDetailAllModal"))
+
+    this.dealId = this.$route.params.houseId
+    console.log(this.dealId);
+    await this.getImgList(this.dealId);
+    console.log(this.imgList);
+    await this.dealDetail(this.dealId);
+    console.log(this.dealInfo);
+    console.log(this.houseInfo);
+    await this.getReviewList(this.houseInfo.houseId);
+
+
+    this.reviewRegisterModal = new Modal(document.getElementById("reviewRegisterModal"));
+    this.reviewDetailAllModal = new Modal(document.getElementById("reviewDetailAllModal"));
   },
 }
 </script>
