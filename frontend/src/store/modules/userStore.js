@@ -16,7 +16,6 @@ const userStore = {
   namespaced: true,
   state: {
     isAdmin: false,
-    userCode: "",
     isLogin: false,
     isLoginError: false,
     isForgetPasswordError: false,
@@ -34,8 +33,7 @@ const userStore = {
       state.isValidToken = isValidToken;
     },
     SET_USER_INFO(state, userInfo) {
-      state.userInfo = userInfo;
-      state.userCode = state.userInfo.userCode;
+      state.userInfo = { ...userInfo };
     },
     SET_FOLLOW_COUNT(state, followCount) {
       state.userInfo.following = followCount.userIdFollowing;
@@ -46,6 +44,9 @@ const userStore = {
     },
   },
   actions: {
+    async setUserInfo({ commit }, userInfo) {
+      commit("SET_USER_INFO", userInfo);
+    },
     // 토큰발급
     async userConfirm({ commit }, user) {
       // 로그인시 토큰만 받아옴

@@ -158,18 +158,19 @@ public class UserController {
 
 	/* 회원정보 수정 */
 	@PostMapping("/modify")
-	public ResponseEntity<Map<String, Object>> modify (UserDto userDto,MultipartHttpServletRequest request){
+	public ResponseEntity<Map<String, Object>> modify (UserDto param,MultipartHttpServletRequest request){
 		
-		System.out.println(userDto);
+		System.out.println(param);
 		System.out.println(request);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		
 		try {
 			
-			int ret = service.modify(userDto,request);
+			UserDto userDto = service.modify(param, request);
 			
-			if (ret == 1) {
+			if (userDto != null) {
+				resultMap.put("userInfo", userDto);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;				
 			} else {

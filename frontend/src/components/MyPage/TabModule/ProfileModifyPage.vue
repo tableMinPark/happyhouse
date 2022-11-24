@@ -2,15 +2,15 @@
   <div class="container mt-4">
     <div class="row text-center">
       <div class="profile-title">
-        <img class="img-80 rounded-circle" alt="" v-if="selimg === '' && userInfo.userProfileImageUrl != undefined"
-          :src="require(`@/assets/${userInfo.userProfileImageUrl}`)" />
+        <img class="img-80 rounded-circle" alt="" v-if="selimg === '' && userInfo.userProfileImageUrl !== undefined"
+          :src="require(`@/assets/upload/${userInfo.userProfileImageUrl}`)" />
         <img v-if="selimg !== ''" class="img-80 rounded-circle" :src="selimg" alt="" /><br />
       </div>
       <div class="mt-3 mb-3">
+        <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
         <div v-if="profile != ''" class="thumbnail">
           <button class="btn btn-primary mb-3" @click="deleteProfile">삭제</button>
         </div>
-        <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
         <input type="file" style="display: none" ref="changeProfile" @change="changeProfiles" />
       </div>
     </div>
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     ...mapActions("commonStore", ["setLoading", "alertMessage", "alertClose"]),
-    ...mapActions("userStore", ["getUserInfo"]),
+    ...mapActions("userStore", ["setUserInfo"]),
 
     profileImageModify() {
       console.log("call profileImageModify");
@@ -122,8 +122,10 @@ export default {
       return check
     },
 
-    profileModify() {
+    async profileModify() {
       if (this.inputCheck()) {
+        this.userInfo.userProfileImageUrl = undefined;
+
         let formData = new FormData()
         formData.append("userId", this.userInfo.userId)
         formData.append("userPassword", this.userPassword)
@@ -131,25 +133,19 @@ export default {
         formData.append("userTel", this.userTel)
         console.log(this.profile)
         if (this.profile.length > 0) {
-          console.log("파일추가")
           const fileArray = Array.from(this.profile)
           fileArray.forEach((file) => formData.append("file", file))
         }
 
-        console.log(formData)
-        this.setLoading(true)
-        userModify(
+        await userModify(
           formData,
           async ({ data }) => {
             console.log(data)
             if (data.message === "success") {
-              this.alertMessage({ alertTitle: "회원정보 수정 성공!", alertMessage: "" })
-              let token = sessionStorage.getItem("access-token")
-              await this.getUserInfo(token)
-              this.userPassword = ""
-              this.userPasswordCheck = ""
-              this.userAddress = ""
-              this.userTel = ""
+              await this.setUserInfo(data.userInfo);    // 수정과 동시에 새로운 정보를 받아와야지 타이밍이 맞음
+              // 파일삭제 -> 파일참조 -> 새로운 파일경로 수신 (순서가 안맞음)
+              this.alertMessage({ alertTitle: "회원정보 수정 성공!", alertMessage: "" });
+              this.$router.go();
             } else {
               this.alertMessage({ alertTitle: "회원정보 수정 실패!", alertMessage: "잠시후 다시 시도해주세요." })
             }
@@ -158,7 +154,6 @@ export default {
             console.log(error)
           }
         )
-        this.setLoading(false)
       }
     },
   },

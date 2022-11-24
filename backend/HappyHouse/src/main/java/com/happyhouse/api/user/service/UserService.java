@@ -9,7 +9,7 @@ public interface UserService {
 	UserDto login(UserDto userDto) throws Exception;
 	int register(UserDto userDto) throws Exception;
 	int emailCheck(String userEmail) throws Exception;
-	int modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception;
+	UserDto modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception;
 	UserDto getUserInfo(int userId) throws Exception;	
 	int forgetPassword(UserDto userDto) throws Exception;
 	int emailAuth(String authCode) throws Exception;

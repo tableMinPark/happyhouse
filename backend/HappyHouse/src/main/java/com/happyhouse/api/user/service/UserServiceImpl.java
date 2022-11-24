@@ -61,8 +61,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception {
-		int ret = 1;
+	public UserDto modify(UserDto userDto,MultipartHttpServletRequest request) throws Exception {
+		
+		UserDto ret = null;
 		
 		try {
 			List<MultipartFile> fileList = request.getFiles("file");
@@ -112,13 +113,16 @@ public class UserServiceImpl implements UserService {
 				dao.userProfileInsert(userFileDto);
 			
 			}
+			
 			if(UserFileUrl == null) UserFileUrl = "upload/user/noProfile.png";
 			userDto.setUserProfileImageUrl(UserFileUrl);
 			dao.modify(userDto);
+			
+			ret = dao.getUserInfo(userDto.getUserId());
+			
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-			ret = 0;
 		}
 		return ret;
 	}

@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="card custom-card pt-3">
                 <div class="card-profile"><img class="rounded-circle" v-if="userInfo.userProfileImageUrl != undefined"
-                        :src="require(`@/assets/${userInfo.userProfileImageUrl}`)"></div>
+                        :src="require(`@/assets/upload/${userInfo.userProfileImageUrl}`)"></div>
                 <div class="text-center profile-details m-3 mb-0">
                     <h4>{{ myPageUserInfo.userName }}</h4>
                     <h6 class="mb-2">{{ myPageUserInfo.userRegDt }}</h6>

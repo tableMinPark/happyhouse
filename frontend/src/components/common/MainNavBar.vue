@@ -4,7 +4,7 @@
       <router-link :to="`/profile/${userInfo.userId}`" class="setting-primary">
         <feather type="settings" size="15" />
       </router-link><img class="img-90 rounded-circle" v-if="isLogin && userInfo.userProfileImageUrl != undefined"
-        :src="require(`@/assets/${userInfo.userProfileImageUrl}`)">
+        :src="require(`@/assets/upload/${userInfo.userProfileImageUrl}`)">
       <a>
         <h6 class="mt-3 f-14 f-w-600">{{ userInfo.userName }}</h6>
       </a>
