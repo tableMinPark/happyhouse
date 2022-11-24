@@ -5,7 +5,7 @@
         <div class="product-img">
           <img class="img-fluid" :src="imgPath" alt="" />
         </div>
-        <div class="product-details">
+        <div class="product-details" style="overflow: hidden">
           <router-link :to="`/houseinfo/${deal.dealId}`">
             <h4>
               <span class="badge bg-primary me-2 text-light">{{ dealKind }}</span
@@ -48,4 +48,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+#ptitle {
+  font-size: 10px;
+}
+</style>
