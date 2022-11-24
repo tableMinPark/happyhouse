@@ -153,6 +153,7 @@
 		<if test='!searchType.equals("0")'> 
 			and d.code = #{searchType}
 		</if>
+		limit #{limit} offset #{offset}
 	</select>
 	
 	<update id="houseUpdate" parameterType = "com.happyhouse.api.deal.dto.HouseDto">

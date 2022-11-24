@@ -69,7 +69,6 @@ const commonStore = {
       }, 4000)
     },
     initAddressList({ commit }) {
-      commit("SET_SIDO_LIST", [])
       commit("SET_GUGUN_LIST", [])
       commit("SET_DONG_LIST", [])
     },

@@ -142,9 +142,12 @@ export default {
   computed: {
     ...mapState("commonStore", ["sidoList", "gugunList", "dongList"]),
   },
+  mounted() {
+    this.initAddressList()
+  },
   methods: {
     ...mapActions("userStore", ["userRegister"]),
-    ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
+    ...mapActions("commonStore", ["initAddressList", "getSido", "getGugun", "getDong"]),
     codeToggle() {
       if (this.code === "100") {
         this.code = "200"
