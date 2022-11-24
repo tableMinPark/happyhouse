@@ -205,8 +205,7 @@ const dealStore = {
         ({ data }) => {
           console.log("리뷰 리스트 : " + data.imgList);
           commit("SET_IMG_LIST", data.imgList);
-          if (data.imgList.length == 0)
-            commit("SET_IMG_LIST", ["deal/noImage.png"]);
+          if (data.imgList.length == 0) commit("SET_IMG_LIST", ["deal/noImage.png"]);
         },
         (error) => {
           console.error(error);
@@ -253,7 +252,6 @@ const dealStore = {
             let ch = data.charterData;
             let re = data.rentData;
             let de = data.dealingData;
-
             // 전세
             let temp = 0;
             for (let i = 0; i < 12; i++) {

@@ -2,11 +2,12 @@
   <div class="container mt-4">
     <div class="row text-center">
       <div class="profile-title">
-        <img class="img-100 rounded-circle" alt="" :src="userProfileImageUrl" />
+        <img class="img-80 rounded-circle" alt="" v-if="selimg === '' && userInfo.userProfileImageUrl != undefined"
+          :src="require(`@/assets/${userInfo.userProfileImageUrl}`)" />
+        <img v-if="selimg !== ''" class="img-80 rounded-circle" :src="selimg" alt="" /><br />
       </div>
       <div class="mt-3 mb-3">
-        <div v-if="profile != null" class="thumbnail">
-          <img :src="selimg" alt="" /><br />
+        <div v-if="profile != ''" class="thumbnail">
           <button class="btn btn-primary mb-3" @click="deleteProfile">삭제</button>
         </div>
         <button class="btn btn-primary" @click="profileImageModify">프로필사진변경</button>
@@ -59,7 +60,6 @@ export default {
       userName: "",
       userAddress: "",
       userTel: "",
-      userProfileImageUrl: this.$hostname + "/assets/images/user/7.jpg",
 
       isUserPassword: false,
       isUserPasswordCheck: false,
@@ -67,7 +67,7 @@ export default {
       isUserAddress: false,
 
       selimg: "",
-      profile: null,
+      profile: '',
     }
   },
   computed: {
@@ -78,17 +78,19 @@ export default {
     ...mapActions("userStore", ["getUserInfo"]),
 
     profileImageModify() {
-      console.log("call profileImageModify")
-      this.$refs.changeProfile.click()
+      console.log("call profileImageModify");
+      this.$refs.changeProfile.click();
     },
 
     changeProfiles() {
-      this.profile = this.$refs.changeProfile.files
-      this.selimg = URL.createObjectURL(this.profile[0])
+      this.profile = this.$refs.changeProfile.files;
+      this.selimg = URL.createObjectURL(this.profile[0]);
     },
 
     deleteProfile() {
-      this.profile = null
+      this.profile = '';
+      this.selimg = '';
+      this.$refs.changeProfile.value = '';
     },
 
     inputCheck() {

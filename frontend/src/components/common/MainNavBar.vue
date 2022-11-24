@@ -3,11 +3,12 @@
     <div v-if="isLogin" class="sidebar-user text-center">
       <router-link :to="`/profile/${userInfo.userId}`" class="setting-primary">
         <feather type="settings" size="15" />
-      </router-link><img class="img-90 rounded-circle" :src="require(`@/assets/${userInfo.userProfileUrl}`)">
+      </router-link><img class="img-90 rounded-circle" v-if="isLogin && userInfo.userProfileImageUrl != undefined"
+        :src="require(`@/assets/${userInfo.userProfileImageUrl}`)">
       <a>
         <h6 class="mt-3 f-14 f-w-600">{{ userInfo.userName }}</h6>
       </a>
-      <p class="mb-0 font-roboto">{{ userInfo.code }}</p>
+      <p class="mb-0 font-roboto">{{ getCodeName() }}</p>
     </div>
 
     <div v-else class="sidebar-user text-center">
@@ -60,13 +61,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "MainNavBar",
   computed: {
     ...mapState("userStore", ["isLogin", "userInfo"]),
-  }
+  },
+  methods: {
+    ...mapGetters("userStore", ["getCodeName"]),
+  },
 }
 </script>
 

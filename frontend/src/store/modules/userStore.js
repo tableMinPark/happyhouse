@@ -34,7 +34,7 @@ const userStore = {
       state.isValidToken = isValidToken;
     },
     SET_USER_INFO(state, userInfo) {
-      state.userInfo = { ...userInfo };
+      state.userInfo = userInfo;
       state.userCode = state.userInfo.userCode;
     },
     SET_FOLLOW_COUNT(state, followCount) {
@@ -205,8 +205,7 @@ const userStore = {
             commit("SET_IS_FORGET_PASSWORD_ERROR", false);
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "비밀번호 찾기 성공!",
-              alertMessage:
-                "임시 비밀번호가 포함된 이메일을 전송했습니다. 이메일을 확인해주세요.",
+              alertMessage: "임시 비밀번호가 포함된 이메일을 전송했습니다. 이메일을 확인해주세요.",
             });
             router.push({ name: "login" }).catch(() => {});
           } else {
@@ -284,6 +283,16 @@ const userStore = {
     // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
     getUserId(state) {
       return state.userInfo.userId;
+    },
+    // 회원 구분을 받아옴 (codeName)
+    getCodeName(state) {
+      let codeName = "";
+      store.state.commonStore.userCodeList.forEach((item) => {
+        if (state.userInfo.code === item.code) {
+          codeName = item.codeName;
+        }
+      });
+      return codeName;
     },
   },
 };

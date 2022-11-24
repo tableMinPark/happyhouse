@@ -40,7 +40,7 @@ const commonStore = {
       state.dongList = dongList;
     },
     SET_USER_CODE_LIST: (state, userCodeList) => {
-      state.userCodeLis = userCodeList;
+      state.userCodeList = userCodeList;
     },
     SET_DEAL_CODE_LIST: (state, dealCodeList) => {
       state.dealCodeList = dealCodeList;
@@ -144,15 +144,6 @@ const commonStore = {
       );
     },
   },
-  getters: {
-    getProfileUrl( state ) {
-      console.log(state);
-      return state.userInfo.userProfileUrl;
-    },
-    getIser() {
-
-    }
-  }
 };
 
 export default commonStore;
