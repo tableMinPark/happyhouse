@@ -71,6 +71,7 @@ export default {
 }
 
 #imageBox {
+  min-height: 400px;
   width: 100%;
 }
 

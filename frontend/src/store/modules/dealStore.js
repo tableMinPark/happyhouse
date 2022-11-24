@@ -17,7 +17,6 @@ const dealStore = {
     houseInfo: {},
     nowDealList: [],
     reviewList: [],
-    isBookmarking: false,
 
     oldDealList: [], // 과거순부터 순서대로
 
@@ -39,9 +38,6 @@ const dealStore = {
     SET_NOW_DEAL_LIST(state, nowDealList) {
       state.nowDealList = nowDealList;
     },
-    SET_IS_BOOKMARING(state, isBookmarking) {
-      state.isBookmarking = isBookmarking;
-    },
     SET_OLD_DEAL_DATA(state, oldDealData) {
       state.oldDealData = oldDealData;
     },
@@ -53,7 +49,6 @@ const dealStore = {
       commit("SET_REVIEW_LIST", []);
       commit("SET_OLD_DEAL_LIST", []);
       commit("SET_NOW_DEAL_LIST", []);
-      commit("SET_IS_BOOKMARING", false);
     },
     setDealReviewList({ commit }) {
       commit("SET_OLD_DEAL_LIST", []);
@@ -66,6 +61,7 @@ const dealStore = {
         userId: userId,
         houseId: state.houseInfo.houseId,
       };
+      console.log(params);
       await registBookmark(
         params,
         ({ data }) => {

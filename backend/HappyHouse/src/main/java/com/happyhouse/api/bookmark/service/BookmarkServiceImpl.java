@@ -21,13 +21,18 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public int registBookmark(Map<String, Integer> param) {
-		return dao.registBookmark(param);
+	public int registBookmark(BookmarkDto bookmarkDto) {
+		return dao.registBookmark(bookmarkDto);
 	}
 
 	@Override
-	public int deleteBookmark(int bookmarkId) {
-		return dao.deleteBookmark(bookmarkId);
+	public int deleteBookmark(BookmarkDto bookmarkDto) {
+		return dao.deleteBookmark(bookmarkDto);
+	}
+
+	@Override
+	public int checkBookmark(Map<String, Integer> param) {
+		return dao.checkBookmark(param);
 	}
 
 }

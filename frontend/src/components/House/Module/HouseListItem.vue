@@ -19,13 +19,8 @@
                 deal.dealPrice | formatPrice
             }}만원</div>
             <div v-else class="product-price">$ {{ deal.dealPrice | formatPrice }} 만원</div>
-            <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
-              <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
-              <i v-else class="fa fa-heart-o fa-2x"></i>
-            </a>
+
           </div>
-
-
         </div>
       </div>
     </div>
@@ -42,9 +37,12 @@ export default {
       path: "deal/noImage.jpg",
       houseInfo: null,
       dongName: "",
+      toggle: false,
     }
   }, computed: {
-    ...mapState("userStore", ["isLogin", "isBookmarking"]),
+    ...mapState("userStore", ["isLogin", "userInfo"]),
+  },
+  methods: {
   }
 }
 </script>

@@ -3,12 +3,12 @@
     <div class="container-fruid card-body p-5">
       <div class="row">
         <div class="col-7">
-          <div class="media p-3">
+          <div class="media p-3" @click="move(reviewList[idx].userId)" style="cursor: pointer;">
             <img class="img-50 img-fluid m-r-20 rounded-circle" alt
-              :src="require(`@/assets/upload/${reviewList[0].userProfileImageUrl}`)" />
+              :src="require(`@/assets/upload/${reviewList[idx].userProfileImageUrl}`)" />
             <div class="media-body mt-2">
-              <h5 class="d-block">{{ reviewList[0].userName }}</h5>
-              <h6 class="d-block">{{ reviewList[0].userRegDt }}</h6>
+              <h5 class="d-block">{{ reviewList[idx].userName }}</h5>
+              <h6 class="d-block">{{ reviewList[idx].userRegDt }}</h6>
             </div>
           </div>
         </div>
@@ -23,11 +23,11 @@
               <div class="rating-container">
                 <div class="br-wrapper br-theme-fontawesome-stars">
                   <div class="br-widget">
-                    <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewTraficRating }"></a>
-                    <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewTraficRating }"></a>
-                    <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewTraficRating }"></a>
-                    <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewTraficRating }"></a>
-                    <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewTraficRating }"></a>
+                    <a :class="{ 'br-selected br-current': 1 <= reviewList[idx].reviewTraficRating }"></a>
+                    <a :class="{ 'br-selected br-current': 2 <= reviewList[idx].reviewTraficRating }"></a>
+                    <a :class="{ 'br-selected br-current': 3 <= reviewList[idx].reviewTraficRating }"></a>
+                    <a :class="{ 'br-selected br-current': 4 <= reviewList[idx].reviewTraficRating }"></a>
+                    <a :class="{ 'br-selected br-current': 5 <= reviewList[idx].reviewTraficRating }"></a>
                   </div>
                 </div>
               </div>
@@ -44,11 +44,11 @@
               <div class="rating-container">
                 <div class="br-wrapper br-theme-fontawesome-stars">
                   <div class="br-widget">
-                    <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewSafetyRating }"></a>
-                    <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewSafetyRating }"></a>
-                    <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewSafetyRating }"></a>
-                    <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewSafetyRating }"></a>
-                    <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewSafetyRating }"></a>
+                    <a :class="{ 'br-selected br-current': 1 <= reviewList[idx].reviewSafetyRating }"></a>
+                    <a :class="{ 'br-selected br-current': 2 <= reviewList[idx].reviewSafetyRating }"></a>
+                    <a :class="{ 'br-selected br-current': 3 <= reviewList[idx].reviewSafetyRating }"></a>
+                    <a :class="{ 'br-selected br-current': 4 <= reviewList[idx].reviewSafetyRating }"></a>
+                    <a :class="{ 'br-selected br-current': 5 <= reviewList[idx].reviewSafetyRating }"></a>
                   </div>
                 </div>
               </div>
@@ -64,11 +64,11 @@
               <div class="rating-container">
                 <div class="br-wrapper br-theme-fontawesome-stars">
                   <div class="br-widget">
-                    <a :class="{ 'br-selected br-current': 1 <= reviewList[0].reviewStoreRating }"></a>
-                    <a :class="{ 'br-selected br-current': 2 <= reviewList[0].reviewStoreRating }"></a>
-                    <a :class="{ 'br-selected br-current': 3 <= reviewList[0].reviewStoreRating }"></a>
-                    <a :class="{ 'br-selected br-current': 4 <= reviewList[0].reviewStoreRating }"></a>
-                    <a :class="{ 'br-selected br-current': 5 <= reviewList[0].reviewStoreRating }"></a>
+                    <a :class="{ 'br-selected br-current': 1 <= reviewList[idx].reviewStoreRating }"></a>
+                    <a :class="{ 'br-selected br-current': 2 <= reviewList[idx].reviewStoreRating }"></a>
+                    <a :class="{ 'br-selected br-current': 3 <= reviewList[idx].reviewStoreRating }"></a>
+                    <a :class="{ 'br-selected br-current': 4 <= reviewList[idx].reviewStoreRating }"></a>
+                    <a :class="{ 'br-selected br-current': 5 <= reviewList[idx].reviewStoreRating }"></a>
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@
       </div>
       <div class="row mt-4">
         <div class="col-12">
-          <h6 v-html="reviewList[0].reviewContent"></h6>
+          <h6 v-html="reviewList[idx].reviewContent"></h6>
         </div>
       </div>
     </div>
@@ -89,6 +89,7 @@
 import { mapState } from "vuex"
 
 export default {
+  props: ["idx"],
   data() {
     return {
       selectedReview: null,
@@ -96,8 +97,13 @@ export default {
   },
   computed: {
     ...mapState("houseStore", ["reviewList"]),
+    ...mapState("userStore", ["isLogin"]),
   },
   methods: {
+    move(userId) {
+      console.log(userId);
+      this.$router.push({ path: "/profile/" + userId });
+    },
     // Delete Review
     reviewDelete(reviewId) {
       console.log("call reviewDelete " + reviewId)

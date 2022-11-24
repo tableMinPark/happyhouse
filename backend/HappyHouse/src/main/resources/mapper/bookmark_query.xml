@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.happyhouse.api.bookmark.dao.BookmarkDao">
 	
+	<select id ="checkBookmark" parameterType="map" resultType="int">
+		select count(*) from bookmark
+		 where user_id = #{userId}
+		   and deal_id = #{dealId}
+	</select>
+	
 	<select id ="getBookmarkList" parameterType="int" resultType="com.happyhouse.api.bookmark.dto.BookmarkDto">
 		select b.bookmark_id, b.deal_id, b.house_id, 
 				d.deal_area, d.deal_price,
@@ -12,15 +18,16 @@
 		   and h.house_id = d.house_id;
 	</select>
 		
-	<insert id="registBookmark" parameterType="map">
+	<insert id="registBookmark" parameterType="com.happyhouse.api.bookmark.dto.BookmarkDto">
 		insert into bookmark ( deal_id, user_id, house_id )
 			        values ( #{dealId}, #{userId}, ( select house_id
 			        								   from deal
 			        								  where deal_id = #{dealId} ))		
 	</insert>
 	
-	<delete id="deleteBookmark" parameterType="int">
+	<delete id="deleteBookmark" parameterType="map">
 		delete from bookmark
-			  where bookmark_id = #{bookmarkId}
+			  where deal_id = #{dealId}
+			    and user_id = #{userId}
 	</delete>	
 </mapper>

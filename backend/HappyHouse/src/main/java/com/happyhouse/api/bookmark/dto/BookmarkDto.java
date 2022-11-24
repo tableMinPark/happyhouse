@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class BookmarkDto {
 	private int bookmarkId;
+	private int userId;
 	private int dealId;
 	private int houseId;
 	private String dealArea;

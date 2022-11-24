@@ -127,6 +127,10 @@ export default {
          };
          console.log(reviewInfo);
          await this.registReview(reviewInfo);
+         this.CKEditor.setData('');
+         this.reviewTraficRating = 1;
+         this.reviewSafetyRating = 1;
+         this.reviewStoreRating = 1;
          this.$emit('call-parent-register-close');
       },
       traficRatingChange(rating) {
@@ -140,6 +144,7 @@ export default {
       }
    },
    async mounted() {
+
       try {
          this.CKEditor = await ClassicEditor.create(document.querySelector("#divEditorModify"));
       } catch (error) {

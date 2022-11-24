@@ -40,7 +40,9 @@
         </div>
         <div class="product-wrapper-grid">
           <div class="row">
-            <house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal"></house-list-item>
+            <house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal" :idx="index"
+              :bookmarkList="bookmarkList">
+            </house-list-item>
           </div>
         </div>
         <PaginationUI :listRowCount="listRowCount" :pageLinkCount="pageLinkCount" :currentPageIndex="currentPageIndex"
@@ -55,6 +57,7 @@ import BasicHeader from "@/components/common/BasicHeader.vue"
 import HouseListItem from "@/components/House/Module/HouseListItem.vue"
 import PaginationUI from "@/components/common/UI/PaginationUI.vue"
 import { mapActions, mapState } from "vuex"
+
 export default {
   components: {
     HouseListItem,
@@ -77,13 +80,17 @@ export default {
       selectedRent: false,
       selectedDealing: false,
       searchWord: "",
+
+      bookmarkList: []
     }
   },
   computed: {
+    ...mapState("userStore", ["userInfo"]),
     ...mapState("houseStore", ["dealList", "totalListItemCount"]),
   },
   methods: {
     ...mapActions("houseStore", ["getDealList"]),
+
     async selectAll() {
       if (this.selected !== "0") {
         this.searchWord = ""
@@ -136,13 +143,11 @@ export default {
         await this.getList()
       }
     },
-
     async movePage(pageIndex) {
       this.offset = (pageIndex - 1) * this.listRowCount
       this.currentPageIndex = pageIndex
       await this.getList()
     },
-
     async search() {
       this.offset = 0
       this.currentPageIndex = 1
@@ -156,7 +161,7 @@ export default {
         limit: this.limit,
         offset: this.offset,
       }
-      await this.getDealList(param)
+      await this.getDealList(param);
     },
   },
   async created() {

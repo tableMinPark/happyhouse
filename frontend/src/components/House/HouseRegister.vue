@@ -242,9 +242,9 @@ export default {
         code: this.dealCode,
         houseCode: this.houseCode,
         charterPrice: this.charterPrice,
-        rentPrice: this.rentPrice,
-        rentDeposit: this.rentDeposit,
-        dealingPrice: this.dealingPrice,
+        rentPrice: this.rentPrice / 10000,
+        rentDeposit: this.rentDeposit / 10000,
+        dealingPrice: this.dealingPrice / 10000,
         dealArea: this.dealArea,
         dealFloor: this.dealFloor,
         attachedFiles: this.attachedFiles,
@@ -291,12 +291,12 @@ export default {
     async getGugunList() {
       this.selectedGugun = ""
       this.selectedDong = ""
-      await this.getGugun(this.selectedSido.code)
+      await this.getGugun(this.selectedSido.code);
     },
     // 동 스토어 리드
     async getDongList() {
       this.selectedDong = ""
-      await this.getDong(this.selectedGugun.code)
+      await this.getDong(this.selectedGugun.code);
     },
   },
   async mounted() {

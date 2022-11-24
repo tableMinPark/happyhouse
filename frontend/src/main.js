@@ -34,6 +34,11 @@ Vue.filter("formatDeal", function (deal) {
   else if (deal.code === "200") return "월세";
   else return "매매";
 });
+Vue.filter("formatCode", function (user) {
+  if (user.code === "100") return "일반회원";
+  else if (user.code === "200") return "기업회원";
+  else return "관리자";
+});
 
 import router from "@/routers/routers.js";
 new Vue({

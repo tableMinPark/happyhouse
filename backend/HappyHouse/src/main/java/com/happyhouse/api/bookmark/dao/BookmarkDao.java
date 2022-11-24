@@ -9,7 +9,8 @@ import com.happyhouse.api.bookmark.dto.BookmarkDto;
 
 @Mapper
 public interface BookmarkDao {
+	int checkBookmark(Map<String, Integer> param);
 	List<BookmarkDto> getBookmarkList(int userId);
-	int registBookmark(Map<String, Integer> param);
-	int deleteBookmark(int bookmarkId);
+	int registBookmark(BookmarkDto bookmarkDto);
+	int deleteBookmark(BookmarkDto bookmarkDto);
 }

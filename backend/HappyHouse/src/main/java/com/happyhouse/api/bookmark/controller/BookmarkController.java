@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,8 +41,38 @@ public class BookmarkController {
 	private BookmarkService service;
 
 	/* 관심매물 리스트 */
+	@GetMapping("/check")
+	public ResponseEntity<Map<String, Object>> checkBookmark(int userId, int dealId) {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		
+		System.out.println(userId + " " + dealId);
+		
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("userId", userId);
+		param.put("dealId", dealId);		
+		
+		try {
+			int ret = service.checkBookmark(param);		
+			System.out.println(ret);
+			if (ret != 0) {
+				resultMap.put("message", SUCCESS);
+			} else {
+				resultMap.put("message", FAIL);
+			}
+		} catch (Exception e) {
+			logger.error("정보조회 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	/* 관심매물 리스트 */
 	@GetMapping("/{userId}")
 	public ResponseEntity<Map<String, Object>> getBookmarkList(@PathVariable("userId") int userId) {
+		
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -65,15 +96,12 @@ public class BookmarkController {
 	
 	/* 관심매물 등록 */
 	@PostMapping("")
-	public ResponseEntity<Map<String, Object>> registBookmark(@RequestParam(value="userId") int userId, @RequestParam(value="dealId") int dealId) {
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("userId", userId);
-		param.put("dealId", dealId);
-		
+	public ResponseEntity<Map<String, Object>> registBookmark(@RequestBody BookmarkDto bookmarkDto) {
+		System.out.println(bookmarkDto);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int ret = service.registBookmark(param);			
+			int ret = service.registBookmark(bookmarkDto);			
 			if (ret == 1) {
 				resultMap.put("message", SUCCESS);
 			} else {
@@ -88,13 +116,17 @@ public class BookmarkController {
 	}
 	
 	/* 관심매물 삭제 */
-	@DeleteMapping("{bookmarkId}")
-	public ResponseEntity<Map<String, Object>> deleteBookmark(@PathVariable(value="bookmarkId") int bookmarkId) {
+	@DeleteMapping("")
+	public ResponseEntity<Map<String, Object>> deleteBookmark(@RequestParam(value="userId") int userId, @RequestParam(value="dealId") int dealId) {
 				
+		BookmarkDto bookmarkDto = new BookmarkDto();
+		bookmarkDto.setUserId(userId);
+		bookmarkDto.setDealId(dealId);
+		
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int ret = service.deleteBookmark(bookmarkId);
+			int ret = service.deleteBookmark(bookmarkDto);
 			if (ret == 1) {
 				resultMap.put("message", SUCCESS);
 			} else {

@@ -9,6 +9,7 @@ import {
   userRegister,
   emailAUth,
 } from "@/api/user";
+import { getBookmarkList, registBookmark, deleteBookmark } from "@/api/bookmark";
 
 import store from "@/store";
 
@@ -21,10 +22,14 @@ const userStore = {
     isForgetPasswordError: false,
     userInfo: [],
     isValidToken: false,
+    isBookmarking: false,
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
+    },
+    SET_IS_BOOKMARING(state, isBookmarking) {
+      state.isBookmarking = isBookmarking;
     },
     SET_IS_LOGIN_ERROR: (state, isLoginError) => {
       state.isLoginError = isLoginError;
@@ -47,6 +52,84 @@ const userStore = {
     },
   },
   actions: {
+    // 북마크 확인함수
+    async checkBookmarking({ commit, state }, dealId) {
+      commit("SET_IS_BOOKMARING", false);
+      await getBookmarkList(
+        state.userInfo.userId,
+        ({ data }) => {
+          if (data.message === "success") {
+            console.log(data.bookmarkList);
+            for (let i = 0; i < data.bookmarkList.length; i++) {
+              if (data.bookmarkList[i].dealId == dealId) {
+                commit("SET_IS_BOOKMARING", true);
+              }
+            }
+          } else {
+            console.log(data.message);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // 관심 매물 등록
+    async registBookmark({ state, commit }, dealId) {
+      const params = {
+        userId: state.userInfo.userId,
+        dealId: dealId,
+      };
+      await registBookmark(
+        params,
+        ({ data }) => {
+          if (data.message === "success") {
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "관심매물 등록 성공!",
+              alertMessage: "관심매물로 등록되었습니다.",
+            });
+            commit("SET_IS_BOOKMARING", true);
+          } else {
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "관심매물 등록 실패!",
+              alertMessage: "잠시후 다시 시도 해주세요.",
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    // 관심매물 삭제
+    async deleteBookmark({ state, commit }, dealId) {
+      const params = {
+        userId: state.userInfo.userId,
+        dealId: dealId,
+      };
+      await deleteBookmark(
+        params,
+        ({ data }) => {
+          if (data.message === "success") {
+            commit("SET_IS_BOOKMARING", false);
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "관심매물 삭제 성공!",
+              alertMessage: "관심매물이 삭제되었습니다.",
+            });
+          } else {
+            store.dispatch("commonStore/alertMessage", {
+              alertTitle: "관심매물 삭제 실패!",
+              alertMessage: "잠시후 다시 시도 해주세요.",
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
     async setUserInfo({ commit }, userInfo) {
       commit("SET_USER_INFO", userInfo);
     },

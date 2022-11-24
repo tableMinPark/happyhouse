@@ -127,11 +127,16 @@ const myPageStore = {
       );
     },
     // 관심매물 삭제
-    async deleteBookmark({ dispatch }, bookmarkId) {
+    async deleteBookmark({ state, dispatch }, dealId) {
+      const params = {
+        userId: state.pageId,
+        dealId: dealId,
+      };
       await deleteBookmark(
-        bookmarkId,
+        params,
         ({ data }) => {
           if (data.message === "success") {
+            store.dispatch("userStore/checkBookmarking");
             dispatch("getBookmarkList");
             store.dispatch("commonStore/alertMessage", {
               alertTitle: "관심매물 삭제 성공!",

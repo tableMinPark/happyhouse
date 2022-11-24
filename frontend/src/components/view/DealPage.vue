@@ -103,10 +103,10 @@
                         <div class="row">
                           <div class="d-flex justify-content-between">
                             <h5>{{ houseInfo.houseName }}</h5>
-                            <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
+                            <!-- <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
                               <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
                               <i v-else class="fa fa-heart-o fa-2x"></i>
-                            </a>
+                            </a> -->
                           </div>
                           <p>{{ houseInfo | formatAddress }}</p>
                           <p>{{ houseInfo.houseBuildYear }}</p>
@@ -124,9 +124,10 @@
                       </div>
                       <div v-else class="container-fruid card-body">
                         <div class="row">
-                          <div class="col-5">
+                          <div class="col-7">
                             <div class="media p-1">
-                              <img class="img-50 img-fluid m-r-20 rounded-circle" alt src="assets/images/user/2.png" />
+                              <img class="img-50 img-fluid m-r-20 rounded-circle" alt
+                                :src="require(`@/assets/upload/${reviewList[0].userProfileImageUrl}`)" />
                               <div class="media-body mt-2">
                                 <h6 class="d-block">
                                   {{ reviewList[0].userName }}
@@ -137,7 +138,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-7">
+                          <div class="col-5">
                             <div class="row text-end">
                               <div class="rating-container">
                                 <div class="br-wrapper br-theme-fontawesome-stars">
@@ -231,7 +232,7 @@
                       <div v-if="oldDealList.length === 0" class="container-fruid card-body">
                         <h6>등록된 실거래 정보가 없습니다.</h6>
                       </div>
-                      <div v-else class="container-fruid card-body p-0 pb-2">
+                      <div v-else class="container-fruid card-body p-0 pb-2 dealList">
                         <div class="row">
                           <div class="col-12">
                             <div class="col-sm-12 col-lg-12 col-xl-12">
@@ -283,14 +284,12 @@
                               <div class="table-responsive">
                                 <table class="table">
                                   <colgroup>
-                                    <col span="1" style="width: 25%" />
+                                    <col span="1" style="width: 40%" />
                                     <col span="1" style="width: 40%" />
                                     <col span="1" style="width: 20%" />
-                                    <col span="1" style="width: 15%" />
                                   </colgroup>
                                   <thead class="table-primary">
                                     <tr>
-                                      <th scope="col">거래일</th>
                                       <th scope="col">거래가격</th>
                                       <th scope="col">면적</th>
                                       <th scope="col">층수</th>
@@ -298,9 +297,9 @@
                                   </thead>
                                   <tbody>
                                     <tr v-for="(deal, index) in nowDealList" :key="`now-${index}`">
-                                      <td>{{ deal.dealDate | formatDate }}</td>
-                                      <td>
-                                        <span v-if="deal.dealCode === 200">{{ deal.dealDeposit }} / </span><span>{{
+                                      <td @click="move(deal.dealId)" style="cursor: pointer;">
+                                        <span v-if="deal.code === '200'">{{ deal.dealDeposit | formatPrice }} /
+                                        </span><span>{{
                                             deal.dealPrice | formatPrice
                                         }}</span>
                                       </td>
@@ -374,7 +373,9 @@ export default {
       "getChartList",
     ]),
     ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
-
+    move(dealId) {
+      this.$router.push({ path: "/houseinfo/" + dealId });
+    },
     // 구군 스토어 리드
     async getGugunList() {
       this.selectedGugun = ""
@@ -544,5 +545,11 @@ a {
 
 .card {
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dealList {
+
+  max-height: 750px;
+  overflow-y: scroll;
 }
 </style>
