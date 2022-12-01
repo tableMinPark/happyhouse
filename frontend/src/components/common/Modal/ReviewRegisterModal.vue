@@ -86,7 +86,7 @@
             </div>
             <div class="modal-footer">
                <button @click="reviewRegister" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal"
-                  type="button">수정</button>
+                  type="button">등록</button>
             </div>
          </div>
       </div>

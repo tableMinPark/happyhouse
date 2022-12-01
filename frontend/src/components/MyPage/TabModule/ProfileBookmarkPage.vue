@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <h5 v-if="Object.values(bookmarkList).length == 0" class="text-center mt-5 mb-5" style="font-weight: bold;">
+    <h5 v-if="Object.values(bookmarkList).length === 0" class="text-center mt-5 mb-5" style="font-weight: bold;">
       등록된 관심매물 없습니다.</h5>
     <table v-else class="table">
       <tbody>

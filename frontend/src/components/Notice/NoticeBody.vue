@@ -1,10 +1,8 @@
 <template>
   <div>
     <div class="row">
-      <!--검색영역-->
       <div class="col-sm-12">
         <div class="form-builder-2-header mb-2 justify-content-end">
-          <!--검색창 , 버튼-->
           <form class="form-inline">
             <div class="me-1 mb-1">
               <select class="form-select" v-model="searchType">
@@ -21,7 +19,6 @@
           </form>
         </div>
       </div>
-      <!--main-->
       <div class="col-lg-12 col-xl-12 lg-mt">
         <router-view :searchWord="searchWord"></router-view>
       </div>
@@ -48,10 +45,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!--중요공지-->
                     <notice-td v-for="(notice, index) in importantNotices" :key="`i-${index}`" :important="true"
                       :notice="notice"></notice-td>
-                    <!--일반 공지, 페이징은 여기서만-->
                     <notice-td v-for="(notice, index) in normalNotices" :key="index" :important="false"
                       :notice="notice"></notice-td>
                   </tbody>
@@ -98,7 +93,6 @@ export default {
       searchType: "T",
       searchWord: "",
 
-      //pagination
       totalListItemCount: 0,
       listRowCount: 10,
       pageLinkCount: 10,
@@ -106,7 +100,7 @@ export default {
 
       importantNotices: [],
       normalNotices: [],
-      //modal
+
       noticeModal: null,
     }
   },
@@ -129,7 +123,6 @@ export default {
       listArticle(
         params,
         ({ data }) => {
-          console.log(data)
           this.normalNotices = data.list
           this.totalListItemCount = data.count
         },
@@ -141,7 +134,6 @@ export default {
     callImportant() {
       listImportant(
         ({ data }) => {
-          console.log(data)
           this.importantNotices = data.list
         },
         (error) => {
@@ -171,7 +163,6 @@ export default {
   },
 
   mounted() {
-    //modal 객체를 생성해 data의 변수에 할당.
     this.noticeModal = new Modal(document.querySelector("#insertModal"))
   },
 }

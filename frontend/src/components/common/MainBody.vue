@@ -13,7 +13,7 @@
 import NavBar from '@/components/common/MainNavBar.vue';
 import FooterPage from '@/components/common/MainFooter.vue';
 
-import router from "../../routers/routers.js"
+import router from "@/routers/routers.js"
 
 export default {
   components: {

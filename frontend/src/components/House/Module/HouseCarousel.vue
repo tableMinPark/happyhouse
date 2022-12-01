@@ -33,7 +33,7 @@
     <swiper-slide v-else v-for="(item, index) in imgList" :key="index">
       <div class="card-box-a card-shadow">
         <div class="img-box-a text-center" id="imageBox">
-          <img :src="require(`@/assets/upload/${item}`)" class="img-a img-fluid" />/
+          <img :src="require(`@/assets/upload/${item}`)" class="img-a img-fluid" />
         </div>
       </div>
     </swiper-slide>

@@ -18,7 +18,7 @@ const dealStore = {
     nowDealList: [],
     reviewList: [],
 
-    oldDealList: [], // 과거순부터 순서대로
+    oldDealList: [],
 
     oldDealData: {},
   },
@@ -61,7 +61,6 @@ const dealStore = {
         userId: userId,
         houseId: state.houseInfo.houseId,
       };
-      console.log(params);
       await registBookmark(
         params,
         ({ data }) => {
@@ -151,20 +150,17 @@ const dealStore = {
         }
       );
     },
-    // 현재 선택된 집 정보를 가져옴
+
     setHouseInfo({ commit }, houseInfo) {
       commit("SET_HOUSE_INFO", houseInfo);
     },
-    // 선택한 집의 거래내역 (거래된 내역)
+
     async getOldDealList({ commit }, houseId) {
       await getOldDealList(
         houseId,
         ({ data }) => {
-          console.log(data);
           if (data.message === "success") {
             commit("SET_OLD_DEAL_LIST", data.dealList);
-          } else {
-            console.log("거래된 내역이 없음");
           }
         },
         (error) => {
@@ -172,33 +168,12 @@ const dealStore = {
         }
       );
     },
-    // 선택한 집의 거래내역 (현재 거래중인 내역)
     async getNowDealList({ commit }, houseId) {
       await getNowDealList(
         houseId,
         ({ data }) => {
-          console.log(data);
           if (data.message === "success") {
             commit("SET_NOW_DEAL_LIST", data.dealList);
-          } else {
-            console.log("거래중인 내역이 없음");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    },
-    // 해당 집에 대한 리뷰
-    async getReviewList({ commit }, houseId) {
-      await getReviewList(
-        houseId,
-        ({ data }) => {
-          console.log(data);
-          if (data.message === "success") {
-            commit("SET_REVIEW_LIST", data.reviewList);
-          } else {
-            console.log("리뷰 리스트 없음");
           }
         },
         (error) => {
@@ -207,25 +182,35 @@ const dealStore = {
       );
     },
 
-    // 차트 생성
+    async getReviewList({ commit }, houseId) {
+      await getReviewList(
+        houseId,
+        ({ data }) => {
+          if (data.message === "success") {
+            commit("SET_REVIEW_LIST", data.reviewList);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
     async getChartList({ commit }, payload) {
       await getChartList(
         payload,
         ({ data }) => {
-          console.log(data);
           if (data.message === "success") {
-            // 차트 데이터 생성
             let oldDealData = {
               labels: data.labels,
               charterData: [],
               rentData: [],
               dealingData: [],
             };
-            // 데이터 담음
             let ch = data.charterData;
             let re = data.rentData;
             let de = data.dealingData;
-            // 전세
+
             let temp = 0;
             for (let i = 0; i < 12; i++) {
               if (ch[0] === undefined || ch[0].dealDate !== data.labels[i]) {
@@ -236,7 +221,7 @@ const dealStore = {
                 oldDealData.charterData.push(price);
               }
             }
-            // 월세
+
             temp = 0;
             for (let i = 0; i < 12; i++) {
               if (re[0] === undefined || re[0].dealDate !== data.labels[i]) {
@@ -259,10 +244,7 @@ const dealStore = {
               }
             }
 
-            console.log(oldDealData);
             commit("SET_OLD_DEAL_DATA", oldDealData);
-          } else {
-            console.log("차트 데이터 리드실패");
           }
         },
         (error) => {
@@ -272,7 +254,6 @@ const dealStore = {
     },
   },
   getters: {
-    // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
     getDealId(state) {
       return state.houseInfo.houseId;
     },

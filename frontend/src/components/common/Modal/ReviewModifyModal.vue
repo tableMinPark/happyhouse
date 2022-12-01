@@ -147,10 +147,9 @@ export default {
       }
    },
    watch: {
-      // 모달 초기화
       review: function () {
          this.reviewId = this.review.reviewId,
-         this.reviewContent = this.review.reviewContent;
+            this.reviewContent = this.review.reviewContent;
          this.reviewTraficRating = this.review.reviewTraficRating
          this.reviewSafetyRating = this.review.reviewSafetyRating
          this.reviewStoreRating = this.review.reviewStoreRating

@@ -13,6 +13,7 @@ import com.happyhouse.api.review.dto.ReviewResultDto;
 
 @Mapper
 public interface DealDao {
+	int dealChange(int dealId);
 	int dealInsert(DealDto dealDto);
 	int houseInsert(HouseDto houseDto);
 	int fileInsert(FileDto fileDto);

@@ -18,20 +18,18 @@ const authAccount = async () => {
     return true;
   }
 };
-// 로그인되있으면 로그인이랑 회원가입 막음
 const loginCheckFilter = (to, from, next) => {
-  // 로그인체크함수
   const isLogin = store.getters["userStore/checkIsLogin"];
   if (isLogin) router.go(-1);
   else next();
 };
+
 const loginFilter = async (to, from, next) => {
-  // 토큰 유효성 확인
   const authFlag = await authAccount();
-  // 로그인 된 경우
   if (authFlag) next();
   else router.push({ name: "login" });
 };
+
 const compnayFilter = async (to, from, next) => {
   const authFlag = await authAccount();
   const adminFlag =
@@ -44,6 +42,7 @@ const compnayFilter = async (to, from, next) => {
     } else next();
   } else router.push({ name: "login" });
 };
+
 const adminFilter = async (to, from, next) => {
   const authFlag = await authAccount();
   const adminFlag = store.getters["userStore/checkUserInfo"].code == "300";
@@ -55,13 +54,10 @@ const adminFilter = async (to, from, next) => {
   } else router.push({ name: "login" });
 };
 
-// 회원가입 인증
 const emailAuther = async (to) => {
   const authCode = to.params.authCode;
   store.dispatch("userStore/emailAuth", authCode);
 };
-
-// 라우팅 //////////////////////////////////////////////////////////////////////////////
 
 import MainPage from "@/components/view/MainPage.vue";
 import DealPage from "@/components/view/DealPage.vue";
@@ -101,7 +97,7 @@ const routes = [
     component: HousePage,
     children: [
       {
-        path: "",
+        path: "list",
         name: "houseList",
         component: HouseList,
       },
@@ -159,7 +155,7 @@ const routes = [
     component: NoticePage,
     children: [
       {
-        path: "",
+        path: "list",
         name: "noticeBody",
         component: NoticeBody,
       },

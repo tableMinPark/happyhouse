@@ -78,7 +78,6 @@ export default {
     ...mapActions("userStore", ["setUserInfo"]),
 
     profileImageModify() {
-      console.log("call profileImageModify");
       this.$refs.changeProfile.click();
     },
 
@@ -124,7 +123,6 @@ export default {
 
     async profileModify() {
       if (this.inputCheck()) {
-
         let formData = new FormData()
         formData.append("userId", this.userInfo.userId)
         formData.append("userPassword", this.userPassword)
@@ -143,8 +141,7 @@ export default {
           async ({ data }) => {
             console.log(data)
             if (data.message === "success") {
-              await this.setUserInfo(data.userInfo);    // 수정과 동시에 새로운 정보를 받아와야지 타이밍이 맞음
-              // 파일삭제 -> 파일참조 -> 새로운 파일경로 수신 (순서가 안맞음)
+              await this.setUserInfo(data.userInfo);
               this.alertMessage({ alertTitle: "회원정보 수정 성공!", alertMessage: "" });
               this.$router.go();
             } else {
@@ -159,7 +156,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.userInfo)
     this.userEmail = this.userInfo.userEmail
     this.userName = this.userInfo.userName
     this.userAddress = this.userInfo.userAddress

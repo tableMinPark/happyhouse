@@ -102,7 +102,6 @@ export default {
       }
    },
    watch: {
-      // 모달 초기화
       review: function () {
          this.reviewId = this.review.reviewId,
             this.reviewContent = this.review.reviewContent;

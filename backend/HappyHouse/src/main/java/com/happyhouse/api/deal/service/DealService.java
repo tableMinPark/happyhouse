@@ -12,6 +12,7 @@ import com.happyhouse.api.deal.dto.HouseDto;
 import com.happyhouse.api.review.dto.ReviewResultDto;
 
 public interface DealService {
+	public int dealChange(int dealId);
 	public int dealInsert(DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request);
 	public int dealUpdate(int DealId,DealDto dealDto, HouseDto houseDto, MultipartHttpServletRequest request);
 	public int dealDelete(int dealId);

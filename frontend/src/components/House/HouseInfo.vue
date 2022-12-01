@@ -31,7 +31,6 @@
           <div class="card-header pb-0 d-flex justify-content-between">
             <h5 class="card-title">Infomation</h5>
 
-            <!-- 핫트 버튼 >< -->
             <div v-if="isLogin" class="me-3 mt-2">
               <a v-if="!isBookmarking" @click="registBookmark(dealInfo.dealId)">
                 <i class="fa fa-heart-o fa-2x" size="30"></i>
@@ -163,16 +162,14 @@ export default {
         content: `<div style="padding:5px; text-align: center;">${this.houseInfo.houseName}</div>`,
       })
 
-      // 마우스 오버
       kakao.maps.event.addListener(marker, "mouseover", () => {
         infowindow.open(this.map, marker)
       })
-      // 마우스 아웃
       kakao.maps.event.addListener(marker, "mouseout", () => {
         infowindow.close()
       })
+
       let $this = this;
-      // 마우스 클릭
       kakao.maps.event.addListener(marker, "click", function () {
         $this.$router.push({ name: "deal", params: { searchWord: $this.houseInfo.houseName } })
       })
@@ -185,11 +182,12 @@ export default {
     await this.getImgList(this.dealId);
     await this.dealDetail(this.dealId);
     await this.getReviewList(this.houseInfo.houseId);
-    await this.checkBookmarking(this.dealId);
+
+    if (this.isLogin) await this.checkBookmarking(this.dealId);
 
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script")
-      script.setAttribute("src", "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services")
+      script.setAttribute("src", process.env.VUE_APP_KAKAO_KEY)
       /* global kakao */
       script.addEventListener("load", () => {
         kakao.maps.load(this.initMap)

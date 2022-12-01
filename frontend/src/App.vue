@@ -21,6 +21,8 @@
 </template>
 
 <script>
+
+
 import HeaderPage from "@/components/common/MainHeader.vue"
 import BodyPage from "@/components/common/MainBody.vue"
 import { mapState, mapActions } from "vuex"
@@ -29,7 +31,6 @@ import store from "@/store"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
-const commonStore = "commonStore"
 
 export default {
   name: "App",
@@ -38,27 +39,25 @@ export default {
     BodyPage,
   },
   computed: {
-    ...mapState(commonStore, ["isLoading", "accessAlert", "alertTitle", "alertMessage"]),
+    ...mapState("commonStore", ["isLoading", "accessAlert", "alertTitle", "alertMessage"]),
   },
   methods: {
-    ...mapActions(commonStore, ["setInit", "getCode"]),
+    ...mapActions("commonStore", ["setInit", "getCode"]),
   },
   async mounted() {
-    // 스크립트 로딩
-    await this.$loadScript(this.$hostname + "/assets/js/jquery-3.5.1.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/sidebar-menu.js")
-    await this.$loadScript(this.$hostname + "/assets/js/config.js")
-    // await this.$loadScript(this.$hostname + "/assets/js/prism/prism.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/script.js")
-    await this.$loadScript(this.$hostname + "/assets/js/select2/select2.full.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/select2/select2-custom.js")
-    await this.$loadScript(this.$hostname + "/assets/js/owlcarousel/owl.carousel.js")
-    await this.$loadScript(this.$hostname + "/assets/js/owlcarousel/owl-custom.js")
-    await this.$loadScript(this.$hostname + "/assets/js/notify/bootstrap-notify.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/notify/notify-script.js")
-    await this.$loadScript(this.$hostname + "/assets/js/notify/bootstrap-notify.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/scrollable/perfect-scrollbar.min.js")
-    await this.$loadScript(this.$hostname + "/assets/js/scrollable/scrollable-custom.js")
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/jquery-3.5.1.min.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/sidebar-menu.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/config.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/script.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/select2/select2.full.min.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/select2/select2-custom.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/owlcarousel/owl.carousel.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/owlcarousel/owl-custom.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/notify/bootstrap-notify.min.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/notify/notify-script.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/notify/bootstrap-notify.min.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/scrollable/perfect-scrollbar.min.js`)
+    await this.$loadScript(`${process.env.VUE_APP_FRONT_BASE_URL}/assets/js/scrollable/scrollable-custom.js`)
   },
   async created() {
     api.interceptors.request.use(

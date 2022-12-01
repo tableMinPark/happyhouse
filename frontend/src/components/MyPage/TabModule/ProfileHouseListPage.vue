@@ -39,10 +39,12 @@
       </div>
       <div class="product-wrapper-grid">
         <div class="row">
-          <compnay-house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal" @call-parent-delete="getList"></compnay-house-list-item>
+          <compnay-house-list-item v-for="(deal, index) in dealList" :key="index" :deal="deal"
+            @call-parent-delete="getList"></compnay-house-list-item>
         </div>
         <div class="row">
-          <simple-pagination :offset="offset" :limit="limit" :itemNum="dealList.length" @call-parent-prev="prev" @call-parent-next="next"></simple-pagination>
+          <simple-pagination :offset="offset" :limit="limit" :itemNum="dealList.length" @call-parent-prev="prev"
+            @call-parent-next="next"></simple-pagination>
         </div>
       </div>
     </div>
@@ -64,7 +66,7 @@ export default {
   data() {
     return {
       dealList: [],
-      selected: "0", // All - Charter - Rend - Dealing
+      selected: "0",
       selectedAll: true,
       selectedCharter: false,
       selectedRent: false,
@@ -77,7 +79,6 @@ export default {
   },
   methods: {
     selectAll() {
-      console.log("call All")
       this.selected = "0"
       this.searchWord = ""
       this.offset = 0
@@ -88,7 +89,6 @@ export default {
       this.getList()
     },
     selectCharter() {
-      console.log("call charter")
       this.selected = "100"
       this.searchWord = ""
       this.offset = 0
@@ -99,7 +99,6 @@ export default {
       this.getList()
     },
     selectRent() {
-      console.log("call rent")
       this.selected = "200"
       this.searchWord = ""
       this.offset = 0
@@ -110,7 +109,6 @@ export default {
       this.getList()
     },
     selectDealing() {
-      console.log("call dealing")
       this.selected = "300"
       this.searchWord = ""
       this.offset = 0
@@ -121,14 +119,8 @@ export default {
       this.getList()
     },
     search() {
-      console.log("search " + this.searchWord)
       this.getList()
-      // this.searchWord = ""
       this.offset = 0
-    },
-    houseInfoRegister() {
-      console.log("houseInfoRegister ")
-      this.searchWord = ""
     },
     getList() {
       let param = {
@@ -141,7 +133,6 @@ export default {
       getMyDealList(
         param,
         ({ data }) => {
-          console.log(data)
           this.dealList = data.myList.joinList
         },
         (error) => {
@@ -165,10 +156,11 @@ export default {
     ...mapState("userStore", ["userInfo"]),
   },
   mounted() {
-    console.log(this.userInfo)
     this.getList()
   },
 }
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -23,7 +23,7 @@
     </div>
     <ul id="right-click-menu" tabindex="-1" ref="right" v-if="viewMenu" @blur="closeMenu"
       :style="{ top: top, left: left }">
-      <li>거래 완료</li>
+      <li @click="finish(deal.dealId)">거래 완료</li>
       <li @click="Modify">수정</li>
       <li @click="Delete(deal.dealId)">삭제</li>
     </ul>
@@ -32,7 +32,7 @@
 
 <script>
 import Vue from "vue"
-import { dealDelete } from "@/api/deal"
+import { dealDelete, dealChange } from "@/api/deal"
 import VueAlertify from "vue-alertify"
 import store from "@/store"
 
@@ -50,10 +50,33 @@ export default {
     }
   },
   async mounted() {
-    // console.log(this.deal)
     this.element = document.getElementById(`menu-${this.deal.dealId}`)
   },
   methods: {
+    finish(dealId) {
+      this.$alertify.confirm(
+        "거래완료로 등록하시겠습니까?",
+        () => {
+          dealChange(
+            dealId,
+            () => {
+              store.dispatch("commonStore/alertMessage", {
+                alertTitle: `변경 성공!!`,
+                alertMessage: "",
+              });
+              this.$router.go();
+            },
+            (error) => {
+              console.error(error)
+              store.dispatch("commonStore/alertMessage", {
+                alertTitle: `변경 실패!`,
+                alertMessage: "잠시후 다시시도 해주세요.",
+              });
+            }
+          )
+        },
+      ).setHeader('매물 거래완료 등록')
+    },
     Modify() {
       this.$router.push({ name: "houseModify", params: { deal: this.deal } })
     },
@@ -68,6 +91,7 @@ export default {
                 alertTitle: `삭제 성공!!`,
                 alertMessage: "",
               });
+              this.$router.go();
             },
             (error) => {
               console.error(error)
@@ -78,7 +102,7 @@ export default {
             }
           )
         },
-      )
+      ).setHeader('매물 삭제')
     },
     setMenu: function (top, left) {
       let elementTop = this.element.getBoundingClientRect().top

@@ -4,7 +4,6 @@
       <basic-header class="ps-3" name="실거래가"></basic-header>
     </div>
     <div class="container-fluid map-wrapper">
-      <!-- map div -->
       <div class="row">
         <div id="kakao-map"></div>
         <div class="wrapper container-fluid">
@@ -19,7 +18,6 @@
               </div>
               <div class="card shadow shadow-showcase p-3 mb-1 text-center">
                 <div class="container-fluid">
-                  <!-- 검색 종류 선택 START -->
                   <div class="row">
                     <div class="col-6 pt-2">
                       <div class="form-group custom-radio-ml">
@@ -40,8 +38,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- 검색 종류 선택 END -->
-                  <!-- 동, 키워드 검색 START -->
                   <div v-show="searchType == 'A'" class="row">
                     <div class="col-10 pe-0 d-flex">
                       <input type="text" class="form-control" placeholder="동, 키워드" v-model="keyword" />
@@ -52,8 +48,6 @@
                       </button>
                     </div>
                   </div>
-                  <!-- 동, 키워드 검색 END -->
-                  <!-- 주소 검색 START -->
                   <div v-show="searchType == 'K'" class="row">
                     <div class="col-10 pe-0 d-flex">
                       <select id="si" class="form-select me-1" v-model="selectedSido" @change="getGugunList">
@@ -78,7 +72,6 @@
                       </button>
                     </div>
                   </div>
-                  <!-- 주소검색 END -->
                 </div>
               </div>
             </div>
@@ -103,10 +96,6 @@
                         <div class="row">
                           <div class="d-flex justify-content-between">
                             <h5>{{ houseInfo.houseName }}</h5>
-                            <!-- <a v-if="isLogin" @click="registBookmark(userInfo.userId)">
-                              <i v-if="isBookmarking" class="fa fa-heart fa-2x" size="30"></i>
-                              <i v-else class="fa fa-heart-o fa-2x"></i>
-                            </a> -->
                           </div>
                           <p>{{ houseInfo | formatAddress }}</p>
                           <p>{{ houseInfo.houseBuildYear }}</p>
@@ -337,18 +326,16 @@ export default {
   },
   data() {
     return {
-      // 카카오맵
       map: null,
       markerList: [],
 
-      // 검색창 데이터
-      searchType: "A", // A - K
+      searchType: "A",
       selectedSido: "",
       selectedGugun: "",
       selectedDong: "",
       keyword: "",
       paramKey: null,
-      // 정보창 토글
+
       isSelected: false,
       houseInfoToggle: false,
     }
@@ -376,20 +363,18 @@ export default {
     move(dealId) {
       this.$router.push({ path: "/houseinfo/" + dealId });
     },
-    // 구군 스토어 리드
+
     async getGugunList() {
       this.selectedGugun = ""
       this.selectedDong = ""
       await this.getGugun(this.selectedSido.code)
     },
-    // 동 스토어 리드
+
     async getDongList() {
       this.selectedDong = ""
       await this.getDong(this.selectedGugun.code)
     },
 
-    ///////////////////////////// 검색 ///////////////////////////////////////////
-    // 주소기준 검색
     async addressSearch() {
       await this.searchByAddress(this.selectedDong.code)
       this.selectedSido = ""
@@ -399,24 +384,21 @@ export default {
       this.isSelected = false
       this.houseInfoToggle = false
     },
-    // 키워드 기준 검색
+
     async keywordSearch() {
       await this.searchByKeyword(this.keyword)
       this.keyword = ""
       this.isSelected = false
       this.houseInfoToggle = false
     },
-    /////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////// 마커 ///////////////////////////////////////////
-    // 마커삭제
     async removeMarker() {
       this.markerList.forEach((marker) => {
         marker.setMap(null)
       })
       this.markerList = []
     },
-    // 마커생성 (houseList)
+
     async makeMarker() {
       let bounds = new kakao.maps.LatLngBounds()
 
@@ -428,29 +410,23 @@ export default {
           content: `<div style="padding:5px; text-align: center;">${house.houseName}</div>`,
         })
 
-        // 마우스 오버
         kakao.maps.event.addListener(marker, "mouseover", () => {
           infowindow.open(this.map, marker)
         })
-        // 마우스 아웃
+
         kakao.maps.event.addListener(marker, "mouseout", () => {
           infowindow.close()
         })
-        // 마우스 클릭
+
         const $this = this
         kakao.maps.event.addListener(marker, "click", function () {
           $this.isSelected = true
           $this.setHouseInfo(house)
-          // 리뷰, 거래내역, 현재거래중인 매물 초기화
           $this.setDealReviewList()
-          // 실거래가 리드
           $this.getOldDealList(house.houseId)
-          // 현재 거래중인 거래 리드
           $this.getNowDealList(house.houseId)
-          // 리뷰 리드
           $this.getReviewList(house.houseId)
-          // 차트 데이터 리드
-          $this.getChartList({ houseId: house.houseId, code: "300" }) // 매매정보만 들고옴 일단은
+          $this.getChartList({ houseId: house.houseId })
           $this.houseInfoToggle = true
         })
 
@@ -458,13 +434,8 @@ export default {
         marker.setMap(this.map)
         bounds.extend(position)
       })
-
-      // 센터 위치이동
       this.map.setBounds(bounds)
     },
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////// 맵생성 ///////////////////////////////////////
     initMap() {
       let mapContainer = document.querySelector("#kakao-map")
       let mapOption = {
@@ -473,13 +444,12 @@ export default {
       }
       this.map = new kakao.maps.Map(mapContainer, mapOption)
     },
-    /////////////////////////////////////////////////////////////////////////////////////
   },
   async mounted() {
     this.setInit()
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script")
-      script.setAttribute("src", "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b17c3ca2cf51dc08967913607c029db4&libraries=services")
+      script.setAttribute("src", process.env.VUE_APP_KAKAO_KEY)
       /* global kakao */
       script.addEventListener("load", () => {
         kakao.maps.load(this.initMap)
@@ -497,7 +467,6 @@ export default {
     }
   },
   watch: {
-    // houseList 변화감지해서 마커찍는 watch
     async houseList() {
       await this.removeMarker()
       if (this.houseList.length > 0) {

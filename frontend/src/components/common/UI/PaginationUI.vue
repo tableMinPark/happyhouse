@@ -2,27 +2,15 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <li v-if="prev" class="page-item">
-        <a class="page-link" @click="paginationChanged(startPageIndex - 1)"
-          >Previous</a
-        >
+        <a class="page-link" @click="paginationChanged(startPageIndex - 1)">Previous</a>
       </li>
 
-      <li
-        v-for="index in endPageIndex - startPageIndex + 1"
-        :key="index"
-        class="page-item"
-      >
-        <a
-          class="page-link"
-          @click="paginationChanged(startPageIndex - 1 + index)"
-          >{{ startPageIndex - 1 + index }}</a
-        >
+      <li v-for="index in endPageIndex - startPageIndex + 1" :key="index" class="page-item">
+        <a class="page-link" @click="paginationChanged(startPageIndex - 1 + index)">{{ startPageIndex - 1 + index }}</a>
       </li>
 
       <li v-if="next" class="page-item">
-        <a class="page-link" @click="paginationChanged(endPageIndex + 1)"
-          >Next</a
-        >
+        <a class="page-link" @click="paginationChanged(endPageIndex + 1)">Next</a>
       </li>
     </ul>
   </nav>
@@ -43,12 +31,11 @@ export default {
 
     startPageIndex: function () {
       if (this.currentPageIndex % this.pageLinkCount == 0) {
-        //10, 20...맨마지막
         return this.currentPageIndex - this.pageLinkCount + 1;
       } else {
         return (
           Math.floor(this.currentPageIndex / this.pageLinkCount) *
-            this.pageLinkCount +
+          this.pageLinkCount +
           1
         );
       }
@@ -57,12 +44,11 @@ export default {
     endPageIndex: function () {
       let ret = 0;
       if (this.currentPageIndex % this.pageLinkCount == 0) {
-        //10, 20...맨마지막
         ret = this.currentPageIndex;
       } else {
         ret =
           Math.floor(this.currentPageIndex / this.pageLinkCount) *
-            this.pageLinkCount +
+          this.pageLinkCount +
           this.pageLinkCount;
       }
       return ret > this.pageCount ? this.pageCount : ret;
@@ -77,8 +63,6 @@ export default {
     },
 
     next: function () {
-      //if( this.endPageIndex > this.pageCount){
-      //this.endPageIndex = this.pageCount
       if (
         Math.floor(this.pageCount / this.pageLinkCount) * this.pageLinkCount <
         this.currentPageIndex
@@ -98,8 +82,7 @@ export default {
 </script>
 
 <style>
-.pagination > li > a {
-  /* background-color: white; */
+.pagination>li>a {
   color: #41b65c;
 }
 </style>

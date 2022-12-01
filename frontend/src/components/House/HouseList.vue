@@ -1,16 +1,11 @@
 <template>
   <div>
-    <div class="container-fluid">
-      <basic-header name="매물"></basic-header>
-    </div>
     <div class="container-fluid product-wrapper">
       <div class="product-grid">
         <div class="feature-products">
           <div class="row">
-            <!--검색영역-->
             <div class="col-sm-12">
               <div class="form-builder-2-header justify-content-between">
-                <!--toggle button-->
                 <ul class="nav nav-primary mb-1">
                   <li class="nav-item" @click="selectAll">
                     <a class="nav-link" :class="{ active: selectedAll }">전체</a>
@@ -25,7 +20,6 @@
                     <a class="nav-link" :class="{ active: selectedDealing }">매매</a>
                   </li>
                 </ul>
-                <!--검색창 , 버튼-->
                 <form class="form-inline">
                   <div class="me-1 mb-1">
                     <input class="form-control" type="text" placeholder="Search" v-model="searchWord" />
@@ -53,7 +47,6 @@
 </template>
 
 <script>
-import BasicHeader from "@/components/common/BasicHeader.vue"
 import HouseListItem from "@/components/House/Module/HouseListItem.vue"
 import PaginationUI from "@/components/common/UI/PaginationUI.vue"
 import { mapActions, mapState } from "vuex"
@@ -61,7 +54,6 @@ import { mapActions, mapState } from "vuex"
 export default {
   components: {
     HouseListItem,
-    BasicHeader,
     PaginationUI,
   },
   data() {

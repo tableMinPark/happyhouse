@@ -21,7 +21,7 @@
       <div class="text-end mt-0">
         <button v-if="userInfo.code == 300" @click="showUpdateModal" type="button"
           class="btn btn-square btn-outline-primary btn-sm">수정</button>
-        <button @click="$router.push('/notice')" type="button"
+        <button @click="$router.push('/notice/list')" type="button"
           class="btn btn-square btn-outline-primary btn-sm">목록</button>
         <button v-if="userInfo.code == 300" :class="{ deleteNotice: false }" @click="deleteNotice" type="button"
           class="btn btn-square btn-outline-primary btn-sm">삭제</button>
@@ -67,7 +67,6 @@ export default {
       getArticle(
         this.noticeId,
         ({ data }) => {
-          console.log(data.dto)
           this.title = data.dto.boardTitle
           this.writer = data.dto.userName
           this.content = data.dto.boardContent
@@ -99,7 +98,7 @@ export default {
                 alertTitle: "공지사항 삭제 성공!",
                 alertMessage: "",
               });
-              this.$router.push("/notice")
+              this.$router.push("/notice/list")
             },
             (error) => {
               console.error(error)
@@ -112,7 +111,7 @@ export default {
             alertMessage: "잠시후 다시시도 해주세요.",
           });
         }
-      )
+      ).setHeader('공지사항 삭제')
     },
   },
   computed: {

@@ -322,6 +322,11 @@ public class DealServiceImpl implements DealService{
         
         return ret;
     }
+
+	@Override
+	public int dealChange(int dealId) {
+		return dao.dealChange(dealId);
+	}
 	
     
 

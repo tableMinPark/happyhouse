@@ -27,8 +27,7 @@ export default {
 </script>
 
 <style>
-.pagination > li > a {
-  /* background-color: white; */
+.pagination>li>a {
   color: #41b65c;
 }
 </style>

@@ -1,15 +1,8 @@
 <template>
     <div class="container-fluid">
-        <!-- 회원 프로필 설정 -->
         <my-page-header></my-page-header>
-
-        <!-- 친구 페이지를 방문할 때 (나의 페이지가 아닐 때) -->
         <follow-tab v-if="!isMyPage"></follow-tab>
-
-        <!-- 일반회원일 때 탭 (나의 페이지가 맞고 코드가 100일 때) -->
         <normal-tab v-else-if="myPageUserInfo.code == '100'"></normal-tab>
-
-        <!-- 기업회원일 때 탭 (나의 페이지가 맞고 코드가 200일 때) -->
         <company-tab v-else-if="myPageUserInfo.code == '200'"></company-tab>
     </div>
 

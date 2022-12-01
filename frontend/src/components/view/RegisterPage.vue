@@ -169,7 +169,6 @@ export default {
           if (data.message === "success") {
             this.popupEmail = false
             this.isUserEmail = false
-            // 가능
           } else {
             this.popupEmail = true
             this.isUserEmail = true

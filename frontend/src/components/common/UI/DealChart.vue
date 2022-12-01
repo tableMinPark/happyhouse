@@ -6,11 +6,9 @@
 
 
 <script>
-// 최근 1년간 거래 내역 차트로 표시
 import Chart from 'chart.js';
 
 export default {
-    // 전세, 월세, 매매
     props: ["oldDealData"],
     data() {
         return {
@@ -39,7 +37,6 @@ export default {
                 {
                     labels: this.oldDealData.labels,
                     datasets: [
-                        // 전세 데이터
                         {
                             label: '전세',
                             data: this.oldDealData.charterData,
@@ -51,7 +48,6 @@ export default {
                             ],
                             borderWidth: 2
                         },
-                        // 월세 데이터
                         {
                             label: '월세',
                             data: this.oldDealData.rentData,
@@ -63,7 +59,6 @@ export default {
                             ],
                             borderWidth: 2
                         },
-                        // 매매 데이터
                         {
                             label: '매매',
                             data: this.oldDealData.dealingData,
@@ -93,7 +88,6 @@ export default {
             this.createChart(chartData);
         }
     }
-
 }
 </script>
 

@@ -7,19 +7,15 @@ import store from "@/store";
 const myPageStore = {
   namespaced: true,
   state: {
-    // 마이페이지 전역
     isMyPage: false,
     isFollowing: false,
     pageId: null,
     myPageUserInfo: null,
 
-    // 관심매물
     bookmarkList: [],
 
-    // 리뷰
     reviewList: [],
 
-    // 팔로잉탭
     followingList: [],
   },
   mutations: {
@@ -50,22 +46,17 @@ const myPageStore = {
     },
   },
   actions: {
-    ///////////////////////////////////////////// 마이페이지 초기화 /////////////////////////////////////////
-    // 마이페이지 정보 채우는 action
     async setMyPageInit({ commit }, payload) {
       const userId = payload.userInfo.userId;
       const pageId = payload.pageId;
       const userInfo = payload.userInfo;
       const isMyPage = userId == pageId;
 
-      // 로그인한 계정의 페이지이면
       if (isMyPage) {
         commit("SET_MYPAGE_USER_INFO", userInfo);
         commit("SET_IS_MYPAGE", isMyPage);
         commit("SET_PAGEID", pageId);
-      }
-      // 다른 계정의 페이지이면 (새로받아옴)
-      else {
+      } else {
         await getPageUserInfo(
           pageId,
           ({ data }) => {
@@ -86,7 +77,6 @@ const myPageStore = {
       }
     },
 
-    // 팔로잉 확인하는 함수
     async followingCheck({ commit, state }, userId) {
       const params = {
         userId: userId,
@@ -107,10 +97,7 @@ const myPageStore = {
         }
       );
     },
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////// 관심매물 탭 /////////////////////////////////////////
-    // 관심매물 리스트
     async getBookmarkList({ commit, state }) {
       await getBookmarkList(
         state.pageId,
@@ -126,7 +113,7 @@ const myPageStore = {
         }
       );
     },
-    // 관심매물 삭제
+
     async deleteBookmark({ state, dispatch }, dealId) {
       const params = {
         userId: state.pageId,
@@ -154,10 +141,7 @@ const myPageStore = {
         }
       );
     },
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////// 리뷰관리 탭 /////////////////////////////////////////
-    // 리뷰 리스트
     async getReviewList({ commit, state }) {
       console.log(state);
       await getReviewList(
@@ -175,7 +159,7 @@ const myPageStore = {
         }
       );
     },
-    // 리뷰 삭제
+
     async deleteReview({ dispatch }, reviewId) {
       await deleteReview(
         reviewId,
@@ -199,7 +183,6 @@ const myPageStore = {
       );
     },
 
-    // 리뷰 수정
     async modifyReview({ dispatch }, reviewInfo) {
       await modifyReview(
         reviewInfo,
@@ -222,10 +205,7 @@ const myPageStore = {
         }
       );
     },
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////// 친구 탭 ////////////////////////////////////////////////
-    // 팔로잉 리스트 받아오는 함수
     async getFollow({ commit, state }) {
       await getFollowUserList(
         state.pageId,
@@ -242,7 +222,6 @@ const myPageStore = {
       );
     },
 
-    // 팔로우 함수
     async follow({ commit, state }, userId) {
       const params = {
         pageId: state.pageId,
@@ -269,7 +248,6 @@ const myPageStore = {
       );
     },
 
-    // 언팔로우 함수
     async unFollow({ commit, state }, userId) {
       const params = {
         pageId: state.pageId,
@@ -292,7 +270,6 @@ const myPageStore = {
         }
       );
     },
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   },
 };
 

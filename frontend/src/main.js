@@ -11,11 +11,6 @@ import VueFeather from "vue-feather";
 Vue.use(LoadScript);
 Vue.use(VueFeather);
 
-// 호스트네임 전역선언
-Vue.prototype.$hostname = `http://${location.host}`;
-(Vue.prototype.$noProfileImageUrl = `http://${location.host}/assets/images/dashboard/1.png`),
-  (Vue.prototype.$logoUrl = `http://${location.host}/assets/images/logo/logo.png`);
-
 Vue.config.productionTip = false;
 
 // 출력을 위한 전역 필터

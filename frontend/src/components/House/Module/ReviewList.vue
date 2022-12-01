@@ -101,14 +101,8 @@ export default {
   },
   methods: {
     move(userId) {
-      console.log(userId);
       this.$router.push({ path: "/profile/" + userId });
     },
-    // Delete Review
-    reviewDelete(reviewId) {
-      console.log("call reviewDelete " + reviewId)
-    },
-    // Detail Modal show/hide
     showReviewDetail(review) {
       this.selectedReview = review
       this.reviewDetailModal.show()
@@ -124,9 +118,6 @@ export default {
     closeReviewModify() {
       this.reviewModifyModal.hide()
     },
-  },
-  mounted() {
-    console.log(this.reviewList)
   },
 }
 </script>

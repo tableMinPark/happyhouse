@@ -157,7 +157,6 @@
                   </div>
                 </div>
               </form>
-              <!--file upload-->
               <drop-zone @call-parent-upload-img="uploadImg"></drop-zone>
               <div class="btn-showcase">
                 <button class="btn btn-primary" @click="houseModify">수정</button>
@@ -192,28 +191,23 @@ export default {
       houseName: "",
       houseBuildYear: "",
 
-      // 매물 종류
       dealCode: "100",
       charterPrice: "0",
       rentDeposit: "0",
       rentPrice: "0",
       dealingPrice: "0",
 
-      // 매물 부가정보
       houseCode: "100",
       dealFloor: "",
       dealArea: "",
 
-      //시 군 동 선택
       selectedSido: "",
       selectedGugun: "",
       selectedDong: "",
       detailAddress: "",
 
-      //CKEditor
       CKEditor: null,
 
-      //files
       attachedFiles: [],
     }
   },
@@ -225,7 +219,6 @@ export default {
     ...mapActions("commonStore", ["getSido", "getGugun", "getDong"]),
     ...mapActions("houseStore", ["modifyDeal"]),
 
-    // 매물수정함수 (데이터 정리해서 스토어에 있는 함수로 보내서 매물등록 진행)
     async houseModify() {
       const dealInfo = {
         userId: this.userInfo.userId,
@@ -251,7 +244,6 @@ export default {
         dealFloor: this.dealFloor,
         attachedFiles: this.attachedFiles,
       }
-      console.log(dealInfo)
       await this.modifyDeal(dealInfo)
     },
     parsePrice(p) {
@@ -276,7 +268,6 @@ export default {
     },
     uploadImg(files) {
       this.attachedFiles = files
-      console.log(this.attachedFiles)
     },
     dealMethod() {
       this.charterPrice = ""
@@ -288,13 +279,11 @@ export default {
       this.dealFloor = ""
       this.dealArea = ""
     },
-    // 구군 스토어 리드
     async getGugunList() {
       this.selectedGugun = ""
       this.selectedDong = ""
       await this.getGugun(this.selectedSido.code)
     },
-    // 동 스토어 리드
     async getDongList() {
       this.selectedDong = ""
       await this.getDong(this.selectedGugun.code)

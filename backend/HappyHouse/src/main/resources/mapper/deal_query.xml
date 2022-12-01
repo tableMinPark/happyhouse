@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
 <mapper namespace="com.happyhouse.api.deal.dao.DealDao">
 	
+	<update id="dealChange" parameterType="int">
+		update deal set deal_complete = 1 where deal_id = #{dealId}
+	</update>
+	
 	<insert id="houseInsert" parameterType="com.happyhouse.api.deal.dto.HouseDto" useGeneratedKeys="true" keyProperty="houseId">
 		insert into house (house_name, house_build_year, 
 							house_sido_code, house_sido_name,

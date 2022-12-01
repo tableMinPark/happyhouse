@@ -61,11 +61,11 @@ export default {
         important: this.important,
         userName: this.userInfo.userName
       };
-      // console.log(params);
       writeArticle(
         params,
         () => {
           this.closeModal();
+          this.$router.go();
         },
         (error) => {
           console.log(error);

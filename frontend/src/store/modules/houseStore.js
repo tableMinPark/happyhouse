@@ -15,11 +15,9 @@ import router from "@/routers/routers";
 const houseStore = {
   namespaced: true,
   state: {
-    // HouseList 에서 참조할 매물 리스트 데이터
     dealList: [],
     totalListItemCount: 0,
 
-    // HouseInfo 에서 참조할 매물 데이터
     dealInfo: {},
     houseInfo: {},
     imgList: [],
@@ -52,14 +50,12 @@ const houseStore = {
     },
   },
   actions: {
-    // 선택된 거래내역 정보들 업데이트
     async setLists({ commit }, payload) {
       console.log("payload = ");
       console.log(payload);
       commit("SET_LISTS", payload);
     },
 
-    // 리뷰 등록
     async registReview(context, reviewInfo) {
       await registReview(
         reviewInfo,
@@ -82,12 +78,10 @@ const houseStore = {
       );
     },
 
-    // 컴포넌트에서 호출하는 함수 (주소확인)
     async registDeal({ dispatch }, dealInfo) {
       let address = `${dealInfo.houseSidoName} ${dealInfo.houseGugunName} ${dealInfo.houseDongName} ${dealInfo.houseJibun}`;
       await convertAddress(
         address,
-        // 좌표변환 성공
         async ({ data }) => {
           try {
             const documentList = JSON.parse(data.addressInfo).documents;
@@ -110,14 +104,12 @@ const houseStore = {
             });
           }
         },
-        // 좌표변환 실패
         (error) => {
           console.log(error);
         }
       );
     },
 
-    // registDeal Actions 에서 호출하는 Actions (실 등록하는 함수)
     async dealRegist(context, { dealInfo, lat, lng }) {
       const formData = new FormData();
       formData.append("userId", dealInfo.userId);
@@ -133,7 +125,7 @@ const houseStore = {
       formData.append("houseJibun", dealInfo.houseJibun);
       formData.append("houseLat", lat);
       formData.append("houseLng", lng);
-      // 거래 분류
+
       formData.append("code", dealInfo.code);
       if (dealInfo.code == "100") {
         formData.append("dealPrice", dealInfo.charterPrice);
@@ -143,7 +135,7 @@ const houseStore = {
       } else {
         formData.append("dealPrice", dealInfo.dealingPrice);
       }
-      // 건물 분류
+
       formData.append("houseCode", dealInfo.houseCode);
       formData.append("dealArea", dealInfo.dealArea);
       if (dealInfo.houseCode !== "300") {
@@ -177,13 +169,11 @@ const houseStore = {
       );
     },
 
-    // 컴포넌트에서 호출하는 함수 (주소확인)
     async modifyDeal({ dispatch }, dealInfo) {
       console.log(dealInfo);
       let address = `${dealInfo.houseSidoName} ${dealInfo.houseGugunName} ${dealInfo.houseDongName} ${dealInfo.houseJibun}`;
       await convertAddress(
         address,
-        // 좌표변환 성공
         async ({ data }) => {
           const documentList = JSON.parse(data.addressInfo).documents;
 
@@ -199,13 +189,12 @@ const houseStore = {
             });
           }
         },
-        // 좌표변환 실패
         (error) => {
           console.log(error);
         }
       );
     },
-    // registDeal Actions 에서 호출하는 Actions (실 등록하는 함수)
+
     async dealModify(context, { dealInfo, lat, lng }) {
       const formData = new FormData();
       formData.append("userId", dealInfo.userId);
@@ -223,7 +212,7 @@ const houseStore = {
       formData.append("houseJibun", dealInfo.houseJibun);
       formData.append("houseLat", lat);
       formData.append("houseLng", lng);
-      // 거래 분류
+
       formData.append("code", dealInfo.code);
       if (dealInfo.code == "100") {
         formData.append("dealPrice", dealInfo.charterPrice);
@@ -233,7 +222,7 @@ const houseStore = {
       } else {
         formData.append("dealPrice", dealInfo.dealingPrice);
       }
-      // 건물 분류
+
       formData.append("houseCode", dealInfo.houseCode);
       formData.append("dealArea", dealInfo.dealArea);
       if (dealInfo.houseCode !== "300") {
@@ -268,7 +257,6 @@ const houseStore = {
       );
     },
 
-    // 매물 리스트
     async getDealList({ commit }, param) {
       await dealList(
         param,
@@ -289,7 +277,6 @@ const houseStore = {
       );
     },
 
-    // 이미지 리스트
     async getImgList({ commit }, dealId) {
       await getImgList(
         dealId,
@@ -302,6 +289,7 @@ const houseStore = {
         }
       );
     },
+
     async dealDetail({ commit }, dealId) {
       await dealDetail(
         dealId,
@@ -314,7 +302,7 @@ const houseStore = {
         }
       );
     },
-    // 해당 집에 대한 리뷰
+
     async getReviewList({ commit }, houseId) {
       await getReviewList(
         houseId,
@@ -332,10 +320,9 @@ const houseStore = {
     },
   },
   getters: {
-    // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
     getDealId(state) {
       return state.dealInfo.dealId;
-    }, // 모달에서 mapstate 를 통해 참조가 안됨 왜? 그래서 getters 씀
+    },
     getHouseId(state) {
       return state.houseInfo.houseId;
     },

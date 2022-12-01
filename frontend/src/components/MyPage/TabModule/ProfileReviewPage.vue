@@ -1,6 +1,8 @@
 <template>
   <div class="table-responsive">
-    <table class="table">
+    <h5 v-if="Object.values(reviewList).length === 0" class="text-center mt-5 mb-5" style="font-weight: bold;">
+      등록한 리뷰가 없습니다.</h5>
+    <table v-else class="table">
       <thead class="table-primary">
         <tr>
           <th scope="col">건물명</th>
@@ -71,8 +73,10 @@
     </table>
 
     <!-- Modal -->
-    <review-modify-modal :review="selectedReview" v-on:call-parent-modify-close="closeReviewModify"></review-modify-modal>
-    <review-detail-modal :review="selectedReview" v-on:call-parent-detail-close="closeReviewDetail"></review-detail-modal>
+    <review-modify-modal :review="selectedReview"
+      v-on:call-parent-modify-close="closeReviewModify"></review-modify-modal>
+    <review-detail-modal :review="selectedReview"
+      v-on:call-parent-detail-close="closeReviewDetail"></review-detail-modal>
   </div>
 </template>
 

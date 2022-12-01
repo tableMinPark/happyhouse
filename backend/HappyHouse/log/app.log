@@ -1,0 +1,13 @@
+2022-12-01 16:35:50.972  INFO 17572 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Starting HappyHouseApplication using Java 1.8.0_192 on DESKTOP-DVMJD0M with PID 17572 (C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse\bin\main started by doran in C:\Users\doran\Desktop\whereismyhome_final\backend\HappyHouse)
+2022-12-01 16:35:50.973  INFO 17572 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : No active profile set, falling back to 1 default profile: "default"
+2022-12-01 16:35:51.209  INFO 17572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-12-01 16:35:51.210  INFO 17572 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-01 16:35:51.212  INFO 17572 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-12-01 16:35:51.223  INFO 17572 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-12-01 16:35:51.224  INFO 17572 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 250 ms
+2022-12-01 16:35:51.353  INFO 17572 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-12-01 16:35:51.360  INFO 17572 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-12-01 16:35:51.364  INFO 17572 --- [restartedMain] c.happyhouse.api.HappyHouseApplication   : Started HappyHouseApplication in 0.424 seconds (JVM running for 10525.895)
+2022-12-01 16:35:51.365  INFO 17572 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-12-01 16:36:12.973  INFO 17572 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2022-12-01 16:36:13.043  INFO 17572 --- [RMI TCP Connection(2)-127.0.0.1] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]

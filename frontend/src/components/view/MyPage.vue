@@ -34,7 +34,6 @@ export default {
       userInfo: this.userInfo
     });
 
-    // 조회된 유저 없음 (마이페이지가 없음)
     if (this.pageId === null) {
       this.$router.push({ name: "main" });
     }

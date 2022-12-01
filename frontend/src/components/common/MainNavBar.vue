@@ -43,12 +43,12 @@
               </router-link>
             </li>
             <li class="dropdown">
-              <router-link to="/houseinfo" class="nav-link menu-title link-nav">
+              <router-link to="/houseinfo/list" class="nav-link menu-title link-nav">
                 <feather type="home" size="15" /><span>매물조회</span>
               </router-link>
             </li>
             <li class="dropdown">
-              <router-link to="/notice" class="nav-link menu-title link-nav">
+              <router-link to="/notice/list" class="nav-link menu-title link-nav">
                 <feather type="home" size="15" /><span>공지사항</span>
               </router-link>
             </li>

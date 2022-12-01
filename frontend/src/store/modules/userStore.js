@@ -52,7 +52,6 @@ const userStore = {
     },
   },
   actions: {
-    // 북마크 확인함수
     async checkBookmarking({ commit, state }, dealId) {
       commit("SET_IS_BOOKMARING", false);
       await getBookmarkList(
@@ -74,7 +73,6 @@ const userStore = {
         }
       );
     },
-    // 관심 매물 등록
     async registBookmark({ state, commit }, dealId) {
       const params = {
         userId: state.userInfo.userId,
@@ -102,7 +100,6 @@ const userStore = {
       );
     },
 
-    // 관심매물 삭제
     async deleteBookmark({ state, commit }, dealId) {
       const params = {
         userId: state.userInfo.userId,
@@ -133,22 +130,16 @@ const userStore = {
     async setUserInfo({ commit }, userInfo) {
       commit("SET_USER_INFO", userInfo);
     },
-    // 토큰발급
     async userConfirm({ commit }, user) {
-      // 로그인시 토큰만 받아옴
       await login(
         user,
-        // 성공시 콜백
         ({ data }) => {
           if (data.message === "success") {
-            // 토큰 수신
             let accessToken = data["access-token"];
             let refreshToken = data["refresh-token"];
-            // state 변경
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
             commit("SET_IS_VALID_TOKEN", true);
-            // 토큰 저장
             sessionStorage.setItem("access-token", accessToken);
             sessionStorage.setItem("refresh-token", refreshToken);
           } else if (data.message === "not email auth") {
@@ -161,22 +152,22 @@ const userStore = {
             commit("SET_IS_VALID_TOKEN", false);
           }
         },
-        // 실패시 콜백
         (error) => {
           console.log(error);
         }
       );
     },
-    // 유저정보가져옴
     async getUserInfo({ commit, dispatch }, token) {
       let decodeToken = jwtDecode(token);
 
       await getUserInfo(
         decodeToken.userid,
-        // 성공시 콜백
         ({ data }) => {
           if (data.message === "success") {
             commit("SET_USER_INFO", data.userInfo);
+            if (data.userInfo.code === "300") {
+              commit("SET_IS_ADMIN", true);
+            }
           }
         },
         // 실패시 콜백

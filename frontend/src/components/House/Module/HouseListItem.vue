@@ -3,7 +3,7 @@
     <div class="card">
       <div class="product-box">
         <div class="product-img">
-          <img class="img-fluid" :src="require(`@/assets/upload/${path}`)" id="thImage" alt="" />
+          <img class="img-fluid" :src="require(`@/assets/upload/deal/noImage.jpg`)" id="thImage" alt="" />
         </div>
         <div class="product-details" style="overflow: hidden">
           <router-link :to="`/houseinfo/${deal.dealId}`">
@@ -34,7 +34,6 @@ export default {
   props: ["deal"],
   data() {
     return {
-      path: "deal/noImage.jpg",
       houseInfo: null,
       dongName: "",
       toggle: false,

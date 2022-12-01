@@ -41,6 +41,30 @@ public class DealController {
 	@Autowired
 	DealService service;
 	
+	@GetMapping("/deal/change/{dealId}")
+	public ResponseEntity<Map<String, Object>> dealChange(@PathVariable int dealId) {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		System.out.println(dealId);
+				
+		try {
+			int ret = service.dealChange(dealId);
+			
+			if( ret == 1 ) {
+				resultMap.put("message", SUCCESS);	
+			} else {
+				resultMap.put("message", FAIL);
+			}			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);		 
+	}
+	
 	@PostMapping("/deal")
 	public ResponseEntity<Map<String, Object>> dealInsert(DealParamDto dealParamDto, MultipartHttpServletRequest request) {
 				

@@ -3,6 +3,9 @@ import api from "./index.js";
 async function dealList(param, success, fail) {
   await api.get(`/deal`, { params: param }).then(success).catch(fail);
 }
+async function dealChange(param, success, fail) {
+  await api.get(`/deal/change/${param}`).then(success).catch(fail);
+}
 
 async function dealRegist(param, success, fail) {
   await api
@@ -96,4 +99,5 @@ export {
   getImgList,
   getMyDealList,
   getChartList,
+  dealChange,
 };
