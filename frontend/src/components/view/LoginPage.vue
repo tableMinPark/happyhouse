@@ -1,86 +1,78 @@
 <template>
-  <div class="card">
-    <div class="card-header pb-0">
-      <h5>로그인</h5><span>Please Make sure fill all the filed before click on next button</span>
-    </div>
-    <div class="card-body">
-      <form class="form-wizard" id="regForm" action="#" method="POST">
-        <div class="tab">
-          <div class="form-group">
-            <label for="name">First Name</label>
-            <input class="form-control" id="name" type="text" placeholder="Johan" required="required">
-          </div>
-          <div class="form-group">
-            <label for="lname">Last Name</label>
-            <input class="form-control" id="lname" type="text" placeholder="Deo">
-          </div>
-          <div class="form-group">
-            <label for="contact">Contact No.</label>
-            <input class="form-control digits" id="contact" type="number" placeholder="123456789">
-          </div>
+  <div class="pt-5 p-3">
+    <form class="theme-form login-form">
+      <h4>로그인</h4>
+      <h6>Login</h6>
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
+          <input class="form-control" type="email" placeholder="your-email@domain.com"
+            :class="{ 'input-error': isEmail }" v-model="user.userEmail">
         </div>
-        <div class="tab">
-          <div class="form-group m-t-15">
-            <label for="exampleFormControlInput1">Email address</label>
-            <input class="form-control" id="exampleFormControlInput1" type="email" placeholder="name@example.com">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Confirm Password</label>
-            <input class="form-control" id="exampleInputcPassword1" type="password" placeholder="Enter again">
-          </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
+          <input class="form-control" type="password" placeholder="*********" :class="{ 'input-error': isPassword }"
+            v-model="user.userPassword">
         </div>
-        <div class="tab">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Birthday:</label>
-            <input class="form-control digits" type="date">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Age</label>
-            <input class="form-control digits" placeholder="Age" type="text">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Have Passport</label>
-            <input class="form-control digits" placeholder="Yes/No" type="text">
-          </div>
-        </div>
-        <div class="tab">
-          <div class="form-group">
-            <label class="control-label">Country</label>
-            <input class="form-control mt-1" type="text" placeholder="Country" required="required">
-          </div>
-          <div class="form-group">
-            <label class="control-label">State</label>
-            <input class="form-control mt-1" type="text" placeholder="State" required="required">
-          </div>
-          <div class="form-group">
-            <label class="control-label">City</label>
-            <input class="form-control mt-1" type="text" placeholder="City" required="required">
-          </div>
-        </div>
-        <div>
-          <div class="text-end btn-mb">
-            <button class="btn btn-secondary" id="prevBtn" type="button" onclick="nextPrev(-1)">Previous</button>
-            <button class="btn btn-primary" id="nextBtn" type="button" onclick="nextPrev(1)">Next</button>
-          </div>
-        </div>
-        <!-- Circles which indicates the steps of the form:-->
-        <div class="text-center"><span class="step"></span><span class="step"></span><span class="step"></span><span class="step"></span></div>
-        <!-- Circles which indicates the steps of the form:-->
-      </form>
-    </div>
+      </div>
+      <div class="form-group">
+        <a class="btn btn-primary btn-block" @click="login">로그인</a>
+      </div>
+      <div class="form-group pb-2">
+        <router-link to="/forgetPassword" class="link">비밀번호찾기</router-link>
+        <router-link to="/register" class="link me-2">회원가입</router-link>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
-export default {
 
+import { mapActions } from "vuex";
+
+export default {
+  data() {
+    return {
+      user: {
+        userEmail: '',
+        userPassword: ''
+      },
+      isEmail: false,
+      isPassword: false
+    }
+  },
+  methods: {
+    ...mapActions("userStore", ["userLogin"]),
+
+    inputCheck() {
+      let check = true;
+      if (this.user.userEmail === "") {
+        this.isEmail = true;
+        check = false;
+      }
+      if (this.user.userPassword === "") {
+        this.isPassword = true;
+        check = false;
+      }
+      return check;
+    },
+    async login() {
+      if (this.inputCheck()) {
+        await this.userLogin(this.user);
+      }
+    },
+
+    async kakaoLogin() {
+
+    }
+  },
 }
 </script>
 
-<style>
-
+<style scoped>
+.input-error {
+  border-color: #d22d3d !important;
+}
 </style>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.happyhouse.api.deal.dao.DealDao">
+	
+	<update id="dealChange" parameterType="int">
+		update deal set deal_complete = 1 where deal_id = #{dealId}
+	</update>
+	
+	<insert id="houseInsert" parameterType="com.happyhouse.api.deal.dto.HouseDto" useGeneratedKeys="true" keyProperty="houseId">
+		insert into house (house_name, house_build_year, 
+							house_sido_code, house_sido_name,
+							house_gugun_code,house_gugun_name, 
+							house_dong_code , house_dong_name , 
+							house_jibun, house_lat, house_lng,
+							code )
+				   values (#{houseName},#{houseBuildYear},
+				   			#{houseSidoCode}, #{houseSidoName},
+				   			#{houseGugunCode},#{houseGugunName},
+				   			#{houseDongCode},#{houseDongName},			   			
+				   			#{houseJibun},#{houseLat},#{houseLng},
+				   			#{code} )
+	</insert>	
+	
+	<insert id="dealInsert" parameterType="com.happyhouse.api.deal.dto.DealDto" useGeneratedKeys="true" keyProperty="dealId">
+		insert into deal (house_id, deal_price, deal_deposit, deal_floor, deal_area,
+							code, deal_content, user_id)
+				  values (#{houseId},#{dealPrice}, #{dealDeposit}, #{dealFloor}, #{dealArea},
+				  			#{code}, #{dealContent}, #{userId})
+	</insert>
+	
+	<insert id="fileInsert" parameterType="com.happyhouse.api.deal.dto.FileDto">
+		insert into deal_file (deal_id, file_name, file_size, file_content_type, file_url, file_reg_dt)
+						values(#{dealId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now())
+	</insert>
+	
+	<select id = "houseList" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select * 
+		 from house
+		 <if test = '!searchWord.equals("-")'>
+			where house_dong_name like concat('%',#{keyword},'%')
+			 or house_name like concat('%',#{keyword},'%')
+		 </if>
+	</select>
+		
+	<select id="dealList" parameterType="com.happyhouse.api.deal.dto.DealParamDto" resultType="com.happyhouse.api.deal.dto.DealParamDto">
+		select a.*, b.file_url 
+		 from(
+			select d.deal_id, d.house_id,d.deal_price,d.deal_floor,d.deal_area,d.code,d.deal_complete,d.deal_content, d.deal_deposit,
+			h.house_name,h.house_sido_name,h.house_gugun_name,h.house_dong_name,h.house_jibun
+			from deal d join house h 
+			on d.house_id = h.house_id
+			) a left join (select * 
+					from(
+					SELECT ROW_NUMBER() OVER(PARTITION BY deal_file.deal_id) AS RNUM, deal_file.deal_id , deal_file.file_url
+					FROM deal_file
+				) r
+				where rnum = 1) b
+		on a.deal_id = b.deal_id 
+		<if test = '!searchType.equals("0")'>
+			where code = #{searchType} 
+		</if>
+		<if test = '!searchWord.equals("")'>
+			<if test = '!searchType.equals("0")'>
+				and 
+			</if>
+			<if test = 'searchType.equals("0")'>
+				where 
+			</if>
+			a.house_name like concat('%' , #{searchWord} , '%')
+		</if>
+		
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="dealListCount" parameterType="com.happyhouse.api.deal.dto.DealParamDto" resultType="int">
+		select count(*) 
+		 from(
+			select d.deal_id , d.house_id, d.code,h.house_name
+			from deal d join house h 
+			on d.house_id = h.house_id
+			) a 
+		<if test = '!searchType.equals("0")'>
+			where code = #{searchType} 
+		</if>
+		<if test = '!searchWord.equals("")'>
+			<if test = '!searchType.equals("0")'>
+				and 
+			</if>
+			<if test = 'searchType.equals("0")'>
+				where 
+			</if>
+			a.house_name like concat('%' , #{searchWord} , '%')
+		</if>
+		
+	</select>
+	
+	<select id ="imgList" parameterType="int" resultType="string">
+		select file_url from deal_file where deal_id = #{dealId}
+	</select>
+	
+	<select id ="dealDetail" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select * from deal where deal_id = #{dealId}
+	</select>
+	
+	<select id ="houseDetail" parameterType="int" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select * from house where house_id = (select house_id from deal where deal_id = #{dealId})
+	</select>
+	
+	<select id="searchByAddress" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select house_id, house_name, house_build_year,
+				house_sido_code, house_sido_name,
+				house_gugun_code, house_gugun_name,
+				house_dong_code, house_dong_name,
+				house_jibun,code, house_lat, house_lng
+		   from house
+		  where house_dong_code = #{dongCode}
+	</select>
+	
+	<select id="searchByKeyword" parameterType="string" resultType="com.happyhouse.api.deal.dto.HouseDto">
+		select house_id, house_name, house_build_year,
+				house_sido_code, house_sido_name,
+				house_gugun_code, house_gugun_name,
+				house_dong_code, house_dong_name,
+				house_jibun, code, house_lat, house_lng
+		   from house
+		  where house_name like concat("%", #{keyword}, "%")	
+	</select>
+	
+	<select id="getOldDealList" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select deal_id, house_id, deal_price, deal_deposit, deal_date, deal_floor, deal_area, code
+		  from deal
+		 where house_id = #{houseId}
+		   and deal_complete = 1;
+	</select>
+	
+	<select id="getNowDealList" parameterType="int" resultType="com.happyhouse.api.deal.dto.DealDto">
+		select deal_id, house_id, deal_price, deal_deposit, deal_date, deal_floor, deal_area, code
+		  from deal
+		 where house_id = #{houseId}
+		   and deal_complete = 0;
+	</select>
+	
+	<select id="getReviewList" parameterType="int" resultType="com.happyhouse.api.review.dto.ReviewResultDto">
+		select r.review_id, u.user_id, u.user_name, u.user_reg_dt, r.review_content, u.user_profile_image_url, 
+			   r.review_trafic_rating, r.review_safety_rating, r.review_store_rating
+		  from review r, users u
+		 where u.user_id = r.user_id
+		   and house_id = #{houseId};
+	</select>
+	
+	
+	<select id = "getMyList" parameterType = "com.happyhouse.api.deal.dto.DealParamDto" resultType="com.happyhouse.api.deal.dto.DealParamDto">
+		SELECT d.deal_id, d.house_id,d.deal_price,d.deal_deposit,d.deal_complete,h.house_name ,h.house_build_year,d.deal_content,d.deal_floor,d.deal_area,h.house_sido_name,h.house_gugun_name,h.house_dong_name , h.house_jibun,d.code,h.code house_code, 
+			h.house_sido_code,h.house_gugun_code,h.house_dong_code
+		 FROM deal d join house h on d.house_id = h.house_id 
+		where d.user_id = #{userId} and h.house_name like concat('%',#{searchWord},'%')
+		<if test='!searchType.equals("0")'> 
+			and d.code = #{searchType}
+		</if>
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<update id="houseUpdate" parameterType = "com.happyhouse.api.deal.dto.HouseDto">
+		update house 
+		 set house_name = #{houseName},
+		 house_build_year = #{houseBuildYear},
+		 house_dong_code = #{houseDongCode},
+		 house_dong_name = #{houseDongName},
+		 house_jibun = #{houseJibun},
+		 house_lat = #{houseLat},
+		 house_lng = #{houseLng},
+		 house_gugun_code = #{houseGugunCode},
+		 house_gugun_name = #{houseGugunName},
+		 code = #{code},
+		 house_sido_code = #{houseSidoCode},
+		 house_sido_name = #{houseSidoName}
+		where house_id = #{houseId}
+	</update>
+	
+	<update id="dealUpdate" parameterType = "com.happyhouse.api.deal.dto.DealDto">
+		update deal
+		 set deal_price = #{dealPrice},
+		 deal_deposit = #{dealDeposit},
+		 deal_floor = #{dealFloor},
+		 deal_area = #{dealArea},
+		 code = #{code},
+		 deal_content = #{dealContent}
+		where deal_id = #{dealId}
+	</update>
+	
+	<select id = "getDeleteFileList" parameterType="int" resultType = "string">
+		select file_url 
+		 from deal_file 
+		where deal_id = #{dealId}
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		delete from deal_file 
+		where deal_id = #{dealId}
+	</delete>
+	
+	<delete id="dealDelete" parameterType="int">
+		delete from deal where deal_id = #{dealId}
+	</delete>
+	
+	 <select id="getChartList" parameterType="com.happyhouse.api.deal.dto.DealDto" resultType="com.happyhouse.api.deal.dto.DealChartDto">
+        select DATE_FORMAT(deal_date, '%Y-%m') as deal_date,         	
+       		<choose>
+	        	<when test="code == '100'">
+	       			CEIL(AVG(deal_deposit)) as deal_price
+	       		</when>
+	       		<otherwise>
+	       			CEIL(AVG(deal_price)) as deal_price	       			
+	       		</otherwise>
+       		</choose>
+          from deal 
+         where date(deal_date) > date(subdate(now(), interval 1 year))
+           and deal_complete = 1
+           and code = #{code}
+           and house_Id = #{houseId}
+      group by DATE_FORMAT(deal_date, '%Y-%m')
+      order by DATE_FORMAT(deal_date, '%Y-%m') ASC;
+    </select>
+	
+	
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.happyhouse.api.user.dao.UserDao">
+	
+	<select id ="login" parameterType="com.happyhouse.api.user.dto.UserDto" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id, auth
+		  from users
+		 where user_email = #{userEmail}
+		   and user_password = #{userPassword}
+	</select>
+	
+	<insert id="register" parameterType="com.happyhouse.api.user.dto.UserDto">
+		insert into users ( user_email, user_password, user_name, user_address, user_tel, code, auth_code)
+		          values ( #{userEmail},#{userPassword}, #{userName}, #{userAddress}, #{userTel}, #{code}, #{auth_code})
+	</insert>
+	
+	<select id ="emailCheck" parameterType="string" resultType="int">
+		select count(user_email)
+		  from users
+		 where user_email = #{userEmail}
+	</select>
+	
+	<update id ="modify" parameterType="com.happyhouse.api.user.dto.UserDto">
+		update users
+		   set user_password = #{userPassword},
+		       user_address = #{userAddress},
+		       user_tel = #{userTel},
+		       user_profile_image_url = #{userProfileImageUrl}
+	     where user_id = #{userId}
+	</update>
+	
+	<select id="getUserProfileUrl" parameterType="int" resultType="string">
+		select user_profile_image_url from users where user_id = #{userId}
+	</select>
+	
+	<delete id="userProfileDelete" parameterType="int">
+		delete from users_file where user_id = #{userId}
+	</delete>
+	
+	<insert id="userProfileInsert" parameterType="com.happyhouse.api.user.dto.UserFileDto">
+		insert into users_file (user_id,file_name,file_size,file_content_type,file_url,file_reg_dt)
+		 values (#{userId},#{fileName},#{fileSize},#{fileContentType},#{fileUrl},now())
+	</insert>
+	
+	<select id ="getUserInfo" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id, user_email, user_name, user_address, user_tel, user_profile_image_url, user_reg_dt, code, 
+			( select count(follow_id) from follow where user_id_from = #{userId} ) as following, 
+			( select count(follow_id) from follow where user_id_to = #{userId} ) as follower 
+		  from users
+		 where user_id = #{userId}
+	</select>
+	
+	<update id="forgetPassword" parameterType="com.happyhouse.api.user.dto.UserDto">
+		update users
+		   set user_password = #{userPassword}
+		 where user_name = #{userName}
+		   and user_email = #{userEmail}
+	</update>
+	
+	<select id ="emailAuthCheck" parameterType="string" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id
+		  from users
+		 where auth_code = #{authCode}
+	</select>
+	
+	<update id="emailAuth" parameterType="int">
+		update users
+		   set auth = 1,
+		       auth_code = null
+		 where user_id = #{userId}
+	</update>
+	
+	
+	
+	
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update users
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
+	
+	<select id="getRefreshToken" parameterType="int" resultType="string">
+		select token
+		from users
+		where user_id = #{userId}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update users
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
+	
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.happyhouse.api.follow.dao.FollowDao">
+	
+	<select id ="getPageUserInfo" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id, user_name, user_profile_image_url, user_reg_dt, code,		
+			( select count(follow_id) from follow where user_id_from = #{userId} ) as following, 
+			( select count(follow_id) from follow where user_id_to = #{userId} ) as follower 
+		  from users
+		 where user_id = #{pageId}
+	</select>
+	
+	<select id ="followingCheck" parameterType="map" resultType="int">
+		select count(follow_id)
+		  from follow		  
+		 where user_id_from = #{userId}
+		   and user_id_to = #{pageId}
+	</select>
+	
+	<select id ="getFollowUserList" parameterType="int" resultType="com.happyhouse.api.user.dto.UserDto">
+		select user_id, user_name, user_profile_image_url, user_reg_dt, code
+		  from users		  
+		 where user_id in ( select user_id_to
+                              from follow
+							 where user_id_from = #{pageId} );
+	</select>
+	
+	<insert id="register" parameterType="map">
+		insert into follow ( user_id_from, user_id_to )
+			        values ( #{userId}, #{pageId} )		
+	</insert>
+	
+	<delete id="unRegister" parameterType="map">
+		delete from follow
+			  where user_id_from = #{userId}
+			    and user_id_to = #{pageId}
+	</delete>
+	
+	<select id="getFollowCount" parameterType="map" resultType="com.happyhouse.api.follow.dto.FollowResultDto">
+		select
+			( select count(follow_id) from follow where user_id_from = #{pageId} ) as pageIdFollowing, 
+			( select count(follow_id) from follow where user_id_to = #{pageId} ) as pageIdFollower,
+			( select count(follow_id) from follow where user_id_from = #{userId} ) as userIdFollowing, 
+			( select count(follow_id) from follow where user_id_to = #{userId} ) as userIdFollower
+	</select>
+	
+</mapper>
